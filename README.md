@@ -8,14 +8,9 @@ Governance evidence collection, normalization, and consistency-checking are comp
 
 ## Status
 
-Pre-implementation. Currently working through foundational specifications before any reference code is written, in this order:
+**Stage 0 (Foundational Specifications) — complete. Entering Stage 1 (Reference Implementation).**
 
-1. **EGS — Evidence Graph Specification** — draft in progress (`docs/specs/EGS-v0.1.md`)
-2. **RES — Rule Evaluation Specification** — not started
-3. Reference implementation (one adapter, one rule pack) against EGS + RES
-4. **APS — Adapter Protocol Specification**, split into APS-Core (grounded pre-implementation, alongside EGS) and APS-Extensions (extracted from the reference implementation)
-5. **RPS — Reporting Protocol Specification** and **PES — Plugin & Extension Specification**, both extracted from working code, not designed in advance
-6. **CVS — Compliance Vocabulary Specification**, assembled once terminology across the above specs is stable
+EGS v0.1 (`docs/specs/EGS-v0.1.md`) and RES v0.1 (`docs/specs/RES-v0.1.md`) are drafted. `docs/ARCHITECTURE.md` records the project's constitution and decision log. Next: one adapter, one rule, one reporter, built against these two specs — see `docs/ROADMAP.md` for the full capability-staged plan (Stage 0 through Stage 5) and each stage's exit condition.
 
 ## Why specs before code
 

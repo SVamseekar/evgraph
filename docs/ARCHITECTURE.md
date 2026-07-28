@@ -169,7 +169,8 @@ Architectural decisions are recorded here as they're made, so debates aren't re-
 
 ## Related documents
 
-- `README.md` — mission summary, current status, roadmap (changes frequently; not authoritative on principles — this document is).
+- `README.md` — mission summary, current status (changes frequently; not authoritative on principles — this document is).
+- `docs/ROADMAP.md` — capability-staged plan from the current state to the full ecosystem, gated by exit conditions rather than dates.
 - `docs/specs/EGS-v0.1.md` — Evidence Graph Specification.
-- `docs/specs/RES-v0.1.md` — Rule Evaluation Specification (not yet written).
+- `docs/specs/RES-v0.1.md` — Rule Evaluation Specification.
 - `architecture.md` (repo root) — the original pre-critique blueprint. Superseded by this document; kept for project history, not as a source of current principles.

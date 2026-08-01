@@ -1,6 +1,6 @@
 # Evident
 
-[![CI](https://github.com/souravamseekarmarti/evident/actions/workflows/ci.yml/badge.svg)](https://github.com/souravamseekarmarti/evident/actions/workflows/ci.yml)
+[![CI](https://github.com/SVamseekar/evident/actions/workflows/ci.yml/badge.svg)](https://github.com/SVamseekar/evident/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![Version](https://img.shields.io/badge/version-0.1.0-green.svg)](CHANGELOG.md)

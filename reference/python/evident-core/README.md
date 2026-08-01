@@ -1,6 +1,6 @@
 # evident-core
 
-Foundational types for [Evident](https://github.com/souravamseekarmarti/evident):
+Foundational types for [Evident](https://github.com/SVamseekar/evident):
 `EvidenceGraph`, `EvidenceNode`, `EvidenceEdge`, `EvidenceLevel`, `Rule`,
 `Finding`, `Adapter`, and related primitives defined by EGS v0.1 and RES v0.1.
 
@@ -15,7 +15,7 @@ pip install -e .
 
 ## Documentation
 
-- Repository: https://github.com/souravamseekarmarti/evident
+- Repository: https://github.com/SVamseekar/evident
 - Specs: `docs/specs/` in the monorepo
 - Architecture: `docs/ARCHITECTURE.md`
 

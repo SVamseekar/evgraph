@@ -15,7 +15,7 @@ Requirements:
 - A virtual environment (recommended)
 
 ```bash
-git clone https://github.com/souravamseekarmarti/evident.git
+git clone https://github.com/SVamseekar/evident.git
 cd evident
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate

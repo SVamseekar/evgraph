@@ -47,4 +47,4 @@ specifications.
   round-trip, and MLflow adapter validation (`docs/research/`)
 - Runnable examples under `examples/`
 
-[0.1.0]: https://github.com/souravamseekarmarti/evident/releases/tag/v0.1.0
+[0.1.0]: https://github.com/SVamseekar/evident/releases/tag/v0.1.0

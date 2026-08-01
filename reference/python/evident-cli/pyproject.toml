@@ -35,11 +35,11 @@ classifiers = [
 dependencies = ["evident>=0.1.0"]
 
 [project.urls]
-Homepage = "https://github.com/souravamseekarmarti/evident"
-Documentation = "https://github.com/souravamseekarmarti/evident/tree/main/docs"
-Repository = "https://github.com/souravamseekarmarti/evident"
-Changelog = "https://github.com/souravamseekarmarti/evident/blob/main/CHANGELOG.md"
-Issues = "https://github.com/souravamseekarmarti/evident/issues"
+Homepage = "https://github.com/SVamseekar/evident"
+Documentation = "https://github.com/SVamseekar/evident/tree/main/docs"
+Repository = "https://github.com/SVamseekar/evident"
+Changelog = "https://github.com/SVamseekar/evident/blob/main/CHANGELOG.md"
+Issues = "https://github.com/SVamseekar/evident/issues"
 
 [project.optional-dependencies]
 test = ["pytest>=7"]

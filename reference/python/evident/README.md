@@ -1,6 +1,6 @@
 # evident
 
-Python API for [Evident](https://github.com/souravamseekarmarti/evident):
+Python API for [Evident](https://github.com/SVamseekar/evident):
 adapters, reporters, rule discovery, and the public `scan()` /
 `scan_dataset_manifest()` entry points.
 

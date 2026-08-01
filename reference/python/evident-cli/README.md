@@ -1,6 +1,6 @@
 # evident-cli
 
-Command-line interface for [Evident](https://github.com/souravamseekarmarti/evident).
+Command-line interface for [Evident](https://github.com/SVamseekar/evident).
 
 ```bash
 evident scan --help

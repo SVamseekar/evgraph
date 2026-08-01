@@ -1,6 +1,6 @@
 # evident-rules
 
-Reference rule pack for [Evident](https://github.com/souravamseekarmarti/evident).
+Reference rule pack for [Evident](https://github.com/SVamseekar/evident).
 
 Rules are registered under the `evident.rules` entry-point group and discovered
 by `evident.discover_rules()` without importing this package from

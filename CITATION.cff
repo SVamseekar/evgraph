@@ -3,9 +3,12 @@ title: Evident
 message: If you use this software, please cite it using these metadata.
 type: software
 authors:
-  - family-names: Karmarti
-    given-names: Souravamsee
+  # Bibliographic form matches published papers (e.g. MPRA 129330):
+  # "Soura Vamseekar, Marti" / website short form "Marti, S. V."
+  - family-names: Marti
+    given-names: Soura Vamseekar
     email: martisoura@gmail.com
+    orcid: "https://orcid.org/0009-0005-4884-1292"
 abstract: >-
   Evident is an open-source Python library stack for executable governance
   evidence. It converts governance artifacts into an Evidence Graph and

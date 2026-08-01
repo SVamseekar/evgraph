@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "evident-rules"
 version = "0.1.0"
-description = "Evident reference rule pack: approval-precedes-deployment, dataset-manifest-complete, and model-version-has-training-provenance."
+description = "Built-in Evident rule pack: approval, dataset-manifest, and model-version provenance checks."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "BSD-3-Clause" }

@@ -1,7 +1,7 @@
 # Contributing to Evident
 
-Thank you for considering a contribution. This document describes how to set
-up a development environment, run tests, and propose changes.
+Thank you for contributing to Evident. This guide covers environment setup,
+tests, and how we review changes.
 
 ## Code of conduct
 
@@ -95,8 +95,8 @@ Out of scope (see architecture non-goals):
 
 ## Versioning and releases
 
-Packages share a monorepo version tag (`vX.Y.Z`). Version numbers follow
-[Semantic Versioning](https://semver.org/). Notable changes are recorded in
+Packages share a monorepo version tag (`vX.Y.Z`) and follow
+[Semantic Versioning](https://semver.org/). User-facing changes go in
 `CHANGELOG.md`.
 
 ## Reporting security issues

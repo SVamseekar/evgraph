@@ -10,8 +10,7 @@ Package versions in this monorepo (`evident-core`, `evident-rules`, `evident`,
 
 ## [0.1.0] - 2026-07-28
 
-Initial public release of the Evident reference implementation and
-specifications.
+Initial public release of the Evident library stack and specifications.
 
 ### Added
 
@@ -29,7 +28,7 @@ specifications.
 - **`evident-core` 0.1.0** — foundational types: `EvidenceGraph`,
   `EvidenceNode`, `EvidenceEdge`, `EvidenceLevel`, `Rule`, `Finding`,
   `Adapter`, `AdapterError`, `Assumption`, graph serialization
-- **`evident-rules` 0.1.0** — reference rule pack
+- **`evident-rules` 0.1.0** — built-in rule pack
   (`approval-precedes-deployment`, `dataset-manifest-complete`,
   `model-version-has-training-provenance`), registered via the
   `evident.rules` entry-point group

@@ -7,10 +7,10 @@ authors:
     given-names: Souravamsee
     email: martisoura@gmail.com
 abstract: >-
-  Evident is a reference implementation and architecture for executable
-  governance evidence. It defines an Evidence Graph intermediate
-  representation and a rule-evaluation model that produces explainable,
-  leveled findings without issuing legal or regulatory compliance verdicts.
+  Evident is an open-source Python library stack for executable governance
+  evidence. It converts governance artifacts into an Evidence Graph and
+  evaluates deterministic rules to produce explainable, leveled findings
+  without issuing legal or regulatory compliance verdicts.
 keywords:
   - governance evidence
   - evidence graph

@@ -1,23 +1,34 @@
 # evident
 
-Python API for [Evident](https://github.com/SVamseekar/evident):
-adapters, reporters, rule discovery, and the public `scan()` /
-`scan_dataset_manifest()` entry points.
+Main Python library for [Evident](https://github.com/SVamseekar/evident).
+
+Use this package for day-to-day work: adapters, reporters, rule discovery, and
+the public scan API.
 
 ```python
-from evident import scan
+from evident import scan, scan_dataset_manifest
 
-report = scan(model_card_path="model_card.json", ...)
+report = scan(
+    model_card_path="model_card.json",
+    approval_path="approval.json",
+    deployment_path="deployment.json",
+)
+print(report.to_json())
 ```
+
+## Features
+
+- **Adapters:** Model Card (JSON), dataset manifest (CSV), MLflow registry
+- **Reporters:** JSON, Markdown, SARIF, OSCAL
+- **API:** `scan()`, `scan_dataset_manifest()`, `discover_rules()`
 
 ## Install
 
 ```bash
 pip install -e .
-# optional MLflow adapter dependency:
-pip install -e ".[mlflow]"
+pip install -e ".[mlflow]"   # optional, for the MLflow adapter
 ```
 
 ## License
 
-BSD 3-Clause. See the monorepo `LICENSE` file.
+BSD 3-Clause — see the monorepo `LICENSE`.

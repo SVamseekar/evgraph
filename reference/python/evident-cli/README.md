@@ -2,12 +2,13 @@
 
 Command-line interface for [Evident](https://github.com/SVamseekar/evident).
 
-```bash
-evident scan --help
-evident scan-dataset-manifest --help
-```
+Thin wrapper over the `evident` Python library—same behavior as the API,
+usable from shells and CI.
 
-This package is a thin wrapper over the `evident` Python API.
+```bash
+evident scan model_card.json approval.json deployment.json --format markdown
+evident scan-dataset-manifest dataset_manifest.csv --format json
+```
 
 ## Install
 
@@ -17,4 +18,4 @@ pip install -e .
 
 ## License
 
-BSD 3-Clause. See the monorepo `LICENSE` file.
+BSD 3-Clause — see the monorepo `LICENSE`.

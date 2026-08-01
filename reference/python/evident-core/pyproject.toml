@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "evident-core"
 version = "0.1.0"
-description = "Foundational types for Evident: EvidenceGraph, EvidenceNode, EvidenceEdge, EvidenceLevel, Rule, Finding (EGS v0.1 / RES v0.1)."
+description = "Core types for Evident: Evidence Graph, nodes, edges, evidence levels, rules, and findings."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "BSD-3-Clause" }

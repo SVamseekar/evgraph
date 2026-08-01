@@ -1,10 +1,16 @@
 # evident-core
 
-Foundational types for [Evident](https://github.com/SVamseekar/evident):
-`EvidenceGraph`, `EvidenceNode`, `EvidenceEdge`, `EvidenceLevel`, `Rule`,
-`Finding`, `Adapter`, and related primitives defined by EGS v0.1 and RES v0.1.
+Core library for [Evident](https://github.com/SVamseekar/evident).
 
-This package has no runtime dependencies on other Evident packages. Higher
+Provides the foundational types every other package builds on:
+
+- `EvidenceGraph`, `EvidenceNode`, `EvidenceEdge`
+- `EvidenceLevel`
+- `Rule`, `Finding`
+- `Adapter`, `AdapterError`, `Assumption`
+- Graph serialization helpers
+
+This package has **no** runtime dependency on other Evident packages. Higher
 layers (`evident-rules`, `evident`, `evident-cli`) depend on it.
 
 ## Install
@@ -13,12 +19,12 @@ layers (`evident-rules`, `evident`, `evident-cli`) depend on it.
 pip install -e .
 ```
 
-## Documentation
+## Docs
 
-- Repository: https://github.com/SVamseekar/evident
-- Specs: `docs/specs/` in the monorepo
+- Main project: https://github.com/SVamseekar/evident
+- Specs: `docs/specs/` (EGS, RES)
 - Architecture: `docs/ARCHITECTURE.md`
 
 ## License
 
-BSD 3-Clause. See the monorepo `LICENSE` file.
+BSD 3-Clause — see the monorepo `LICENSE`.

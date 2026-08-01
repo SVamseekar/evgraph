@@ -1,16 +1,16 @@
 # evident-rules
 
-Reference rule pack for [Evident](https://github.com/SVamseekar/evident).
+Built-in rule pack for [Evident](https://github.com/SVamseekar/evident).
 
-Rules are registered under the `evident.rules` entry-point group and discovered
-by `evident.discover_rules()` without importing this package from
-`evident-core`.
+Rules ship as a separate package so policy can evolve without changing
+`evident-core`. They register under the `evident.rules` entry-point group and
+are loaded automatically by `evident.discover_rules()`.
 
 Included rules:
 
-- `approval-precedes-deployment`
-- `dataset-manifest-complete`
-- `model-version-has-training-provenance`
+- `approval-precedes-deployment` — deployment time must not precede approval
+- `dataset-manifest-complete` — required manifest fields are present
+- `model-version-has-training-provenance` — model versions should link to training runs
 
 ## Install
 
@@ -22,4 +22,4 @@ Requires `evident-core`.
 
 ## License
 
-BSD 3-Clause. See the monorepo `LICENSE` file.
+BSD 3-Clause — see the monorepo `LICENSE`.

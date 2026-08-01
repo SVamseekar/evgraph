@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "evident"
 version = "0.1.0"
-description = "Evident Python API: adapters, reporters, rule discovery, and scan() entry points for governance evidence graphs."
+description = "Evident Python library: adapters, reporters, rule discovery, and scan() API for governance evidence."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "BSD-3-Clause" }

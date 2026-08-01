@@ -8,7 +8,9 @@ For current project status, sequencing, and what's implemented so far, see `READ
 
 ## 1. Mission
 
-Evident is an open-source Python ecosystem for executable governance engineering. Its purpose is to transform governance artifacts into a common evidence representation that can be evaluated, traced, and reported through deterministic, explainable software components.
+Evident is an open-source Python **library ecosystem** for executable governance engineering. Its purpose is to transform governance artifacts into a common evidence representation that can be evaluated, traced, and reported through deterministic, explainable software components that people install and run in their own environments.
+
+The product is libraries (`evident-core`, `evident-rules`, `evident`, `evident-cli`)—not a hosted service, dashboard, or certification authority.
 
 Evident evaluates evidence. It does not issue legal or regulatory judgment. Every other statement in this document is a consequence of that sentence.
 
@@ -22,11 +24,11 @@ The project never claims legal or regulatory compliance. It reports what evidenc
 
 ### Specifications Before Frameworks
 
-Foundational abstractions — ones later design has a hard dependency on — are specified before they're implemented. Abstractions that only benefit from consistency once patterns exist are extracted from a working reference implementation, not designed in advance. See ADR-0002.
+Foundational abstractions — ones later design has a hard dependency on — are specified before they're implemented. Abstractions that only benefit from consistency once patterns exist are extracted from working library code, not designed in advance. See ADR-0002.
 
 ### Grounding Discipline
 
-Nothing enters a specification because it "might be useful." Every concept in a spec must be justified by a concrete, demonstrated need in the reference implementation. An unjustified concept is deferred and recorded as a non-goal, not speculatively designed.
+Nothing enters a specification because it "might be useful." Every concept in a spec must be justified by a concrete, demonstrated need in the shipped libraries. An unjustified concept is deferred and recorded as a non-goal, not speculatively designed.
 
 ### Developer First
 

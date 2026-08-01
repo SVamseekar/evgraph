@@ -8,81 +8,110 @@ For the principles governing *why* this order was chosen, see `docs/ARCHITECTURE
 
 ---
 
-## Stage 0 — Foundational Specifications *(current stage)*
+## Stage 0 — Foundational Specifications *(complete)*
 
 **What exists:**
 - `docs/ARCHITECTURE.md` — constitution: mission, principles, layered architecture, non-goals, decision log
 - `docs/specs/EGS-v0.1.md` — Evidence Graph Specification
 - `docs/specs/RES-v0.1.md` — Rule Evaluation Specification
 
-**What doesn't exist yet:** any code. `reference/python/` is empty.
-
-**Exit condition:** EGS and RES are stable enough that a reference implementation can be built against them without expecting to rewrite their core structural model mid-implementation. ("Stable enough" does not mean "frozen" — open questions listed in each spec's appendix are expected to remain open until Stage 1 answers them with real evidence.)
-
-**You are here.**
+**Exit condition:** EGS and RES are stable enough that a reference implementation can be built against them without expecting to rewrite their core structural model mid-implementation. ("Stable enough" does not mean "frozen" — open questions listed in each spec's appendix are expected to remain open until Stage 1 answers them with real evidence.) **Met** — see Stage 1.
 
 ---
 
-## Stage 1 — Reference Implementation
+## Stage 1 — Reference Implementation *(complete — current stage)*
 
 **Goal:** Prove the two hypotheses stated in `README.md`:
 1. The Evidence Graph is a useful canonical representation across heterogeneous AI-system artifacts.
 2. Rules can consume that graph and produce explainable, traceable findings without claiming interpretive/legal authority they don't have.
 
 **Scope — deliberately minimal, one of each:**
-- `evident-core` — the foundational types from EGS/RES (`EvidenceGraph`, `EvidenceNode`, `EvidenceEdge`, `EvidenceLevel`, `Rule`, `Finding`) as actual Python code, nothing else.
-- **One adapter** (e.g., a Model Card / JSON adapter — simple enough to not need APS-Core speculation, concrete enough to exercise `evidence_level` declaration and `SourceReference`).
-- **One rule pack, one rule** — the `approval-precedes-deployment` example already worked out in RES §10 is the natural first candidate, since its `reasoning_class`/`Finding.level` computation is already fully specified there.
-- **One reporter** — plain JSON output matching each spec's serialization format (EGS §5, RES §6). No HTML/PDF/SARIF yet — those belong to Stage 3.
-- `evident` — the thin public package wrapping the above (`from evident import scan`).
+- `evident-core` — the foundational types from EGS/RES (`EvidenceGraph`, `EvidenceNode`, `EvidenceEdge`, `EvidenceLevel`, `Rule`, `Finding`) as actual Python code, nothing else. Implemented at `reference/python/evident-core/`.
+- **One adapter** — a Model Card / JSON adapter (`reference/python/evident/src/evident/adapters/model_card.py`), converting three JSON artifacts (Model Card, human approval, deployment record) into the EGS §10 three-node graph shape.
+- **One rule pack, one rule** — `approval-precedes-deployment` (`reference/python/evident/src/evident/rules/approval_precedes_deployment.py`), matching RES §10 exactly: `reasoning_class = CONSISTENCY`, computed `Finding.level`, `EXPECTATION_MET`/`EXPECTATION_NOT_MET`/`INCONCLUSIVE` outcomes.
+- **One reporter** — plain JSON (`reference/python/evident/src/evident/reporters/json_reporter.py`) matching EGS §5 / RES §6 serialization, including `egs_version`/`res_version` fields.
+- `evident` — the thin public package wrapping the above (`from evident import scan`), at `reference/python/evident/`.
+- Example artifacts and a runnable demo at `examples/model_card_deployment/`.
 
-**Explicitly not in scope for this stage:** APS as a written spec (it's extracted *from* this work, per ADR-0002), a CLI, any second adapter or rule, performance optimization of any kind.
+**Explicitly not in scope for this stage:** APS as a written spec (it's extracted *from* this work, per ADR-0002), a CLI, any second adapter or rule, performance optimization of any kind. None of these were added.
 
-**Exit condition:** `scan()` on a real artifact produces a `Finding` whose `level` is computed correctly per RES §4.3, is traceable back through EGS `trace()`, and required no change to EGS/RES's structural model to build — only, at most, resolution of an already-tracked open question (e.g., the Observation-vs-Evidence question in EGS's appendix). If building this *does* force a structural change to EGS or RES, that change is recorded as a new ADR before proceeding, not silently absorbed into the code.
+**Exit condition:** `scan()` on a real artifact produces a `Finding` whose `level` is computed correctly per RES §4.3, is traceable back through EGS `trace()`, and required no change to EGS/RES's structural model to build. **Met** — running `examples/model_card_deployment/run.py` produces a `CONSISTENCY`-level `EXPECTATION_NOT_MET` finding with a correct two-edge `trace`, matching RES §10's worked example exactly. No EGS/RES structural change was required; no new ADR was needed. 30 tests pass across `evident-core` and `evident` (`pytest -q` in each package directory).
 
 ---
 
-## Stage 2 — Adapter Protocol, Grounded
+## Stage 2 — Adapter Protocol, Grounded *(complete)*
 
 **Goal:** Write APS-Core from what Stage 1's adapter actually needed — not from imagination.
 
 **Scope:**
-- `docs/specs/APS-v0.1.md` (Core only): the `Adapter` interface, required declarations (`evidence_level`, `assumptions`, `extraction_method` — as discussed in the original design conversation), lifecycle, error handling.
-- A **second adapter**, deliberately of a different shape than the first (e.g., a tabular/CSV or Pandas adapter instead of a document/JSON one), built against the new APS-Core spec to pressure-test that it generalizes beyond the one shape Stage 1 proved.
-- A **second rule**, to pressure-test that `Rule`/`Finding` (RES) generalizes beyond the one example already worked out.
+- `docs/specs/APS-v0.1.md` (Core only): the `Adapter` interface, required declarations (`evidence_level`, `assumptions`, `extraction_method`), lifecycle, error handling (`AdapterError`, interpretation-vs-governance-deficiency distinction).
+- A **second adapter**, structurally different from the first — `evident-adapter-dataset-manifest` (`reference/python/evident/src/evident/adapters/dataset_manifest.py`), reading a CSV of dataset records into standalone `Dataset` nodes, versus the first adapter's linked JSON documents.
+- A **second rule** — `dataset-manifest-complete` (`reference/python/evident/src/evident/rules/dataset_manifest_complete.py`), `reasoning_class = STRUCTURAL` and single-node reasoning, versus the first rule's `CONSISTENCY` cross-node reasoning.
+- Retrofitted the Model Card adapter to conform to APS-Core (it predated the spec): now exposes `name`/`version`/`evidence_level`/`extraction_method`/`assumptions`/`supported_source_kinds` and raises `AdapterError` (chained) for interpretation failures, while treating missing `approved_at`/`deployed_at` as evidence, not adapter failure.
+- `Adapter`, `AdapterError`, `Assumption` added to `evident-core` (`reference/python/evident-core/src/evident_core/adapter.py`).
 
-**Exit condition:** Two structurally different adapters both conform to APS-Core without APS-Core needing adapter-specific carve-outs. If they do need carve-outs, that's a sign APS-Core was written too early or too narrowly — revise it, recording why, before moving on.
+**Exit condition:** Two structurally different adapters both conform to APS-Core without APS-Core needing adapter-specific carve-outs. **Met** — both adapters share the identical `Adapter` interface, `AdapterError` model, and four-step lifecycle with no special-casing, despite one reading linked JSON and the other reading flat CSV into a standalone graph (EGS §3.5's disconnected-graph allowance, no invented cross-adapter edge). 33 tests pass across both packages (`pytest -q` in each package directory); both example demos (`examples/model_card_deployment/`, `examples/dataset_manifest/`) run end-to-end.
 
 ---
 
-## Stage 3 — Reporting and Multiple Rule Packs
+## Stage 3 — Reporting and Multiple Rule Packs *(complete)*
 
 **Goal:** Extract RPS (Reporting Protocol Specification) from real reporter implementations, and prove rule packs can be published and consumed independently.
 
 **Scope:**
-- Two or three concrete reporters (Markdown, HTML, SARIF are the most likely candidates given CI/tooling integration value) built directly against `Finding`/RES, with no shared spec yet.
-- `docs/specs/RPS-v0.1.md`, extracted once those reporters reveal what's actually common between them (per ADR-0002 — this is a Type B / emergent concern, not designed in advance).
-- A second, independently-versioned rule pack (`evident-rules` as a real package boundary, not just a folder) — proves rules can be distributed separately from `evident-core` without violating the layered architecture (`docs/ARCHITECTURE.md` §3).
-- First resolution attempt at RES's open Requirement/Assessment aggregation question (RES §1.3), now that multiple rule packs exist to demonstrate (or fail to demonstrate) a common aggregation pattern.
+- Two concrete reporters built directly against `Finding`/RES, with no shared spec at build time: Markdown (`reference/python/evident/src/evident/reporters/markdown_reporter.py`, human-facing prose) and SARIF (`.../sarif_reporter.py`, CI/tooling-facing, mapping `Outcome` into SARIF's `level` vocabulary as a documented structural translation, never a severity judgment).
+- `docs/specs/RPS-v0.1.md`, extracted from comparing all three reporters (JSON, Markdown, SARIF) — a deliberately thin contract (two inputs, order-independence, no invented governance semantics), since a richer one wasn't demonstrated as shared.
+- `evident-rules` (`reference/python/evident-rules/`) — a real, independently-versioned package containing both existing rules (`approval-precedes-deployment`, `dataset-manifest-complete`), moved out of `evident`, which now depends on it rather than containing rule code.
+- First resolution attempt at RES's open Requirement/Assessment aggregation question (RES §1.3): recorded as a negative result — the two rules share nothing beyond both implementing `Rule`, so "rule-pack membership" is not a meaningful aggregation boundary. See `docs/ARCHITECTURE.md` ADR-0006 ("multiplicity alone does not justify an abstraction; shared semantics do").
 
-**Exit condition:** A rule pack can be installed and used without modifying `evident-core`, and a reporter can be swapped without modifying rule packs. Both directions of the plugin promise in `docs/ARCHITECTURE.md` §4 (Design Principle 10) hold in practice, not just in theory.
+**Exit condition:** A rule pack can be installed and used without modifying `evident-core`, and a reporter can be swapped without modifying rule packs. **Met** — `evident-rules` is a separate installable package depending only on `evident-core`; `evident` depends on it and both example pipelines (`examples/model_card_deployment/`, `examples/dataset_manifest/`) still run correctly post-extraction. Three reporters (JSON, Markdown, SARIF) coexist on the same `Finding` list with no rule-pack changes required. 42 tests pass across `evident-core`, `evident-rules`, and `evident`.
 
 ---
 
-## Stage 4 — Plugin Model and CLI
+## Stage 4 — Plugin Model and CLI *(complete)*
 
 **Goal:** Extract PES (Plugin & Extension Specification) from real extension points now demonstrated in Stages 2–3, and add the thin CLI wrapper.
 
 **Scope:**
-- `docs/specs/PES-v0.1.md` — plugin discovery/registration mechanism, generalized from however adapters and reporters ended up being wired in during Stages 2–3.
-- `evident-cli` — thin wrapper per `docs/ARCHITECTURE.md`'s Developer First principle; the CLI must not contain logic that doesn't already exist in the Python API.
-- `docs/specs/CVS-v0.1.md` — Compliance Vocabulary Specification, assembled from the terminology that has by now stabilized across EGS/RES/APS/RPS.
+- A concrete discovery mechanism built first (per ADR-0002, since Stages 2–3 had no existing wiring to generalize from): `evident-rules` registers both rules under a `"evident.rules"` Python entry_point group (`pyproject.toml`); `evident/src/evident/discovery.py`'s `discover_rules()` enumerates and instantiates them via `importlib.metadata`; `scan.py`'s hardcoded rule lists were replaced with calls to `discover_rules()`.
+- `docs/specs/PES-v0.1.md` — extracted from that mechanism. Scoped to rules only — reporters (selected explicitly via `report.to_markdown()`/`to_sarif()`) and adapters (still directly constructed) showed no evidence of needing discovery yet (`docs/ARCHITECTURE.md` ADR-0006).
+- `evident-cli` (`reference/python/evident-cli/`) — thin wrapper exposing exactly the existing Python API (`scan`, `scan_dataset_manifest`, each `Report` output method) as `evident scan ...`/`evident scan-dataset-manifest ...` with a `--format` flag; contains no logic beyond argument parsing and format-name dispatch.
+- `docs/specs/CVS-v0.1.md` — assembled (not designed) from terminology that stabilized across EGS/RES/APS-Core/RPS/PES, with an explicit section listing terms that have *not* stabilized (Requirement, Verdict, Severity) and are deliberately excluded.
 
-**Exit condition:** A third-party developer can write a new adapter, rule pack, or reporter as an independent package and have it discovered by the CLI/API without modifying any `evident-*` package. This is the first stage where "ecosystem" stops being aspirational language and starts being a testable claim.
+**Exit condition:** A third-party developer can write a new rule pack as an independent package and have it discovered by the CLI/API without modifying any `evident-*` package. **Met** — a scratch package (`third-party-rule`, registering `AlwaysInconclusiveRule` under `"evident.rules"`, depending only on `evident-core`, never imported by `evident`) was pip-installed and its finding appeared in `scan()`'s output immediately; uninstalling it reverted discovery to the original two rules, with zero code changes to any `evident-*` package. (Discovery for adapters/reporters remains out of scope per PES §1.3 — no evidence yet justifies it.) 49 tests pass across all four packages (`evident-core`, `evident-rules`, `evident`, `evident-cli`).
 
 ---
 
-## Stage 5 — Research Track (parallel, not sequential)
+## Stage 4.5 — Validation & Interoperability *(current stage)*
+
+**Goal:** Validate the reference implementation against an established external standard and a real-world engineering workflow, and gather direct practitioner feedback, before investing in Stage 5's research track. This stage exists because `docs/ARCHITECTURE.md` ADR-0007 (grounded in `docs/research/standards-comparison.md` and `docs/research/practitioner-and-market-check.md`) left two questions explicitly unresolved: can Evident interoperate cleanly with an established governance standard, and does the architecture solve a real problem for practitioners rather than a primarily architectural one? Neither question casts doubt on EGS/RES/APS/PES's internal correctness — both are pre-conditions for deciding whether Stage 5's research packages (which assume the foundation is worth building further on) are worth starting yet.
+
+Reasoning for inserting this as a new stage rather than revising Stages 0–4: those stages are a historical record of what was actually built and validated at the time; the assumptions this stage tests were only surfaced by later research, not known during Stages 0–4, so backdating them into that history would misrepresent when the project actually learned what it learned.
+
+**Goal 1 — Standards integration (OSCAL reporter).** *(complete)*
+- Scope: an OSCAL reporter (`reference/python/evident/src/evident/reporters/oscal_reporter.py`), following RPS's existing translation-not-invention precedent (RPS §3.2.3) — the same pattern as the existing SARIF reporter. Translates `Finding` into OSCAL's `assessment-results` `finding`/`observation` model; carries `EvidenceLevel`/`reasoning_class`/`Outcome` as documented, non-standard OSCAL `prop` extensions since OSCAL has no native analog to them (`docs/research/standards-comparison.md`). Scoped to `assessment-results` only — no SSP, Component Definition, Catalog, Profile, or Assessment Plan support, per the same grounding discipline used everywhere else in this project.
+- Exit condition: a valid OSCAL Assessment Results document is generated from the existing reference implementation, every lossy or extended field translation is documented, and no change to EGS or RES is required. **Met** — verified against the real RES §10 example via `evident scan ... --format oscal`; every `Finding`/`EvidenceNode` field Evident considers load-bearing is represented, either natively or via a documented `prop` extension; zero new concepts introduced into EGS/RES. Full findings recorded in `docs/research/oscal-roundtrip.md`. 56 tests pass across all four packages (up from 49).
+
+**Goal 2 — One real external integration.** *(complete)*
+- Scope: `evident-adapter-mlflow` (`reference/python/evident/src/evident/adapters/mlflow_adapter.py`) — an MLflow model-registry adapter, built and tested against a real, locally running MLflow 3.14 tracking server (not documentation or memory). Deliberately narrow: only `RegisteredModel`, `ModelVersion`, and `Run` are mapped, matching the same grounding discipline used for adapter scope everywhere else in this project. `mlflow` is a development/validation dependency only — not a runtime dependency of the `evident` package.
+- Exit condition: a real artifact from the external system is normalized into an `EvidenceGraph` without modifying EGS or APS-Core. **Met.** Strengthened per the design discussion into: *a rule never anticipated during adapter design can evaluate the resulting graph without modifying the adapter, EGS, or APS-Core.* Verified with a new rule, `model-version-has-training-provenance` (`reference/python/evident-rules/`), written independently of the adapter's implementation, registered via the existing `"evident.rules"` entry_point mechanism, and confirmed against real seeded data — including a deliberately messy case (a model version with no linked run, no description, no tags, a real and valid MLflow state) that the adapter represents as evidence (`has_linked_run: false`), not as an `AdapterError`, per APS-Core §4.2. Full findings recorded in `docs/research/mlflow-adapter-validation.md`. 65 tests pass across all four packages (up from 56).
+
+**Goal 3 — Practitioner validation.** Explicitly not a coding task — it requires direct outreach and interviews with practitioners.
+- Preparation: a demo script, a one-page explanation, and a single interview question: *"What problem, if any, would this solve for you?"*
+- Target: practitioners who actually own this problem space day to day (ML platform engineers, MLOps engineers, model risk managers, AI governance leads) — not general AI-interested audiences.
+- Success metric is explicitly not positive feedback, stars, or praise — it's whether a recurring, specific problem pattern emerges across independent conversations.
+
+**Exit condition (whole stage):** Proceed to Stage 5 only if at least one of the following holds:
+1. Practitioners identify a recurring real problem the current architecture addresses, or
+2. The OSCAL integration demonstrates clear interoperability value independent of market adoption.
+
+If neither holds, the next step is not Stage 5 — it's revising Evident's positioning, narrowing scope, or explicitly concluding (as ADR-0007 already allows) that Evident's value is primarily architectural/reference rather than as a production ecosystem, and adjusting the roadmap from there rather than proceeding into research packages built on an unvalidated foundation.
+
+See `docs/research/validation-plan.md` for the full reasoning, the specific unproven hypotheses this stage tests, and what evidence would confirm or falsify each one.
+
+---
+
+## Stage 5 — Research Track (parallel, not sequential) *(blocked on Stage 4.5's exit condition)*
 
 **Explicitly separated from the numbered stages above** because these are research efforts, not scoped deliverables — they don't have exit conditions in the same sense, and per `docs/ARCHITECTURE.md` §5 (What Evident Is Not) they must not be allowed to influence `evident-core`'s design until independently validated.
 

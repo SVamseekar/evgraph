@@ -165,6 +165,38 @@ Architectural decisions are recorded here as they're made, so debates aren't re-
 
 **Status:** Accepted.
 
+### ADR-0006 — Multiplicity alone does not justify an abstraction; shared semantics do
+
+**Decision:** The existence of multiple instances of something (multiple adapters, multiple rules, multiple rule packs) is not, by itself, grounds for introducing a new abstraction to group or standardize them. An abstraction is justified only once multiple instances demonstrate a **shared semantic**, not merely shared multiplicity.
+
+**Context:** Stage 3 made a first resolution attempt at RES's deferred Requirement/Assessment aggregation question (RES §1.3, RES Appendix), now that `evident-rules` exists as a real, independently-versioned package containing two rules (`approval-precedes-deployment`, `dataset-manifest-complete`). The two rules evaluate entirely unrelated governance artifacts — deployment/approval workflow versus dataset metadata — and share nothing beyond both implementing `Rule` (RES §3.1). No natural "Requirement" grouping emerged between them. This is a useful negative result, not an absence of one: it shows that "belongs to the same rule pack" is not, by itself, a meaningful aggregation boundary.
+
+**Reasoning:** Contrast with the two cases where an abstraction *was* justified: two structurally different adapters (Model Card/JSON, dataset-manifest/CSV) shared a genuine contract — every adapter converts a source into an `EvidenceGraph` and must declare `evidence_level`/`assumptions`/etc. — which is why APS-Core (ADR-0002) was justified after only two instances. Two rules sharing only "both are rules" is a weaker relationship than that, and doesn't warrant a `Requirement` type. The distinguishing question is not "how many are there?" but "what do they actually share beyond their common interface?"
+
+**Consequences:** RES's Requirement/Assessment aggregation remains deferred (RES Appendix). The concrete trigger for revisiting it is sharper than "multiple rule packs exist": it is multiple rules demonstrably evaluating one externally identifiable obligation (e.g., several rules that together check one named regulatory article). This principle generalizes beyond RES — it is the same reasoning that should be applied before introducing any future grouping abstraction in this project (e.g., before Stage 4's PES asks whether adapters, rules, and reporters need a common plugin metadata shape).
+
+**Alternatives considered:** Introducing a minimal `Requirement` type now, grouping the two existing rules under invented labels — rejected as manufacturing a grouping neither rule's design implies, purely to have an artifact to show; exactly the speculative-design failure mode the Grounding Discipline (§2) exists to prevent.
+
+**Status:** Accepted.
+
+### ADR-0007 — Evident is a reference runtime model, not a proposed replacement for existing governance standards
+
+**Decision:** Evident positions itself as a reference implementation and architecture exploring executable governance evidence — not as a proposed industry-wide interoperability standard. Existing standards (e.g., OSCAL) are treated as interoperability *targets* where a concrete integration is demonstrated (e.g., an OSCAL reporter, analogous to the existing SARIF reporter), not as competitors EGS/RES need to replace or as prior art that invalidates EGS/RES's internal model. Any claim that Evident solves a genuine N×M interoperability problem, or that ecosystem-wide adoption is likely, remains an explicit **hypothesis** — not a stated goal — until demonstrated by an independent third-party adopter.
+
+**Context:** Two research documents (`docs/research/standards-comparison.md`, `docs/research/practitioner-and-market-check.md`) were produced to stress-test the project's founding premise against real prior art and real market/practitioner evidence, rather than assuming it. Findings:
+
+1. **Technical comparison** (OSCAL, PROV-O, OpenLineage, read from primary sources — actual metaschemas/specs, not secondary summaries): none of the three duplicates EGS/RES's core contribution. OSCAL's `observation`/`finding`/`risk` model and PROV-O have no analog to `EvidenceLevel` or RES's computed confidence-inheritance invariant (RES §4.3) — that part of the design is not redundant with existing standards. OSCAL's assessment-results layer is however a credible *export target*: `EvidenceGraph → Findings → OSCAL assessment-results`, built the same way as the existing JSON/Markdown/SARIF reporters (translation, not invention, per RPS §3.2.3).
+2. **Practitioner/market check**: where a single-owner, regulated discipline solving essentially this problem already exists (banking's Model Risk Management under SR 11-7 since 2011), mature commercial tooling (ValidMind, MathWorks Modelscape) already does close to what Evident proposes, with far more deployed history. Where AI governance ownership is fragmented (no single owner across legal/compliance/ML-eng), the practitioner-reported failure mode is documentation never being produced at all (60%+ of Hugging Face models ship with no model card) and real enforcement actions tracing to substantive harms, not to missing structured evidence format.
+3. **The N×M interoperability claim underlying ADR-0001's Arrow/OpenTelemetry framing is not yet demonstrated.** With two adapters and two rules, no independent third party has hit a redundant-integration problem Evident solves. This is recorded plainly as an open, unresolved question — not glossed over as if it were already true.
+
+**Reasoning:** The architecture (EGS/RES/APS-Core/RPS/PES/CVS and the reference implementation) is validated on its own terms: internally consistent, non-redundant with existing standards, and functionally demonstrated end-to-end (49 tests, working CLI, working third-party plugin discovery). What is *not* validated is the market/adoption thesis in the original `architecture.md`/README framing ("become the foundational Python ecosystem for Computational Governance," modeled explicitly on Arrow/OpenTelemetry's adoption trajectory). Conflating "the architecture is sound" with "this will become adopted infrastructure" would overstate what's actually been shown. Per the Grounding Discipline (§2) already applied to every technical decision in this project, the same discipline should apply to the project's own strategic claims about itself: don't assert market necessity that hasn't been demonstrated, any more than a spec should assert structure that hasn't been demonstrated.
+
+**Consequences:** `README.md`'s framing changes from ecosystem-aspiration language to reference-implementation language (see the README diff accompanying this ADR). This does not change EGS/RES/APS-Core/RPS/PES/CVS or any code — it changes how the project describes its own validation status. Future claims of ecosystem necessity or industry adoption should cite an independent adopter, the same way a structural spec change must cite a concrete reference-implementation case (§1.1 pattern, applied to strategy instead of schema).
+
+**Alternatives considered:** Leaving the original ecosystem-adoption framing unchanged on the theory that "infrastructure sometimes precedes its buyer" (true of Arrow/OpenTelemetry/LLVM historically) — not rejected as false, but rejected as a claim that cannot currently be distinguished from wishful thinking without evidence either way; the honest position is "hypothesis, not demonstrated," not "probably true because other projects did it."
+
+**Status:** Accepted.
+
 ---
 
 ## Related documents
@@ -173,4 +205,6 @@ Architectural decisions are recorded here as they're made, so debates aren't re-
 - `docs/ROADMAP.md` — capability-staged plan from the current state to the full ecosystem, gated by exit conditions rather than dates.
 - `docs/specs/EGS-v0.1.md` — Evidence Graph Specification.
 - `docs/specs/RES-v0.1.md` — Rule Evaluation Specification.
+- `docs/research/standards-comparison.md` — technical comparison against OSCAL, PROV-O, OpenLineage; grounds ADR-0007.
+- `docs/research/practitioner-and-market-check.md` — practitioner/market validation check; grounds ADR-0007.
 - `architecture.md` (repo root) — the original pre-critique blueprint. Superseded by this document; kept for project history, not as a source of current principles.

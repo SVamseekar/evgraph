@@ -1,50 +1,201 @@
 # Evident
 
-An open specification for executable AI governance evidence, with a Python reference implementation.
+[![CI](https://github.com/souravamseekarmarti/evident/actions/workflows/ci.yml/badge.svg)](https://github.com/souravamseekarmarti/evident/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![Version](https://img.shields.io/badge/version-0.1.0-green.svg)](CHANGELOG.md)
 
-Evident is not a SaaS platform or compliance dashboard. It defines the **Evidence Graph** — a canonical intermediate representation that any AI-system artifact (Model Cards, approval records, deployment logs, evaluation datasets, traces, etc.) can be converted into — and a rule-evaluation model for producing explainable, traceable findings from that graph.
+A reference implementation and architecture for **executable governance evidence**,
+with an open Python library stack.
 
-Governance evidence collection, normalization, and consistency-checking are computable. Legal/regulatory *interpretation* is not — Evident stops at the evidence boundary and never issues compliance verdicts. See `docs/specs/RES-v0.1.md` (once written) for how findings are leveled to make that boundary explicit and enforced in the type system, not just documented.
+Evident is not a SaaS platform or compliance dashboard. It defines the
+**Evidence Graph** — a canonical intermediate representation that governance
+artifacts (Model Cards, approval records, deployment logs, evaluation datasets,
+registry metadata, and similar sources) can be converted into — and a rule
+evaluation model that produces explainable, traceable findings from that graph.
+
+Governance evidence collection, normalization, and consistency-checking are
+computable. Legal and regulatory *interpretation* is not: Evident stops at the
+evidence boundary and never issues compliance verdicts. See
+`docs/specs/RES-v0.1.md` for how findings are leveled so that boundary is
+enforced in the type system, not only in documentation.
+
+**What this project is** (`docs/ARCHITECTURE.md`, ADR-0007): a reference runtime
+model for representing and evaluating governance evidence — not a proposed
+industry standard, and not a claim that broad adoption is likely. Existing
+standards (for example OSCAL) are interoperability targets where a concrete case
+justifies integration. Ecosystem-wide interoperability claims remain open
+hypotheses tracked under `docs/research/`.
+
+---
 
 ## Status
 
-**Stage 0 (Foundational Specifications) — complete. Entering Stage 1 (Reference Implementation).**
+**Stages 0–4 complete.** Stage 4.5 (validation and interoperability) is in
+progress: OSCAL and MLflow validation are done; practitioner validation remains
+open. See `docs/ROADMAP.md`.
 
-EGS v0.1 (`docs/specs/EGS-v0.1.md`) and RES v0.1 (`docs/specs/RES-v0.1.md`) are drafted. `docs/ARCHITECTURE.md` records the project's constitution and decision log. Next: one adapter, one rule, one reporter, built against these two specs — see `docs/ROADMAP.md` for the full capability-staged plan (Stage 0 through Stage 5) and each stage's exit condition.
+| Package | Version | Role |
+| --- | --- | --- |
+| `evident-core` | 0.1.0 | Foundational graph, node, edge, level, rule, and finding types |
+| `evident-rules` | 0.1.0 | Reference rule pack (entry-point discovery) |
+| `evident` | 0.1.0 | Adapters, reporters, `scan()` API, rule discovery |
+| `evident-cli` | 0.1.0 | `evident` command-line interface |
 
-## Why specs before code
+Specifications (all v0.1): EGS, RES, APS, RPS, PES, CVS under `docs/specs/`.
 
-Foundational abstractions (Type A: EGS, RES, APS-Core) get specified before implementation because downstream design has a hard dependency on them being fixed — you cannot design a confidence model without first knowing how evidence enters the graph with what epistemic status.
+---
 
-Emergent abstractions (Type B: plugin hooks, reporter contracts, extension points) get *extracted from working code*, not designed in advance — they only benefit from consistency once real patterns exist, and speculative design here is the most likely source of an expensive early rewrite.
+## Installation
 
-Every concept in a spec must be justified by a concrete use case in the reference implementation. Nothing goes in because it might be needed later — see each spec's Non-Goals section.
+From a clone of this repository (packages are not yet published to PyPI):
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+
+pip install -e reference/python/evident-core
+pip install -e reference/python/evident-rules
+pip install -e reference/python/evident
+pip install -e reference/python/evident-cli
+```
+
+Optional MLflow adapter support:
+
+```bash
+pip install -e "reference/python/evident[mlflow]"
+```
+
+Requires **Python 3.10+**.
+
+---
+
+## Quickstart
+
+```bash
+# Model Card / approval / deployment scan (JSON artifacts)
+evident scan \
+  examples/model_card_deployment/model_card.json \
+  examples/model_card_deployment/approval.json \
+  examples/model_card_deployment/deployment.json \
+  --format markdown
+
+# Dataset manifest scan
+evident scan-dataset-manifest \
+  examples/dataset_manifest/dataset_manifest.csv \
+  --format json
+```
+
+Python API:
+
+```python
+from evident import scan
+
+report = scan(
+    model_card_path="examples/model_card_deployment/model_card.json",
+    approval_path="examples/model_card_deployment/approval.json",
+    deployment_path="examples/model_card_deployment/deployment.json",
+)
+print(report.to_json())
+```
+
+Runnable demos:
+
+```bash
+python examples/model_card_deployment/run.py
+python examples/dataset_manifest/run.py
+python examples/full_demo/run.py
+```
+
+---
 
 ## Repository layout
 
 ```
 evident/
   docs/
-    specs/          # EGS, RES, APS, RPS, PES, CVS — written in that dependency order
-  reference/
-    python/
-      evident-core/  # foundational abstractions only, once code starts
-      evident/       # public API surface (pip install evident)
-  examples/
+    specs/           # EGS, RES, APS, RPS, PES, CVS
+    research/        # standards comparison, validation notes
+    ARCHITECTURE.md  # constitution and ADRs
+    ROADMAP.md       # capability-staged plan
+  reference/python/
+    evident-core/    # foundational types
+    evident-rules/   # reference rule pack
+    evident/         # adapters, reporters, public API
+    evident-cli/     # CLI wrapper
+  examples/          # end-to-end demos
 ```
 
-No `context/`, `provenance/`, `adapters/`, or CLI packages exist yet. Those are future work, contingent on the two core hypotheses holding up under a reference implementation:
+---
 
-1. The Evidence Graph is a useful canonical representation across heterogeneous AI-system artifacts.
-2. Rules can consume that graph and produce explainable, traceable findings without claiming interpretive/legal authority they don't have.
+## Core concepts
 
-## Core terminology (subject to CVS once written)
+| Term | Meaning |
+| --- | --- |
+| **Evidence Graph** | Immutable DAG produced by adapters from source artifacts |
+| **EvidenceNode / EvidenceEdge** | Typed, evidence-leveled facts and relationships |
+| **Evidence Level** | `STRUCTURAL → CONSISTENCY → HEURISTIC → INTERPRETIVE` (most to least certain); only ever lowered downstream |
+| **Finding** | A rule's output over the graph; leveled, never a bare PASS/FAIL |
 
-- **Evidence Graph** — immutable, directed acyclic graph produced by adapters from source artifacts.
-- **EvidenceNode / EvidenceEdge** — typed, evidence-leveled facts and relationships within the graph.
-- **Evidence Level** — `STRUCTURAL → CONSISTENCY → HEURISTIC → INTERPRETIVE`, set at the adapter/node level and only ever lowered, never raised, by downstream findings.
-- **Finding** — a rule's output over the graph, leveled per the hierarchy above, never a bare PASS/FAIL.
+See `docs/specs/CVS-v0.1.md` for the full cross-vocabulary.
 
-## Next step
+---
 
-Review `docs/specs/EGS-v0.1.md`, then draft RES v0.1 (rule inputs, `Finding` structure with the leveled hierarchy formalized as a type invariant, confidence-inheritance rule from evidence levels).
+## Documentation
+
+| Document | Purpose |
+| --- | --- |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Mission, principles, layered design, ADRs |
+| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Capability stages and exit conditions |
+| [`docs/VISION.md`](docs/VISION.md) | Strategic hypotheses (non-normative) |
+| [`docs/specs/`](docs/specs/) | Normative specifications |
+| [`docs/research/`](docs/research/) | Standards and validation research |
+| [`CHANGELOG.md`](CHANGELOG.md) | Release history |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Development and contribution guide |
+
+---
+
+## Development
+
+```bash
+source .venv/bin/activate
+pip install pytest
+
+cd reference/python/evident-core && pytest -q
+cd ../evident-rules && pytest -q
+cd ../evident && pytest -q
+cd ../evident-cli && pytest -q
+```
+
+Continuous integration runs the same suite on Python 3.10–3.12
+(`.github/workflows/ci.yml`).
+
+---
+
+## Versioning and tags
+
+This monorepo uses [Semantic Versioning](https://semver.org/). Shared release
+tags are annotated git tags of the form `vX.Y.Z` (for example `v0.1.0`). All
+four packages share the same version for this release train. See
+`CHANGELOG.md` for release notes.
+
+---
+
+## Contributing
+
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and
+the [Code of Conduct](CODE_OF_CONDUCT.md). For security reports, see
+[SECURITY.md](SECURITY.md).
+
+---
+
+## Citation
+
+If you use Evident in academic or industry work, please cite it. A machine-readable
+citation is available in [`CITATION.cff`](CITATION.cff).
+
+---
+
+## License
+
+BSD 3-Clause License. See [LICENSE](LICENSE).

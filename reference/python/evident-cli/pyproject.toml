@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "evident-cli"
+version = "0.1.0"
+description = "Command-line interface for Evident (evident scan / evident scan-dataset-manifest)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "BSD-3-Clause" }
+authors = [
+    { name = "Soura", email = "martisoura@gmail.com" },
+]
+keywords = [
+    "evidence-graph",
+    "governance",
+    "cli",
+    "audit",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = ["evident>=0.1.0"]
+
+[project.urls]
+Homepage = "https://github.com/souravamseekarmarti/evident"
+Documentation = "https://github.com/souravamseekarmarti/evident/tree/main/docs"
+Repository = "https://github.com/souravamseekarmarti/evident"
+Changelog = "https://github.com/souravamseekarmarti/evident/blob/main/CHANGELOG.md"
+Issues = "https://github.com/souravamseekarmarti/evident/issues"
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+evident = "evident_cli.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

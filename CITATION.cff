@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+title: Evident
+message: If you use this software, please cite it using these metadata.
+type: software
+authors:
+  - family-names: Karmarti
+    given-names: Souravamsee
+    email: martisoura@gmail.com
+abstract: >-
+  Evident is a reference implementation and architecture for executable
+  governance evidence. It defines an Evidence Graph intermediate
+  representation and a rule-evaluation model that produces explainable,
+  leveled findings without issuing legal or regulatory compliance verdicts.
+keywords:
+  - governance evidence
+  - evidence graph
+  - model risk
+  - auditability
+  - python
+license: BSD-3-Clause
+version: 0.1.0
+date-released: "2026-07-28"
+repository-code: "https://github.com/souravamseekarmarti/evident"

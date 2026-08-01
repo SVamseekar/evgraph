@@ -1,9 +1,61 @@
+# Byte-compiled / cache
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
 .venv/
 venv/
-.pytest_cache/
+env/
+.env/
+
+# Packaging / build
 *.egg-info/
+.eggs/
 dist/
 build/
+*.egg
+pip-wheel-metadata/
+
+# Test / coverage / type checkers
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Editors / OS
 .DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+
+# Local tooling and agent configuration (not part of the project distribution)
+CLAUDE.md
+.claude/
+.grok/
+.cursor/
+.codex/
+
+# Local secrets and environment
+.env
+.env.*
+!.env.example
+*.pem
+credentials.json
+
+# MLflow / local demo artifacts
+mlruns/
+mlartifacts/
+
+# Jupyter
+.ipynb_checkpoints/

@@ -1,4 +1,4 @@
-# Why Evident? A Comparative Analysis of Existing Standards
+# Why Evgraph? A Comparative Analysis of Existing Standards
 
 **Status:** Research deliverable, not a specification. Produced before Stage 5 per the project's own grounding discipline — this document exists to determine, with evidence, whether EGS/RES should adopt, adapt, integrate with, or be replaced by an existing standard, rather than assuming a new specification was warranted. Ends in a proposed ADR seed, not a final decision.
 
@@ -21,7 +21,7 @@
 | Trace/lineage | `related-observation`/`associated-risk` are bare UUID references — no path/edge object, no ordering | This *is* PROV-O's core purpose: `wasDerivedFrom`/`wasGeneratedBy`/`used` chains | Lineage graph woven from Job/Dataset edges across events | n/a | `trace()` returns an ordered `list[EvidenceEdge]` (EGS §6) |
 | Rule/finding evaluation model | `finding` is authored (by a human assessor or a tool that "generated" it via `origin`), not computed by an invariant; `related-observation`/`associated-risk` are asserted links, not derived | No rule/finding concept at all | No rule/finding concept at all | n/a | `Rule.evaluate(graph) -> list[Finding]`; `Finding.level` is computed, never declared (RES §4.3) |
 | Serialization | JSON, XML, and YAML, all first-class | RDF (Turtle, JSON-LD, etc.) — ontology-native | JSON (event-based) | n/a | JSON only in v0.1 (EGS §5) |
-| Plugin/discovery model | No entry_point-style discovery; content-authoring tooling only | n/a (an ontology, not a runtime) | `Facets` — arbitrary extra metadata attached to core objects, not a discovery mechanism | Instrumentation libraries auto-register with a collector via SDK conventions — closest real analog to PES's entry_point approach | `"evident.rules"` Python entry_point group (PES §3.1) |
+| Plugin/discovery model | No entry_point-style discovery; content-authoring tooling only | n/a (an ontology, not a runtime) | `Facets` — arbitrary extra metadata attached to core objects, not a discovery mechanism | Instrumentation libraries auto-register with a collector via SDK conventions — closest real analog to PES's entry_point approach | `"evgraph.rules"` Python entry_point group (PES §3.1) |
 
 ---
 
@@ -44,10 +44,10 @@ The scenario: a `ModelCard` node (n1), a `HumanApproval` node (n2, `approved_at:
 
 **What EGS/RES express that these standards cannot cleanly represent:**
 - A computed, non-overridable confidence/certainty ceiling that inherits from both evidence and reasoning method (RES §4.3 / ADR-0005). This does not exist in OSCAL, PROV-O, or OpenLineage in any form — not even as an unstructured convention.
-- A hard, type-enforced ban on verdict language (`Outcome` has no PASS/FAIL). OSCAL's `finding.description` is free markup text — nothing stops an assessor from writing "PASS" into it. RES enforces the ban structurally; OSCAL does not (and, per its stated purpose serving FedRAMP assessors producing SARs, arguably shouldn't — assessors *are* supposed to render judgment, unlike Evident's rules).
+- A hard, type-enforced ban on verdict language (`Outcome` has no PASS/FAIL). OSCAL's `finding.description` is free markup text — nothing stops an assessor from writing "PASS" into it. RES enforces the ban structurally; OSCAL does not (and, per its stated purpose serving FedRAMP assessors producing SARs, arguably shouldn't — assessors *are* supposed to render judgment, unlike Evgraph's rules).
 
 **What these standards have that EGS/RES lack:**
-- OSCAL has a mature `risk`/`characterization`/`mitigating-factor` model — genuine severity/impact semantics — that RES deliberately excludes (RES §1.3, "Compliance verdicts, severity ... permanently out of scope"). This is a scope difference, not a gap Evident failed to fill.
+- OSCAL has a mature `risk`/`characterization`/`mitigating-factor` model — genuine severity/impact semantics — that RES deliberately excludes (RES §1.3, "Compliance verdicts, severity ... permanently out of scope"). This is a scope difference, not a gap Evgraph failed to fill.
 - OSCAL has three first-class serializations (XML/JSON/YAML) versus EGS's JSON-only v0.1.
 - PROV-O has 15+ years of tooling, reasoners, and cross-domain adoption for the specific sub-problem of "what produced this and from what" — genuinely more mature than EGS's four traversal ops for that narrow slice.
 
@@ -57,15 +57,15 @@ The scenario: a `ModelCard` node (n1), a `HumanApproval` node (n2, `approved_at:
 
 This is the crux question and the one prior research left open. Testing the hypothesis directly: **"evidence sources × governance consumers."**
 
-Sources: MLflow, LangSmith, GitHub, CI systems, model registries, dataset catalogs. Consumers: rule packs (EU AI Act, ISO 42001, internal policy), reporters (JSON, Markdown, SARIF, OSCAL-as-reporter), possibly a future OSCAL/GRC-tool integration. If this framing holds, Evident's IR removes the N×M integration cost of every source writing a bespoke exporter for every consumer.
+Sources: MLflow, LangSmith, GitHub, CI systems, model registries, dataset catalogs. Consumers: rule packs (EU AI Act, ISO 42001, internal policy), reporters (JSON, Markdown, SARIF, OSCAL-as-reporter), possibly a future OSCAL/GRC-tool integration. If this framing holds, Evgraph's IR removes the N×M integration cost of every source writing a bespoke exporter for every consumer.
 
-**Does it hold up under scrutiny? Partially, and the honest answer is: not yet demonstrated, only plausible.** The Arrow/OpenTelemetry precedent had a *measured, pre-existing* integration cost multiple parties were independently paying before the IR existed (every DB team already maintaining N serialization adapters; every observability vendor already maintaining bespoke instrumentation per language). No equivalent has been measured here. Two adapters and two rules is not evidence of an N×M problem — it's evidence that the *contract* between one adapter and one rule works, which Stage 1–2 already proved. The N×M claim requires showing that a *third party* (not Evident's own reference implementation) was independently building redundant point-to-point integrations between a governance artifact source and a governance consumer, and chose Evident's IR to avoid it. That hasn't happened. **Concrete verdict: no measured N×M pressure exists yet. The hypothesis is plausible and worth stating as the project's working thesis, but it is currently a hypothesis, not a demonstrated fact, and ADR-0001's own citation of Arrow/OpenTelemetry overstates this by analogy rather than by evidence.**
+**Does it hold up under scrutiny? Partially, and the honest answer is: not yet demonstrated, only plausible.** The Arrow/OpenTelemetry precedent had a *measured, pre-existing* integration cost multiple parties were independently paying before the IR existed (every DB team already maintaining N serialization adapters; every observability vendor already maintaining bespoke instrumentation per language). No equivalent has been measured here. Two adapters and two rules is not evidence of an N×M problem — it's evidence that the *contract* between one adapter and one rule works, which Stage 1–2 already proved. The N×M claim requires showing that a *third party* (not Evgraph's own reference implementation) was independently building redundant point-to-point integrations between a governance artifact source and a governance consumer, and chose Evgraph's IR to avoid it. That hasn't happened. **Concrete verdict: no measured N×M pressure exists yet. The hypothesis is plausible and worth stating as the project's working thesis, but it is currently a hypothesis, not a demonstrated fact, and ADR-0001's own citation of Arrow/OpenTelemetry overstates this by analogy rather than by evidence.**
 
 ---
 
 ## 6. Decision Recommendation: Integrate
 
-Testing the specific hypothesis posed: *"EGS is Evident's internal runtime model; OSCAL assessment-results becomes an export target (a reporter), not a replacement for EGS."*
+Testing the specific hypothesis posed: *"EGS is Evgraph's internal runtime model; OSCAL assessment-results becomes an export target (a reporter), not a replacement for EGS."*
 
 **This hypothesis survives the round-trip analysis.** Section 3 shows the EGS→OSCAL direction loses exactly one thing (the computed `Finding.level`, recoverable only via a non-standard property extension) and gains exactly one thing (interoperability with the FedRAMP/NIST tooling ecosystem that already consumes OSCAL). That is precisely the shape of a legitimate reporter: RPS §3.2.3 already requires a reporter to "translate, not invent" — mapping `Finding.level` into an OSCAL `prop` extension is a translation (lossy in the same documented way SARIF's `level` mapping is already lossy and already disclosed, RPS §1.2), not an invention of new governance semantics. Adopting OSCAL as the *internal* model would require giving up the confidence-inheritance invariant entirely, since OSCAL has nowhere to compute it — that would be Replace, and Replace is not justified by anything in this analysis. Adapting OSCAL syntax without its semantics would just be reinventing EGS with extra ceremony. **Integrate is the only option consistent with what was actually found.**
 
@@ -73,7 +73,7 @@ Testing the specific hypothesis posed: *"EGS is Evident's internal runtime model
 
 ## ADR Candidate — OSCAL as an export target, not a replacement for EGS
 
-**Decision (proposed):** `evident` gains a fourth reporter, `oscal_reporter`, mapping `EvidenceGraph`/`Finding` into OSCAL `assessment-results` (`observation` per cited node, `finding` per `Finding`, `Finding.level`/`reasoning_class` carried in a documented `prop` extension). EGS/RES's internal model is unchanged. No adapter reads OSCAL as an input format yet — that's a separate, later decision, not entangled with this one.
+**Decision (proposed):** `evgraph` gains a fourth reporter, `oscal_reporter`, mapping `EvidenceGraph`/`Finding` into OSCAL `assessment-results` (`observation` per cited node, `finding` per `Finding`, `Finding.level`/`reasoning_class` carried in a documented `prop` extension). EGS/RES's internal model is unchanged. No adapter reads OSCAL as an input format yet — that's a separate, later decision, not entangled with this one.
 
 **Reasoning:** A field-by-field reading of OSCAL's actual metaschema (not secondary summaries) shows no computed epistemic-level concept exists in OSCAL to adopt in place of RES's confidence-inheritance invariant, and no structural reason EGS needs to give up its model to interoperate with OSCAL-consuming tooling (FedRAMP-adjacent GRC platforms). This mirrors RPS's already-accepted precedent (SARIF `level` as a documented, lossy structural translation of `Outcome`) rather than introducing a new class of decision.
 

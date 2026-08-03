@@ -1,6 +1,6 @@
 # MLflow Adapter Validation Findings
 
-**Status:** Research note recording the actual outcome of building an MLflow model-registry adapter (`docs/ROADMAP.md` Stage 4.5 Goal 2). Built and tested against a real, locally running MLflow 3.14 tracking server (`mlflow server`, SQLite backend) — not against documentation or memory of MLflow's API. Implementation: `reference/python/evident/src/evident/adapters/mlflow_adapter.py`. Test rule: `reference/python/evident-rules/src/evident_rules/model_version_has_training_provenance.py`.
+**Status:** Research note recording the actual outcome of building an MLflow model-registry adapter (`docs/ROADMAP.md` Stage 4.5 Goal 2). Built and tested against a real, locally running MLflow 3.14 tracking server (`mlflow server`, SQLite backend) — not against documentation or memory of MLflow's API. Implementation: `reference/python/evgraph/src/evgraph/adapters/mlflow_adapter.py`. Test rule: `reference/python/evgraph-rules/src/evgraph_rules/model_version_has_training_provenance.py`.
 
 ---
 
@@ -32,7 +32,7 @@ Three, recorded as `Assumption`s per APS-Core §3.2 (`MLF-001` through `MLF-003`
 
 ## 6. The unanticipated-rule test
 
-A new rule, `model-version-has-training-provenance`, was written **after** the adapter was built, deliberately named around the graph shape (any node type ending in `"ModelVersion"`, checked for a `TRAINED_BY` edge) rather than around MLflow specifically — so it would also apply to a future, different model-registry adapter producing the same shape. Registered via the existing `"evident.rules"` entry_point mechanism (PES §3.1), it was picked up by `discover_rules()` with zero changes to `scan.py`, the MLflow adapter, or any core package.
+A new rule, `model-version-has-training-provenance`, was written **after** the adapter was built, deliberately named around the graph shape (any node type ending in `"ModelVersion"`, checked for a `TRAINED_BY` edge) rather than around MLflow specifically — so it would also apply to a future, different model-registry adapter producing the same shape. Registered via the existing `"evgraph.rules"` entry_point mechanism (PES §3.1), it was picked up by `discover_rules()` with zero changes to `scan.py`, the MLflow adapter, or any core package.
 
 Run against the real seeded server: version 1 (linked to a real run) → `EXPECTATION_MET`; version 2 (the messy, unlinked case) → `EXPECTATION_NOT_MET`. Both at `STRUCTURAL` level, computed correctly via `compute_finding_level`.
 
@@ -49,5 +49,5 @@ This confirms **H2** from `docs/research/validation-plan.md`: APS-Core's adapter
 - `docs/research/validation-plan.md` — H1/H2/H3 and what this result means for Stage 4.5's exit condition.
 - `docs/research/oscal-roundtrip.md` — the analogous validation note for Goal 1 (OSCAL reporter).
 - `docs/ARCHITECTURE.md` ADR-0007 — the decision this stage validates.
-- `reference/python/evident/src/evident/adapters/mlflow_adapter.py` — the implementation this note is about.
-- `reference/python/evident-rules/src/evident_rules/model_version_has_training_provenance.py` — the unanticipated-rule test.
+- `reference/python/evgraph/src/evgraph/adapters/mlflow_adapter.py` — the implementation this note is about.
+- `reference/python/evgraph-rules/src/evgraph_rules/model_version_has_training_provenance.py` — the unanticipated-rule test.

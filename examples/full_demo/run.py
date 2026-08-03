@@ -1,9 +1,9 @@
-"""One five-minute, end-to-end demo of everything Evident's reference
+"""One five-minute, end-to-end demo of everything Evgraph's reference
 implementation does today. No explanation needed to run it — just:
 
-    pip install -e reference/python/evident-core
-    pip install -e reference/python/evident-rules
-    pip install -e reference/python/evident
+    pip install -e reference/python/evgraph-core
+    pip install -e reference/python/evgraph-rules
+    pip install -e reference/python/evgraph
     pip install mlflow   # only needed for the MLflow section below
     python examples/full_demo/run.py
 
@@ -15,8 +15,8 @@ What this script does, source by source:
      seeds with one clean and one messy model version, and tears down when
      done) -> MLflowAdapter -> model-version-has-training-provenance
 
-Every rule below is auto-discovered via the "evident.rules" entry_point group
-(reference/python/evident/src/evident/discovery.py) — none of them is
+Every rule below is auto-discovered via the "evgraph.rules" entry_point group
+(reference/python/evgraph/src/evgraph/discovery.py) — none of them is
 hardcoded into this script.
 
 Every Report is then rendered through all four reporters (JSON, Markdown,
@@ -53,7 +53,7 @@ def _print_all_formats(report) -> None:
 
 
 def run_model_card_section() -> None:
-    from evident import scan
+    from evgraph import scan
 
     _print_header("1. Model Card / JSON  ->  approval-precedes-deployment")
     example_dir = REPO_ROOT / "examples" / "model_card_deployment"
@@ -66,7 +66,7 @@ def run_model_card_section() -> None:
 
 
 def run_dataset_manifest_section() -> None:
-    from evident import scan_dataset_manifest
+    from evgraph import scan_dataset_manifest
 
     _print_header("2. Dataset manifest / CSV  ->  dataset-manifest-complete")
     example_dir = REPO_ROOT / "examples" / "dataset_manifest"
@@ -81,7 +81,7 @@ def run_mlflow_section() -> None:
         print(
             "\n(Skipping MLflow section: `pip install mlflow` to include it. "
             "This is a demo/dev-only dependency, never a runtime dependency "
-            "of the `evident` package itself.)"
+            "of the `evgraph` package itself.)"
         )
         return
 
@@ -98,7 +98,7 @@ def run_mlflow_section() -> None:
             "--port",
             "5099",
             "--backend-store-uri",
-            "sqlite:////tmp/evident_demo_mlflow.db",
+            "sqlite:////tmp/evgraph_demo_mlflow.db",
         ],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
@@ -112,21 +112,21 @@ def run_mlflow_section() -> None:
         mlflow.set_tracking_uri("http://127.0.0.1:5099")
         client = MlflowClient()
 
-        mlflow.set_experiment("evident-demo")
+        mlflow.set_experiment("evgraph-demo")
         with mlflow.start_run(run_name="demo-training-run") as run:
             mlflow.log_metric("accuracy", 0.94)
             run_id = run.info.run_id
 
-        model_name = "evident-demo-model"
-        client.create_registered_model(model_name, description="Demo model for Evident's full_demo example")
+        model_name = "evgraph-demo-model"
+        client.create_registered_model(model_name, description="Demo model for Evgraph's full_demo example")
         client.create_model_version(name=model_name, source=f"runs:/{run_id}/model", run_id=run_id)
         # A second, messy version registered with no run_id at all — a real,
         # valid MLflow state (a manually uploaded artifact), not an error.
         client.create_model_version(name=model_name, source="s3://demo-bucket/manual-upload")
 
-        from evident.adapters.mlflow_adapter import MLflowAdapter, MLflowModelSource
-        from evident.discovery import discover_rules
-        from evident.report import Report
+        from evgraph.adapters.mlflow_adapter import MLflowAdapter, MLflowModelSource
+        from evgraph.discovery import discover_rules
+        from evgraph.report import Report
 
         graph = MLflowAdapter().scan(client, MLflowModelSource(registered_model_name=model_name))
         findings = []
@@ -150,5 +150,5 @@ if __name__ == "__main__":
         "MLflow server), normalized through three adapters into one EvidenceGraph "
         "shape, evaluated by rules discovered automatically at runtime, and "
         "rendered through four independent reporters — with zero changes to "
-        "evident-core, EGS, or RES anywhere in this script."
+        "evgraph-core, EGS, or RES anywhere in this script."
     )

@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: Evident
+title: Evgraph
 message: If you use this software, please cite it using these metadata.
 type: software
 authors:
@@ -10,7 +10,7 @@ authors:
     email: martisoura@gmail.com
     orcid: "https://orcid.org/0009-0005-4884-1292"
 abstract: >-
-  Evident is an open-source Python library stack for executable governance
+  Evgraph is an open-source Python library stack for executable governance
   evidence. It converts governance artifacts into an Evidence Graph and
   evaluates deterministic rules to produce explainable, leveled findings
   without issuing legal or regulatory compliance verdicts.
@@ -23,4 +23,4 @@ keywords:
 license: BSD-3-Clause
 version: 0.1.0
 date-released: "2026-07-28"
-repository-code: "https://github.com/SVamseekar/evident"
+repository-code: "https://github.com/SVamseekar/evgraph"

@@ -5,12 +5,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-Package versions in this monorepo (`evident-core`, `evident-rules`, `evident`,
-`evident-cli`) are released together under a shared tag of the form `vX.Y.Z`.
+Package versions in this monorepo (`evgraph-core`, `evgraph-rules`, `evgraph`,
+`evgraph-cli`) are released together under a shared tag of the form `vX.Y.Z`.
 
 ## [0.1.0] - 2026-07-28
 
-Initial public release of the Evident library stack and specifications.
+Initial public release of the Evgraph library stack and specifications.
 
 ### Added
 
@@ -25,17 +25,17 @@ Initial public release of the Evident library stack and specifications.
 
 #### Packages
 
-- **`evident-core` 0.1.0** — foundational types: `EvidenceGraph`,
+- **`evgraph-core` 0.1.0** — foundational types: `EvidenceGraph`,
   `EvidenceNode`, `EvidenceEdge`, `EvidenceLevel`, `Rule`, `Finding`,
   `Adapter`, `AdapterError`, `Assumption`, graph serialization
-- **`evident-rules` 0.1.0** — built-in rule pack
+- **`evgraph-rules` 0.1.0** — built-in rule pack
   (`approval-precedes-deployment`, `dataset-manifest-complete`,
   `model-version-has-training-provenance`), registered via the
-  `evident.rules` entry-point group
-- **`evident` 0.1.0** — adapters (Model Card / JSON, dataset-manifest / CSV,
+  `evgraph.rules` entry-point group
+- **`evgraph` 0.1.0** — adapters (Model Card / JSON, dataset-manifest / CSV,
   MLflow model registry), reporters (JSON, Markdown, SARIF, OSCAL), public
   `scan()` / `scan_dataset_manifest()` API, and `discover_rules()`
-- **`evident-cli` 0.1.0** — `evident scan` and `evident scan-dataset-manifest`
+- **`evgraph-cli` 0.1.0** — `evgraph scan` and `evgraph scan-dataset-manifest`
   command-line entry points
 
 #### Documentation and examples
@@ -46,4 +46,4 @@ Initial public release of the Evident library stack and specifications.
   round-trip, and MLflow adapter validation (`docs/research/`)
 - Runnable examples under `examples/`
 
-[0.1.0]: https://github.com/SVamseekar/evident/releases/tag/v0.1.0
+[0.1.0]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.0

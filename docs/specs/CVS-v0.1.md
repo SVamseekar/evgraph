@@ -19,7 +19,7 @@ CVS does not introduce new vocabulary, new invariants, or new structures. Every 
 |---|---|
 | **A closed vocabulary for node/edge `type` strings** | EGS §1.2/Appendix explicitly keeps node and edge `type` as open strings, pending a demonstrated recurring taxonomy across multiple rule packs and adapters. No such taxonomy has stabilized yet — CVS does not manufacture one. |
 | **A closed vocabulary for `extraction_method`** | APS-Core §1.3/Appendix A keeps `extraction_method` an open string for the same reason — one data point (soon two: Model Card and dataset-manifest adapters) is not enough to know the real recurring categories. |
-| **Regulatory/jurisdictional terminology (EU AI Act, GDPR, ISO 42001, etc.)** | No rule pack for any specific regulatory regime exists yet (that's Stage 5's Research Track, contingent on Stage 3's rule-pack packaging model). CVS v0.1 only compiles Evident's own architectural vocabulary, not any external regulatory vocabulary Evident might later help express. |
+| **Regulatory/jurisdictional terminology (EU AI Act, GDPR, ISO 42001, etc.)** | No rule pack for any specific regulatory regime exists yet (that's Stage 5's Research Track, contingent on Stage 3's rule-pack packaging model). CVS v0.1 only compiles Evgraph's own architectural vocabulary, not any external regulatory vocabulary Evgraph might later help express. |
 | **`Requirement` / `Assessment` / `Control` / `Obligation`** | RES §1.3 defers this whole cluster of terms; per `docs/ARCHITECTURE.md` ADR-0006, no evidence yet justifies picking one name over another, since no abstraction has been shown to be needed at all. CVS cannot standardize a term for a concept that doesn't exist. |
 
 If a future version of CVS adds any of the above, it must cite the specification (or, for regulatory terms, the rule pack) whose stabilized usage justifies it.
@@ -73,8 +73,8 @@ Organized by originating specification, in the dependency order they were writte
 
 | Term | Definition | Source |
 |---|---|---|
-| **Entry point group** | A named group (`"evident.rules"`) under which installed packages register importable `Rule` implementations, via Python's standard `importlib.metadata` entry_points mechanism. | PES §2, §3.1 |
-| **Discovery** | Enumerating every entry point registered under `"evident.rules"` across all installed packages and instantiating each — the mechanism that lets a third-party rule pack affect `scan()` output purely by being installed. | PES §2, §3.2 |
+| **Entry point group** | A named group (`"evgraph.rules"`) under which installed packages register importable `Rule` implementations, via Python's standard `importlib.metadata` entry_points mechanism. | PES §2, §3.1 |
+| **Discovery** | Enumerating every entry point registered under `"evgraph.rules"` across all installed packages and instantiating each — the mechanism that lets a third-party rule pack affect `scan()` output purely by being installed. | PES §2, §3.2 |
 
 ---
 

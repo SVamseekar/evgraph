@@ -102,7 +102,7 @@ An implementation conforms to RPS v0.1 only if it:
 
 ## 6. Illustrative Comparison
 
-See §1.2's table — this document's own grounding is the illustrative example. Unlike EGS/RES/APS-Core, RPS does not include a separate worked example, since the reference reporters (`reference/python/evident/src/evident/reporters/`) already are the example.
+See §1.2's table — this document's own grounding is the illustrative example. Unlike EGS/RES/APS-Core, RPS does not include a separate worked example, since the reference reporters (`reference/python/evgraph/src/evgraph/reporters/`) already are the example.
 
 ---
 
@@ -119,4 +119,4 @@ See §1.2's table — this document's own grounding is the illustrative example.
 - `docs/ARCHITECTURE.md` — ADR-0002 (Type A vs. Type B specification timing), which RPS's extraction directly follows.
 - `docs/ROADMAP.md` — Stage 3 defines what RPS is scoped to extract from.
 - `docs/specs/RES-v0.1.md` — `Finding`/`Outcome`/`EvidenceLevel`, the structures every reporter renders.
-- `reference/python/evident/src/evident/reporters/` — the three reporters this specification was extracted from.
+- `reference/python/evgraph/src/evgraph/reporters/` — the three reporters this specification was extracted from.

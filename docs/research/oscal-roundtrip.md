@@ -1,6 +1,6 @@
 # OSCAL Round-Trip Findings
 
-**Status:** Research note recording the actual outcome of building the OSCAL Assessment Results reporter (`docs/ROADMAP.md` Stage 4.5 Goal 1). Confirms or challenges the predictions made on paper in `docs/research/standards-comparison.md` before any code existed. Implementation: `reference/python/evident/src/evident/reporters/oscal_reporter.py`.
+**Status:** Research note recording the actual outcome of building the OSCAL Assessment Results reporter (`docs/ROADMAP.md` Stage 4.5 Goal 1). Confirms or challenges the predictions made on paper in `docs/research/standards-comparison.md` before any code existed. Implementation: `reference/python/evgraph/src/evgraph/reporters/oscal_reporter.py`.
 
 ---
 
@@ -13,8 +13,8 @@
 
 ## 2. What required extensions
 
-- **`EvidenceLevel` and `reasoning_class`.** Exactly as predicted: OSCAL's `observation`/`finding` schema has no field to hold "STRUCTURAL" or "CONSISTENCY." Both are carried as `prop` extensions under Evident's own namespace (`https://github.com/evident-org/evident/ns/oscal`), attached to *both* the observation (per-node evidence level) and the finding (computed `Finding.level`). This is the one place the reporter adds structure OSCAL doesn't natively have — and it's documented in the module's own docstring, not silently smuggled in.
-- **`observation.methods`.** OSCAL's `method` enum (`EXAMINE`/`INTERVIEW`/`TEST`/`UNKNOWN`) required picking one fixed value (`TEST`) for every observation, since Evident's adapters are always automated extraction, never a human examination or interview. This is a real but narrow translation decision — not a gap, just a forced choice within an existing enum.
+- **`EvidenceLevel` and `reasoning_class`.** Exactly as predicted: OSCAL's `observation`/`finding` schema has no field to hold "STRUCTURAL" or "CONSISTENCY." Both are carried as `prop` extensions under Evgraph's own namespace (`https://github.com/evgraph-org/evgraph/ns/oscal`), attached to *both* the observation (per-node evidence level) and the finding (computed `Finding.level`). This is the one place the reporter adds structure OSCAL doesn't natively have — and it's documented in the module's own docstring, not silently smuggled in.
+- **`observation.methods`.** OSCAL's `method` enum (`EXAMINE`/`INTERVIEW`/`TEST`/`UNKNOWN`) required picking one fixed value (`TEST`) for every observation, since Evgraph's adapters are always automated extraction, never a human examination or interview. This is a real but narrow translation decision — not a gap, just a forced choice within an existing enum.
 
 ## 3. What could not be represented at all
 
@@ -35,4 +35,4 @@ This confirms **H1** from `docs/research/validation-plan.md` (interoperability w
 - `docs/research/standards-comparison.md` — the pre-implementation prediction this note tests against.
 - `docs/research/validation-plan.md` — H1/H2/H3 and what this result means for Stage 4.5's exit condition.
 - `docs/ARCHITECTURE.md` ADR-0007 — the decision this stage validates.
-- `reference/python/evident/src/evident/reporters/oscal_reporter.py` — the implementation this note is about.
+- `reference/python/evgraph/src/evgraph/reporters/oscal_reporter.py` — the implementation this note is about.

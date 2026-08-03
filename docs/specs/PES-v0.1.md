@@ -1,7 +1,7 @@
 # Plugin & Extension Specification (PES)
 
 **Version:** 0.1 (Proposed)
-**Status:** Draft — extracted, not designed in advance. Like RPS, PES is a Type B/emergent specification (ADR-0002): it documents the one concrete discovery mechanism the reference implementation built and ran (`evident/src/evident/discovery.py`), not a speculative plugin architecture. It is scoped to exactly what that mechanism does.
+**Status:** Draft — extracted, not designed in advance. Like RPS, PES is a Type B/emergent specification (ADR-0002): it documents the one concrete discovery mechanism the reference implementation built and ran (`evgraph/src/evgraph/discovery.py`), not a speculative plugin architecture. It is scoped to exactly what that mechanism does.
 
 ---
 
@@ -9,31 +9,31 @@
 
 ### 1.1 Scope
 
-PES defines how `evident` discovers `Rule` implementations distributed in independently-installed packages, without `evident`'s source code naming them. It specifies:
+PES defines how `evgraph` discovers `Rule` implementations distributed in independently-installed packages, without `evgraph`'s source code naming them. It specifies:
 
 - The entry_point group name rules are registered under
 - What a registering package must declare
-- The discovery and instantiation behavior `evident` performs
-- The one behavioral guarantee this buys: a rule pack becomes visible to `scan()` by being installed, with no change to `evident`
+- The discovery and instantiation behavior `evgraph` performs
+- The one behavioral guarantee this buys: a rule pack becomes visible to `scan()` by being installed, with no change to `evgraph`
 
 ### 1.2 What Was Actually Built (the grounding for this document)
 
-Before PES was written, `evident-rules`' `pyproject.toml` was given:
+Before PES was written, `evgraph-rules`' `pyproject.toml` was given:
 
 ```toml
-[project.entry-points."evident.rules"]
-approval_precedes_deployment = "evident_rules.approval_precedes_deployment:ApprovalPrecedesDeploymentRule"
-dataset_manifest_complete = "evident_rules.dataset_manifest_complete:DatasetManifestCompleteRule"
+[project.entry-points."evgraph.rules"]
+approval_precedes_deployment = "evgraph_rules.approval_precedes_deployment:ApprovalPrecedesDeploymentRule"
+dataset_manifest_complete = "evgraph_rules.dataset_manifest_complete:DatasetManifestCompleteRule"
 ```
 
-and `evident/src/evident/discovery.py` was given exactly this:
+and `evgraph/src/evgraph/discovery.py` was given exactly this:
 
 ```python
 from importlib.metadata import entry_points
 
 def discover_rules() -> list[Rule]:
     rules = []
-    for ep in entry_points(group="evident.rules"):
+    for ep in entry_points(group="evgraph.rules"):
         rule_class = ep.load()
         rules.append(rule_class())
     return rules
@@ -60,8 +60,8 @@ If a future version of PES adds any of the above, it must cite the specific refe
 
 | Term | Definition |
 |---|---|
-| **Entry point group** | A named group (`"evident.rules"`) under which installed packages register importable objects, per Python's standard `importlib.metadata` / packaging entry_points mechanism. |
-| **Registration** | A package declares a `Rule` implementation under the `"evident.rules"` group in its own `pyproject.toml`, making it discoverable without `evident` importing it by name. |
+| **Entry point group** | A named group (`"evgraph.rules"`) under which installed packages register importable objects, per Python's standard `importlib.metadata` / packaging entry_points mechanism. |
+| **Registration** | A package declares a `Rule` implementation under the `"evgraph.rules"` group in its own `pyproject.toml`, making it discoverable without `evgraph` importing it by name. |
 | **Discovery** | The act of enumerating all registered entry points in a group across every installed package and loading/instantiating each. |
 
 Terms defined in RES (`Rule`) are used here as defined there.
@@ -72,10 +72,10 @@ Terms defined in RES (`Rule`) are used here as defined there.
 
 ### 3.1 Entry Point Group
 
-Rules are registered under the entry_point group name `"evident.rules"`. A package registers one entry per `Rule` implementation it provides:
+Rules are registered under the entry_point group name `"evgraph.rules"`. A package registers one entry per `Rule` implementation it provides:
 
 ```toml
-[project.entry-points."evident.rules"]
+[project.entry-points."evgraph.rules"]
 <entry-name> = "<module.path>:<ClassName>"
 ```
 
@@ -85,15 +85,15 @@ Rules are registered under the entry_point group name `"evident.rules"`. A packa
 
 ### 3.2 Discovery Behavior
 
-`evident.discovery.discover_rules()` is the one conforming discovery operation:
+`evgraph.discovery.discover_rules()` is the one conforming discovery operation:
 
-1. Enumerate every entry point registered under `"evident.rules"` across all installed distributions (via `importlib.metadata.entry_points(group="evident.rules")`).
+1. Enumerate every entry point registered under `"evgraph.rules"` across all installed distributions (via `importlib.metadata.entry_points(group="evgraph.rules")`).
 2. For each, load the referenced class and instantiate it with no arguments.
 3. Return the resulting list of `Rule` instances, in whatever order the underlying `entry_points()` call yields — no ordering guarantee is made (§1.3).
 
 ### 3.3 What Installing a Rule Pack Achieves
 
-Per this mechanism, installing any package that registers one or more entries under `"evident.rules"` — including a third-party package `evident` has never imported — makes those rules run automatically the next time `discover_rules()` is called (i.e., the next `scan()` or `scan_dataset_manifest()` invocation), with zero change to `evident`'s source code. This is the concrete behavior Stage 4's exit condition requires.
+Per this mechanism, installing any package that registers one or more entries under `"evgraph.rules"` — including a third-party package `evgraph` has never imported — makes those rules run automatically the next time `discover_rules()` is called (i.e., the next `scan()` or `scan_dataset_manifest()` invocation), with zero change to `evgraph`'s source code. This is the concrete behavior Stage 4's exit condition requires.
 
 ---
 
@@ -108,8 +108,8 @@ Per this mechanism, installing any package that registers one or more entries un
 
 An implementation conforms to PES v0.1 only if it:
 
-1. Registers `Rule` implementations under the `"evident.rules"` entry_point group (§3.1), each constructible with no required arguments.
-2. Discovers rules via `importlib.metadata.entry_points(group="evident.rules")`, loading and instantiating each (§3.2).
+1. Registers `Rule` implementations under the `"evgraph.rules"` entry_point group (§3.1), each constructible with no required arguments.
+2. Discovers rules via `importlib.metadata.entry_points(group="evgraph.rules")`, loading and instantiating each (§3.2).
 3. Makes no ordering guarantee over discovered rules (§3.2.3).
 4. Does not claim discovery support for reporters or adapters under the name "PES" (§1.3) — those remain explicitly constructed in v0.1.
 
@@ -128,5 +128,5 @@ An implementation conforms to PES v0.1 only if it:
 - `docs/ARCHITECTURE.md` — ADR-0002 (Type A vs. Type B specification timing); ADR-0006 (multiplicity alone does not justify an abstraction), which is why reporter/adapter discovery remains deferred here.
 - `docs/ROADMAP.md` — Stage 4 defines what PES is scoped to extract from.
 - `docs/specs/RES-v0.1.md` — the `Rule` interface every discovered entry must satisfy.
-- `reference/python/evident/src/evident/discovery.py` — the mechanism this specification was extracted from.
-- `reference/python/evident-rules/pyproject.toml` — the reference registration this specification was extracted from.
+- `reference/python/evgraph/src/evgraph/discovery.py` — the mechanism this specification was extracted from.
+- `reference/python/evgraph-rules/pyproject.toml` — the reference registration this specification was extracted from.

@@ -1,7 +1,7 @@
 # Adapter Protocol Specification (APS) — Core
 
 **Version:** 0.1 (Proposed)
-**Status:** Draft — not an industry standard. This is a proposed specification for the `evident` open-source Python ecosystem. It is expected to change based on findings from the reference implementation.
+**Status:** Draft — not an industry standard. This is a proposed specification for the `evgraph` open-source Python ecosystem. It is expected to change based on findings from the reference implementation.
 
 ---
 
@@ -9,14 +9,14 @@
 
 ### 1.1 Scope
 
-APS-Core defines the contract between an **Adapter** and the rest of the `evident` ecosystem: what an adapter must declare about itself, what it must produce, and how it must report failure. It specifies:
+APS-Core defines the contract between an **Adapter** and the rest of the `evgraph` ecosystem: what an adapter must declare about itself, what it must produce, and how it must report failure. It specifies:
 
 - The `Adapter` interface's required declarations (`evidence_level`, `extraction_method`, `assumptions`, `supported_source_kinds`)
 - The output contract: an adapter either produces a valid `EvidenceGraph` (EGS §3.5) or raises a declared error
 - The `AdapterError` model, including the interpretation/governance-deficiency distinction (§4.2)
 - A minimal lifecycle
 
-APS-Core exists to test one hypothesis: **that the interpretive judgment calls an adapter makes when converting a real artifact into evidence can be captured as structured, inspectable declarations, without requiring APS to standardize how any adapter is actually invoked.** As with EGS and RES, every concept here is included because the reference implementation's one adapter (`evident-adapter-modelcard`, Stage 1) concretely needed it — nothing is included on the basis of anticipated future adapters.
+APS-Core exists to test one hypothesis: **that the interpretive judgment calls an adapter makes when converting a real artifact into evidence can be captured as structured, inspectable declarations, without requiring APS to standardize how any adapter is actually invoked.** As with EGS and RES, every concept here is included because the reference implementation's one adapter (`evgraph-adapter-modelcard`, Stage 1) concretely needed it — nothing is included on the basis of anticipated future adapters.
 
 ### 1.2 Fundamental Principle
 
@@ -30,7 +30,7 @@ This is APS's equivalent of EGS's evidence-over-verdicts stance and RES's confid
 |---|---|
 | **Invocation signature standardization** | APS-Core does not mandate what an `Adapter`'s callable (e.g. `scan(...)`) accepts as input. The reference adapter (`ModelCardArtifacts`, three named file paths) has a signature specific to what it consumes; a CSV adapter's natural signature will differ. Standardizing this with one adapter as evidence risks producing a meaningless generic parameter (`source: Any`) that hides complexity rather than resolving it. APS standardizes only declarations and the `EvidenceGraph` output — see §1.2 and §3. |
 | **Adapter discovery / plugin loading / registration** | How an adapter is found, installed, or wired into a running system is PES's concern (Stage 4), not APS-Core's. APS-Core defines what a conforming `Adapter` *is*, not how one is loaded. |
-| **Orchestration across heterogeneous adapters** | A higher-level API that dispatches to the right adapter for a given source (what `evident.scan()` may eventually do) is a concern of the `evident` public package, not APS-Core. APS governs the adapter/graph boundary only. |
+| **Orchestration across heterogeneous adapters** | A higher-level API that dispatches to the right adapter for a given source (what `evgraph.scan()` may eventually do) is a concern of the `evgraph` public package, not APS-Core. APS governs the adapter/graph boundary only. |
 | **Partial / degraded `EvidenceGraph` output** | v0.1 requires an adapter to either return a complete, valid `EvidenceGraph` or raise `AdapterError` — never a graph missing expected nodes with no failure signaled. No reference case demonstrates what a "partial graph" would mean structurally (Does RES still run? Does it change `EvidenceLevel`? Is a missing node different from a malformed one?). Revisit only if a concrete implementation need arises. |
 | **Streaming / incremental extraction** | EGS §4 already commits to graphs being fully constructed, not incrementally built. APS-Core inherits that constraint and does not define a partial/streaming adapter lifecycle. |
 | **Closed `extraction_method` taxonomy** | `extraction_method` is an open string in v0.1 (§3.1), not an enum. With exactly one adapter as evidence, any enumerated taxonomy (`DIRECT_MAPPING`, `REGEX`, `LLM_ASSISTED`, ...) would be guessed, not demonstrated. This mirrors EGS's treatment of node/edge `type` as an open string pending CVS. Revisit once a second and third adapter exist to show what categories actually recur (Stage 2 exit condition). |
@@ -71,7 +71,7 @@ Source Artifact
 
 ```
 Adapter:
-    name: str                          # unique identifier, e.g. "evident-adapter-modelcard"
+    name: str                          # unique identifier, e.g. "evgraph-adapter-modelcard"
     version: str
     evidence_level: EvidenceLevel      # maximum certainty this adapter may assign to evidence it produces
     extraction_method: str             # open string, e.g. "direct field mapping" (§1.3)
@@ -168,11 +168,11 @@ An implementation conforms to APS-Core v0.1 **only if** it:
 
 ## 7. Illustrative Example
 
-The reference Model Card adapter (`evident-adapter-modelcard`, Stage 1) under APS-Core:
+The reference Model Card adapter (`evgraph-adapter-modelcard`, Stage 1) under APS-Core:
 
 ```
 Adapter:
-    name: "evident-adapter-modelcard"
+    name: "evgraph-adapter-modelcard"
     version: "0.1.0"
     evidence_level: STRUCTURAL
     extraction_method: "direct field mapping"
@@ -187,7 +187,7 @@ Given a syntactically invalid JSON file, this adapter raises:
 
 ```
 AdapterError(
-    adapter_name="evident-adapter-modelcard",
+    adapter_name="evgraph-adapter-modelcard",
     adapter_version="0.1.0",
     message="model_card.json is not valid JSON",
 ) # chained from the underlying json.JSONDecodeError
@@ -203,7 +203,7 @@ Recorded here so a future contributor proposing one of §1.3's deferred concepts
 
 - **Why no standardized invocation signature:** A generic `scan(source: Any)` either becomes meaningless (what is `source`? a path? a directory? a live connection?) or forces every future adapter into an unnatural shape chosen before that adapter's real requirements were known. APS-Core's contract is the `EvidenceGraph` an adapter produces, not how it's called to produce it — the same way EGS standardizes the graph, not a storage backend, and RES standardizes `Finding`, not rule scheduling (`docs/ARCHITECTURE.md` §3, "A note on specification vs. execution strategy").
 - **Why no discovery/plugin mechanism:** Belongs to PES (Stage 4), once real extension points exist from Stages 2–3 to generalize from (ADR-0002).
-- **Why no orchestration layer:** Dispatching to the right adapter for a given input is a composition concern for the `evident` public package, a layer above APS-Core (`docs/ARCHITECTURE.md` §3).
+- **Why no orchestration layer:** Dispatching to the right adapter for a given input is a composition concern for the `evgraph` public package, a layer above APS-Core (`docs/ARCHITECTURE.md` §3).
 - **Why no partial/degraded graphs:** No reference case shows what a partial graph would mean for RES evaluation, `EvidenceLevel`, or graph validity (EGS §3.1's node-id/edge-reference invariants). Adding this speculatively risks the same mistake the EGS review process explicitly rejected: standardizing structure before a concrete need demonstrates its shape.
 - **Why no closed `extraction_method` enum:** With one adapter as evidence, any enumeration would be guessed categories, not demonstrated ones. `extraction_method` is descriptive metadata nothing currently computes over or branches on — unlike `EvidenceLevel`, which is semantic (RES's confidence-inheritance invariant, RES §4.3, computes with it). Descriptive metadata earns a closed vocabulary only once multiple real implementations show a stable, recurring taxonomy (mirrors EGS's treatment of node/edge `type`, deferred to CVS).
 

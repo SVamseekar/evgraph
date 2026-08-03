@@ -1,4 +1,4 @@
-# Evident — Architecture
+# Evgraph — Architecture
 
 **Status:** Living document. This is the constitution of the project — the thing every specification, package, and design decision must be justifiable against. It changes rarely and only through a recorded decision (§6).
 
@@ -8,11 +8,11 @@ For current project status, sequencing, and what's implemented so far, see `READ
 
 ## 1. Mission
 
-Evident is an open-source Python **library ecosystem** for executable governance engineering. Its purpose is to transform governance artifacts into a common evidence representation that can be evaluated, traced, and reported through deterministic, explainable software components that people install and run in their own environments.
+Evgraph is an open-source Python **library ecosystem** for executable governance engineering. Its purpose is to transform governance artifacts into a common evidence representation that can be evaluated, traced, and reported through deterministic, explainable software components that people install and run in their own environments.
 
-The product is libraries (`evident-core`, `evident-rules`, `evident`, `evident-cli`)—not a hosted service, dashboard, or certification authority.
+The product is libraries (`evgraph-core`, `evgraph-rules`, `evgraph`, `evgraph-cli`)—not a hosted service, dashboard, or certification authority.
 
-Evident evaluates evidence. It does not issue legal or regulatory judgment. Every other statement in this document is a consequence of that sentence.
+Evgraph evaluates evidence. It does not issue legal or regulatory judgment. Every other statement in this document is a consequence of that sentence.
 
 ---
 
@@ -57,7 +57,7 @@ Dependencies flow one direction only, top to bottom. A layer may depend on layer
  Community Plugins (adapters, rule packs,
  reporters, context providers — external)
 ──────────────────────────────────────────
- CLI · Python API (`evident`) · Rule Packs
+ CLI · Python API (`evgraph`) · Rule Packs
  · Reporters
 ──────────────────────────────────────────
  APS — Adapter Protocol
@@ -66,12 +66,12 @@ Dependencies flow one direction only, top to bottom. A layer may depend on layer
 ──────────────────────────────────────────
  EGS — Evidence Graph
 ──────────────────────────────────────────
- evident-core (graph, node, edge, evidence
+ evgraph-core (graph, node, edge, evidence
  level — foundational types only)
 ──────────────────────────────────────────
 ```
 
-`evident-core` depends on nothing else in this stack. Every other layer depends, directly or transitively, on `evident-core`. A change that would require a lower layer to know about a higher layer (e.g., `evident-core` importing something from `evident-rules`) is a violation of this architecture, not a pragmatic exception — see the Decision Log (§13) if such a change ever seems necessary.
+`evgraph-core` depends on nothing else in this stack. Every other layer depends, directly or transitively, on `evgraph-core`. A change that would require a lower layer to know about a higher layer (e.g., `evgraph-core` importing something from `evgraph-rules`) is a violation of this architecture, not a pragmatic exception — see the Decision Log (§13) if such a change ever seems necessary.
 
 ### A note on specification vs. execution strategy
 
@@ -92,11 +92,11 @@ Numbered because they are meant to be cited by number in code review and ADRs, n
 7. A finding's evidence level is bounded by its weakest cited source (§2, Bounded Certainty).
 8. Specifications for emergent (Type B) concerns evolve from a working reference implementation, not from speculation (§2, Specifications Before Frameworks; ADR-0002).
 9. Every abstraction added to a specification must be grounded in a demonstrated implementation need (§2, Grounding Discipline).
-10. The ecosystem grows through extensions (new adapters, rule packs, reporters as independent packages), not through added complexity in `evident-core`. If a feature request would grow core, the default answer is "make it a plugin," not "add it to core."
+10. The ecosystem grows through extensions (new adapters, rule packs, reporters as independent packages), not through added complexity in `evgraph-core`. If a feature request would grow core, the default answer is "make it a plugin," not "add it to core."
 
 ---
 
-## 5. What Evident Is Not
+## 5. What Evgraph Is Not
 
 Explicit non-goals, to prevent scope creep from ever being adjudicated ad hoc:
 
@@ -104,10 +104,10 @@ Explicit non-goals, to prevent scope creep from ever being adjudicated ad hoc:
 - Not a hosted SaaS product or compliance dashboard.
 - Not a workflow orchestrator or Kubernetes admission controller.
 - Not a document management system.
-- Not a replacement for MLflow, OpenTelemetry, or similar observability/experiment-tracking tools — Evident integrates with these via adapters, it does not compete with them.
+- Not a replacement for MLflow, OpenTelemetry, or similar observability/experiment-tracking tools — Evgraph integrates with these via adapters, it does not compete with them.
 - Not an LLM wrapper. Where LLM-based evaluation exists (e.g., a heuristic rule using an LLM judge), it is explicitly bounded to `HEURISTIC` evidence level and clearly opt-in, never the default evaluation path.
 
-If a proposed feature falls into one of these categories, it belongs in a separate, clearly-labeled integration or downstream project — not in `evident-core`, EGS, or RES.
+If a proposed feature falls into one of these categories, it belongs in a separate, clearly-labeled integration or downstream project — not in `evgraph-core`, EGS, or RES.
 
 ---
 
@@ -171,7 +171,7 @@ Architectural decisions are recorded here as they're made, so debates aren't re-
 
 **Decision:** The existence of multiple instances of something (multiple adapters, multiple rules, multiple rule packs) is not, by itself, grounds for introducing a new abstraction to group or standardize them. An abstraction is justified only once multiple instances demonstrate a **shared semantic**, not merely shared multiplicity.
 
-**Context:** Stage 3 made a first resolution attempt at RES's deferred Requirement/Assessment aggregation question (RES §1.3, RES Appendix), now that `evident-rules` exists as a real, independently-versioned package containing two rules (`approval-precedes-deployment`, `dataset-manifest-complete`). The two rules evaluate entirely unrelated governance artifacts — deployment/approval workflow versus dataset metadata — and share nothing beyond both implementing `Rule` (RES §3.1). No natural "Requirement" grouping emerged between them. This is a useful negative result, not an absence of one: it shows that "belongs to the same rule pack" is not, by itself, a meaningful aggregation boundary.
+**Context:** Stage 3 made a first resolution attempt at RES's deferred Requirement/Assessment aggregation question (RES §1.3, RES Appendix), now that `evgraph-rules` exists as a real, independently-versioned package containing two rules (`approval-precedes-deployment`, `dataset-manifest-complete`). The two rules evaluate entirely unrelated governance artifacts — deployment/approval workflow versus dataset metadata — and share nothing beyond both implementing `Rule` (RES §3.1). No natural "Requirement" grouping emerged between them. This is a useful negative result, not an absence of one: it shows that "belongs to the same rule pack" is not, by itself, a meaningful aggregation boundary.
 
 **Reasoning:** Contrast with the two cases where an abstraction *was* justified: two structurally different adapters (Model Card/JSON, dataset-manifest/CSV) shared a genuine contract — every adapter converts a source into an `EvidenceGraph` and must declare `evidence_level`/`assumptions`/etc. — which is why APS-Core (ADR-0002) was justified after only two instances. Two rules sharing only "both are rules" is a weaker relationship than that, and doesn't warrant a `Requirement` type. The distinguishing question is not "how many are there?" but "what do they actually share beyond their common interface?"
 
@@ -181,15 +181,15 @@ Architectural decisions are recorded here as they're made, so debates aren't re-
 
 **Status:** Accepted.
 
-### ADR-0007 — Evident is a reference runtime model, not a proposed replacement for existing governance standards
+### ADR-0007 — Evgraph is a reference runtime model, not a proposed replacement for existing governance standards
 
-**Decision:** Evident positions itself as a reference implementation and architecture exploring executable governance evidence — not as a proposed industry-wide interoperability standard. Existing standards (e.g., OSCAL) are treated as interoperability *targets* where a concrete integration is demonstrated (e.g., an OSCAL reporter, analogous to the existing SARIF reporter), not as competitors EGS/RES need to replace or as prior art that invalidates EGS/RES's internal model. Any claim that Evident solves a genuine N×M interoperability problem, or that ecosystem-wide adoption is likely, remains an explicit **hypothesis** — not a stated goal — until demonstrated by an independent third-party adopter.
+**Decision:** Evgraph positions itself as a reference implementation and architecture exploring executable governance evidence — not as a proposed industry-wide interoperability standard. Existing standards (e.g., OSCAL) are treated as interoperability *targets* where a concrete integration is demonstrated (e.g., an OSCAL reporter, analogous to the existing SARIF reporter), not as competitors EGS/RES need to replace or as prior art that invalidates EGS/RES's internal model. Any claim that Evgraph solves a genuine N×M interoperability problem, or that ecosystem-wide adoption is likely, remains an explicit **hypothesis** — not a stated goal — until demonstrated by an independent third-party adopter.
 
 **Context:** Two research documents (`docs/research/standards-comparison.md`, `docs/research/practitioner-and-market-check.md`) were produced to stress-test the project's founding premise against real prior art and real market/practitioner evidence, rather than assuming it. Findings:
 
 1. **Technical comparison** (OSCAL, PROV-O, OpenLineage, read from primary sources — actual metaschemas/specs, not secondary summaries): none of the three duplicates EGS/RES's core contribution. OSCAL's `observation`/`finding`/`risk` model and PROV-O have no analog to `EvidenceLevel` or RES's computed confidence-inheritance invariant (RES §4.3) — that part of the design is not redundant with existing standards. OSCAL's assessment-results layer is however a credible *export target*: `EvidenceGraph → Findings → OSCAL assessment-results`, built the same way as the existing JSON/Markdown/SARIF reporters (translation, not invention, per RPS §3.2.3).
-2. **Practitioner/market check**: where a single-owner, regulated discipline solving essentially this problem already exists (banking's Model Risk Management under SR 11-7 since 2011), mature commercial tooling (ValidMind, MathWorks Modelscape) already does close to what Evident proposes, with far more deployed history. Where AI governance ownership is fragmented (no single owner across legal/compliance/ML-eng), the practitioner-reported failure mode is documentation never being produced at all (60%+ of Hugging Face models ship with no model card) and real enforcement actions tracing to substantive harms, not to missing structured evidence format.
-3. **The N×M interoperability claim underlying ADR-0001's Arrow/OpenTelemetry framing is not yet demonstrated.** With two adapters and two rules, no independent third party has hit a redundant-integration problem Evident solves. This is recorded plainly as an open, unresolved question — not glossed over as if it were already true.
+2. **Practitioner/market check**: where a single-owner, regulated discipline solving essentially this problem already exists (banking's Model Risk Management under SR 11-7 since 2011), mature commercial tooling (ValidMind, MathWorks Modelscape) already does close to what Evgraph proposes, with far more deployed history. Where AI governance ownership is fragmented (no single owner across legal/compliance/ML-eng), the practitioner-reported failure mode is documentation never being produced at all (60%+ of Hugging Face models ship with no model card) and real enforcement actions tracing to substantive harms, not to missing structured evidence format.
+3. **The N×M interoperability claim underlying ADR-0001's Arrow/OpenTelemetry framing is not yet demonstrated.** With two adapters and two rules, no independent third party has hit a redundant-integration problem Evgraph solves. This is recorded plainly as an open, unresolved question — not glossed over as if it were already true.
 
 **Reasoning:** The architecture (EGS/RES/APS-Core/RPS/PES/CVS and the reference implementation) is validated on its own terms: internally consistent, non-redundant with existing standards, and functionally demonstrated end-to-end (49 tests, working CLI, working third-party plugin discovery). What is *not* validated is the market/adoption thesis in the original `architecture.md`/README framing ("become the foundational Python ecosystem for Computational Governance," modeled explicitly on Arrow/OpenTelemetry's adoption trajectory). Conflating "the architecture is sound" with "this will become adopted infrastructure" would overstate what's actually been shown. Per the Grounding Discipline (§2) already applied to every technical decision in this project, the same discipline should apply to the project's own strategic claims about itself: don't assert market necessity that hasn't been demonstrated, any more than a spec should assert structure that hasn't been demonstrated.
 

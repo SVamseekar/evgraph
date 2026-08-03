@@ -1,7 +1,7 @@
 # Rule Evaluation Specification (RES)
 
 **Version:** 0.1 (Proposed)
-**Status:** Draft — not an industry standard. This is a proposed specification for the `evident` open-source Python ecosystem. It is expected to change based on findings from the reference implementation.
+**Status:** Draft — not an industry standard. This is a proposed specification for the `evgraph` open-source Python ecosystem. It is expected to change based on findings from the reference implementation.
 
 ---
 
@@ -17,7 +17,7 @@ RES defines how a **Rule** evaluates an **Evidence Graph** (EGS) and produces **
 - The outcome vocabulary a `Finding` may use to express agreement/disagreement with a rule's expectation
 - Lifecycle and reproducibility guarantees for rule evaluation
 
-RES exists to test one hypothesis: **that graph evaluation can produce explainable, traceable findings without ever claiming an epistemic certainty the evidence graph itself does not support, and without issuing a compliance verdict.** As with EGS, every concept here is included because a concrete case in the `evident` reference implementation required it.
+RES exists to test one hypothesis: **that graph evaluation can produce explainable, traceable findings without ever claiming an epistemic certainty the evidence graph itself does not support, and without issuing a compliance verdict.** As with EGS, every concept here is included because a concrete case in the `evgraph` reference implementation required it.
 
 ### 1.2 Fundamental Principle
 
@@ -29,7 +29,7 @@ Every other rule in this document is a consequence of this principle, not an ind
 
 | Deferred concept | Why deferred |
 |---|---|
-| **Requirement / Assessment aggregation** | RES v0.1 defines only `Rule → Finding`. It does not define how multiple findings combine into a higher-level object (a "Requirement," "Control," "Obligation," or equivalent). **First resolution attempt (Stage 3):** with `evident-rules` now a real, independently-versioned package containing two rules (`approval-precedes-deployment`, `dataset-manifest-complete`), no natural Requirement-level grouping emerged between them — they evaluate unrelated governance artifacts (deployment workflow vs. dataset metadata) and share nothing beyond both implementing `Rule`. This is evidence *against* "rule-pack membership" being a meaningful aggregation boundary, not merely an absence of evidence. Remains deferred; revisit when a rule pack demonstrates multiple rules evaluating one externally identifiable obligation (e.g., several rules that together check one named regulatory article) — that is a sharper trigger than "multiple rule packs exist." See `docs/ARCHITECTURE.md` ADR-0006. |
+| **Requirement / Assessment aggregation** | RES v0.1 defines only `Rule → Finding`. It does not define how multiple findings combine into a higher-level object (a "Requirement," "Control," "Obligation," or equivalent). **First resolution attempt (Stage 3):** with `evgraph-rules` now a real, independently-versioned package containing two rules (`approval-precedes-deployment`, `dataset-manifest-complete`), no natural Requirement-level grouping emerged between them — they evaluate unrelated governance artifacts (deployment workflow vs. dataset metadata) and share nothing beyond both implementing `Rule`. This is evidence *against* "rule-pack membership" being a meaningful aggregation boundary, not merely an absence of evidence. Remains deferred; revisit when a rule pack demonstrates multiple rules evaluating one externally identifiable obligation (e.g., several rules that together check one named regulatory article) — that is a sharper trigger than "multiple rule packs exist." See `docs/ARCHITECTURE.md` ADR-0006. |
 | **Recommendation generation** | A rule identifying a deviation does not imply it can prescribe a fix. Recommendations, if they exist, are a separate layer built on top of `Finding`, not a field within it. |
 | **Rule scheduling, dispatch, and indexing** | RES defines what a rule *is* (a pure function over a graph), not how an engine schedules, parallelizes, or optimizes rule execution. That is APS/engine territory. In particular, RES v0.1 does not define a subscription or node-type-filtering mechanism — a rule receives the whole graph and uses EGS's traversal operations (EGS §6) itself. |
 | **Confidence combination across findings** | If two findings about the same subject disagree or reinforce each other, RES v0.1 does not define how to combine their confidence. No reference case has required this yet; it is likely entangled with the deferred Requirement/Assessment question above. |
@@ -75,7 +75,7 @@ Rule:
 A conforming `Rule` implementation MUST satisfy:
 
 1. **Purity** — no mutation of the input graph, no mutation of state shared with other rules, no side effects (no I/O, no network calls, no persistence).
-2. **Evidentiary closure** — every `cited_node_ids` entry in every `Finding` a rule returns must be the `id` of a node present in the input graph. A rule must not cite evidence that does not exist in the graph it was given.
+2. **Evgraphiary closure** — every `cited_node_ids` entry in every `Finding` a rule returns must be the `id` of a node present in the input graph. A rule must not cite evidence that does not exist in the graph it was given.
 3. **Order independence** — the result of evaluating a set of independent rules must not depend on the order in which they are run.
 4. **Reproducibility** — given the same `EvidenceGraph` and the same rule implementation, `evaluate` must produce identical `Finding`s. This follows from purity but is stated separately because it is the property that makes rules testable, cacheable, and auditable: a `Finding` must be re-derivable from its cited evidence at any later time, not merely produced once.
 

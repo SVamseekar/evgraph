@@ -1,13 +1,13 @@
-# Evident
+# Evgraph
 
-[![CI](https://github.com/SVamseekar/evident/actions/workflows/ci.yml/badge.svg)](https://github.com/SVamseekar/evident/actions/workflows/ci.yml)
+[![CI](https://github.com/SVamseekar/evgraph/actions/workflows/ci.yml/badge.svg)](https://github.com/SVamseekar/evgraph/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![Version](https://img.shields.io/badge/version-0.1.0-green.svg)](CHANGELOG.md)
 
 **Python libraries for executable governance evidence.**
 
-Evident turns the artifacts you already produce—Model Cards, approvals,
+Evgraph turns the artifacts you already produce—Model Cards, approvals,
 deployment records, dataset manifests, model-registry metadata—into a single
 **Evidence Graph**, then runs clear, deterministic rules over that graph and
 returns findings you can explain, export, and audit.
@@ -19,24 +19,24 @@ It is a library stack, not a hosted product:
 - adapters that read real systems (including MLflow)
 - reporters for JSON, Markdown, SARIF, and OSCAL
 
-Evident reports what the evidence shows. It does **not** certify legal or
+Evgraph reports what the evidence shows. It does **not** certify legal or
 regulatory compliance.
 
 ---
 
-## Why Evident exists
+## Why Evgraph exists
 
 AI governance work is full of files and systems that do not talk to each other:
 a Model Card here, an approval ticket there, a registry entry somewhere else.
 Reviewers still stitch those pieces together by hand.
 
-Evident makes that work programmatic:
+Evgraph makes that work programmatic:
 
 1. **Adapters** read your artifacts and build an Evidence Graph.
 2. **Rules** evaluate the graph and emit leveled findings.
 3. **Reporters** format those findings for people, pipelines, or standards tools.
 
-You keep ownership of policy and judgment. Evident owns the graph, the checks,
+You keep ownership of policy and judgment. Evgraph owns the graph, the checks,
 and the trail of what was checked.
 
 ---
@@ -45,10 +45,10 @@ and the trail of what was checked.
 
 | Package | What it is |
 | --- | --- |
-| [`evident-core`](reference/python/evident-core/) | Core types: graph, nodes, edges, evidence levels, rules, findings |
-| [`evident-rules`](reference/python/evident-rules/) | Built-in rule pack (discoverable via entry points) |
-| [`evident`](reference/python/evident/) | Adapters, reporters, and the `scan()` / `scan_dataset_manifest()` API |
-| [`evident-cli`](reference/python/evident-cli/) | `evident` command-line tool |
+| [`evgraph-core`](reference/python/evgraph-core/) | Core types: graph, nodes, edges, evidence levels, rules, findings |
+| [`evgraph-rules`](reference/python/evgraph-rules/) | Built-in rule pack (discoverable via entry points) |
+| [`evgraph`](reference/python/evgraph/) | Adapters, reporters, and the `scan()` / `scan_dataset_manifest()` API |
+| [`evgraph-cli`](reference/python/evgraph-cli/) | `evgraph` command-line tool |
 
 All packages are versioned together at **0.1.0** (see [CHANGELOG](CHANGELOG.md)).
 
@@ -59,21 +59,21 @@ All packages are versioned together at **0.1.0** (see [CHANGELOG](CHANGELOG.md))
 Python **3.10+**. From a clone of this repository:
 
 ```bash
-git clone https://github.com/SVamseekar/evident.git
-cd evident
+git clone https://github.com/SVamseekar/evgraph.git
+cd evgraph
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 
-pip install -e reference/python/evident-core
-pip install -e reference/python/evident-rules
-pip install -e reference/python/evident
-pip install -e reference/python/evident-cli
+pip install -e reference/python/evgraph-core
+pip install -e reference/python/evgraph-rules
+pip install -e reference/python/evgraph
+pip install -e reference/python/evgraph-cli
 ```
 
 Optional MLflow adapter dependency:
 
 ```bash
-pip install -e "reference/python/evident[mlflow]"
+pip install -e "reference/python/evgraph[mlflow]"
 ```
 
 > Packages are published from this monorepo. PyPI distribution is planned;
@@ -87,14 +87,14 @@ pip install -e "reference/python/evident[mlflow]"
 
 ```bash
 # Check model card + approval + deployment consistency
-evident scan \
+evgraph scan \
   examples/model_card_deployment/model_card.json \
   examples/model_card_deployment/approval.json \
   examples/model_card_deployment/deployment.json \
   --format markdown
 
 # Check a dataset manifest
-evident scan-dataset-manifest \
+evgraph scan-dataset-manifest \
   examples/dataset_manifest/dataset_manifest.csv \
   --format json
 ```
@@ -104,7 +104,7 @@ Output formats: `json`, `markdown`, `sarif`, `oscal`.
 ### Python
 
 ```python
-from evident import scan
+from evgraph import scan
 
 report = scan(
     model_card_path="examples/model_card_deployment/model_card.json",
@@ -161,7 +161,7 @@ only a green or red badge.
 
 ### Extensible rules
 
-Third-party rule packs register under the `evident.rules` entry-point group.
+Third-party rule packs register under the `evgraph.rules` entry-point group.
 Install a pack; `scan()` picks it up—no changes to core packages required.
 
 ---
@@ -174,7 +174,7 @@ Install a pack; `scan()` picks it up—no changes to core packages required.
 
 ---
 
-## What Evident is not
+## What Evgraph is not
 
 - Not a compliance certification authority or legal expert system
 - Not a SaaS dashboard, workflow engine, or document management product
@@ -203,9 +203,9 @@ For the full boundary list, see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 ## Project layout
 
 ```
-evident/
+evgraph/
   docs/                 Architecture, roadmap, specs, research
-  reference/python/     Installable packages (evident-core, evident-rules, evident, evident-cli)
+  reference/python/     Installable packages (evgraph-core, evgraph-rules, evgraph, evgraph-cli)
   examples/             Runnable end-to-end demos
 ```
 
@@ -217,10 +217,10 @@ evident/
 source .venv/bin/activate
 pip install pytest
 
-pytest reference/python/evident-core -q
-pytest reference/python/evident-rules -q
-pytest reference/python/evident -q
-pytest reference/python/evident-cli -q
+pytest reference/python/evgraph-core -q
+pytest reference/python/evgraph-rules -q
+pytest reference/python/evgraph -q
+pytest reference/python/evgraph-cli -q
 ```
 
 CI runs the same suite on Python 3.10–3.12.
@@ -244,7 +244,7 @@ and the [Code of Conduct](CODE_OF_CONDUCT.md). Security reports:
 
 ## Citation
 
-Use [`CITATION.cff`](CITATION.cff) if you cite Evident in academic or industry work.
+Use [`CITATION.cff`](CITATION.cff) if you cite Evgraph in academic or industry work.
 
 ---
 

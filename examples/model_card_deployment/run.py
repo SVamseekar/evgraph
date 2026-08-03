@@ -1,12 +1,12 @@
-"""Stage 1 reference-implementation demo: from evident import scan.
+"""Stage 1 reference-implementation demo: from evgraph import scan.
 
-Run from reference/python/evident's environment:
+Run from reference/python/evgraph's environment:
     python examples/model_card_deployment/run.py
 """
 
 from pathlib import Path
 
-from evident import scan
+from evgraph import scan
 
 HERE = Path(__file__).parent
 

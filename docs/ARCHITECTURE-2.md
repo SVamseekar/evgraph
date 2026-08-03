@@ -1,4 +1,4 @@
-# Evident: Open-Source Python Ecosystem for Executable AI Governance
+# Evgraph: Open-Source Python Ecosystem for Executable AI Governance
 
 **Architecture Blueprint v0.1**
 
@@ -8,13 +8,13 @@
 
 # Mission
 
-Evident is **not** a SaaS platform, compliance dashboard, or enterprise product.
+Evgraph is **not** a SaaS platform, compliance dashboard, or enterprise product.
 
 It is an **open-source Python ecosystem** that enables developers to build, execute, trace, and automate governance for AI systems.
 
 The long-term vision is similar to what NumPy did for numerical computing, Pandas did for tabular data, SQLAlchemy did for database abstraction, and OpenTelemetry did for observability.
 
-Evident aims to become the foundational Python ecosystem for **Computational Governance** (also referred to as Governance Engineering)—making governance executable rather than static documentation.
+Evgraph aims to become the foundational Python ecosystem for **Computational Governance** (also referred to as Governance Engineering)—making governance executable rather than static documentation.
 
 The project should always remain:
 
@@ -51,7 +51,7 @@ Manual Reviews
 
 PDF Reports
 
-Evident changes this into:
+Evgraph changes this into:
 
 Regulations
 
@@ -145,7 +145,7 @@ Arrow → Arrow Table
 
 OpenTelemetry → Span
 
-Evident → Evidence Graph
+Evgraph → Evidence Graph
 
 The Evidence Graph is the canonical representation of governance evidence.
 
@@ -162,7 +162,7 @@ A developer should obtain value within minutes.
 Example:
 
 ```python
-from evident import scan
+from evgraph import scan
 
 report = scan("logs.parquet")
 
@@ -240,27 +240,27 @@ High-level components must never leak into the core.
 The project is an ecosystem rather than a single package.
 
 ```
-evident-org/
+evgraph-org/
 
-    evident-core
+    evgraph-core
 
-    evident
+    evgraph
 
-    evident-rules
+    evgraph-rules
 
-    evident-adapters
+    evgraph-adapters
 
-    evident-context
+    evgraph-context
 
-    evident-provenance
+    evgraph-provenance
 
-    evident-reporting
+    evgraph-reporting
 
-    evident-cli
+    evgraph-cli
 
-    evident-examples
+    evgraph-examples
 
-    evident-docs
+    evgraph-docs
 ```
 
 Each repository has exactly one responsibility.
@@ -269,7 +269,7 @@ Each repository has exactly one responsibility.
 
 # Package Descriptions
 
-## 1. evident-core
+## 1. evgraph-core
 
 The most important package.
 
@@ -323,12 +323,12 @@ Core is intentionally small.
 
 ---
 
-## 2. evident
+## 2. evgraph
 
 This is the package most users install.
 
 ```
-pip install evident
+pip install evgraph
 ```
 
 Public API only.
@@ -336,7 +336,7 @@ Public API only.
 Examples:
 
 ```python
-from evident import scan
+from evgraph import scan
 
 report = scan(...)
 
@@ -351,7 +351,7 @@ It composes functionality from other packages.
 
 ---
 
-## 3. evident-rules
+## 3. evgraph-rules
 
 Contains governance rule packs.
 
@@ -377,11 +377,11 @@ They are independent from the graph implementation.
 
 Community members should be able to publish:
 
-evident-rule-finra
+evgraph-rule-finra
 
-evident-rule-healthcare
+evgraph-rule-healthcare
 
-evident-rule-uk-ai
+evgraph-rule-uk-ai
 
 etc.
 
@@ -389,7 +389,7 @@ without modifying core.
 
 ---
 
-## 4. evident-adapters
+## 4. evgraph-adapters
 
 Converts external systems into Evidence Graphs.
 
@@ -439,7 +439,7 @@ Only adapters change.
 
 ---
 
-## 5. evident-reporting
+## 5. evgraph-reporting
 
 Responsible only for outputs.
 
@@ -465,7 +465,7 @@ No evaluation logic.
 
 ---
 
-## 6. evident-context
+## 6. evgraph-context
 
 Advanced package.
 
@@ -507,7 +507,7 @@ Rehydration occurs locally.
 
 ---
 
-## 7. evident-provenance
+## 7. evgraph-provenance
 
 Responsible for integrity.
 
@@ -533,7 +533,7 @@ Only provenance.
 
 ---
 
-## 8. evident-cli
+## 8. evgraph-cli
 
 Thin wrapper around Python API.
 
@@ -744,7 +744,7 @@ Not Required
 The API should feel extremely simple.
 
 ```python
-from evident import scan
+from evgraph import scan
 
 report = scan("logs.parquet")
 
@@ -764,7 +764,7 @@ report.export("json")
 # CLI Experience
 
 ```
-evident scan logs.parquet
+evgraph scan logs.parquet
 ```
 
 Output:
@@ -781,11 +781,11 @@ If optional packages could help:
 
 Install:
 
-pip install evident[context]
+pip install evgraph[context]
 
 or
 
-pip install evident[provenance]
+pip install evgraph[provenance]
 
 ---
 
@@ -793,7 +793,7 @@ pip install evident[provenance]
 
 Day 1
 
-pip install evident
+pip install evgraph
 
 Day 30
 
@@ -840,10 +840,10 @@ The ecosystem should encourage independent packages.
 Dependencies must always flow downward.
 
 ```
-evident-cli
+evgraph-cli
       │
       ▼
-evident
+evgraph
       │
  ┌────┼────┐
  ▼    ▼    ▼
@@ -853,7 +853,7 @@ rules adapters reporting
 context provenance
       │
       ▼
-evident-core
+evgraph-core
 ```
 
 Core depends on nothing else.
@@ -907,7 +907,7 @@ The first releases should not attempt to become:
 * A legal interpretation engine
 * A document management system
 
-Instead, Evident should integrate with these systems where appropriate.
+Instead, Evgraph should integrate with these systems where appropriate.
 
 ---
 

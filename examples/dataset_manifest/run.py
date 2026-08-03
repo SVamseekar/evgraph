@@ -1,12 +1,12 @@
 """Stage 2 demo: the second adapter (CSV) and second rule, pressure-testing APS-Core.
 
-Run from reference/python/evident's environment:
+Run from reference/python/evgraph's environment:
     python examples/dataset_manifest/run.py
 """
 
 from pathlib import Path
 
-from evident import scan_dataset_manifest
+from evgraph import scan_dataset_manifest
 
 HERE = Path(__file__).parent
 

@@ -1,6 +1,6 @@
-# Contributing to Evident
+# Contributing to Evgraph
 
-Thank you for contributing to Evident. This guide covers environment setup,
+Thank you for contributing to Evgraph. This guide covers environment setup,
 tests, and how we review changes.
 
 ## Code of conduct
@@ -15,15 +15,15 @@ Requirements:
 - A virtual environment (recommended)
 
 ```bash
-git clone https://github.com/SVamseekar/evident.git
-cd evident
+git clone https://github.com/SVamseekar/evgraph.git
+cd evgraph
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 
-pip install -e reference/python/evident-core
-pip install -e reference/python/evident-rules
-pip install -e reference/python/evident
-pip install -e reference/python/evident-cli
+pip install -e reference/python/evgraph-core
+pip install -e reference/python/evgraph-rules
+pip install -e reference/python/evgraph
+pip install -e reference/python/evgraph-cli
 pip install pytest
 ```
 
@@ -39,17 +39,17 @@ Each package is independently installable. Run tests from the package directory
 so imports resolve correctly:
 
 ```bash
-cd reference/python/evident-core && pytest -q
-cd reference/python/evident-rules && pytest -q
-cd reference/python/evident && pytest -q
-cd reference/python/evident-cli && pytest -q
+cd reference/python/evgraph-core && pytest -q
+cd reference/python/evgraph-rules && pytest -q
+cd reference/python/evgraph && pytest -q
+cd reference/python/evgraph-cli && pytest -q
 ```
 
 Or from the repository root after editable installs:
 
 ```bash
-pytest reference/python/evident-core reference/python/evident-rules \
-       reference/python/evident reference/python/evident-cli -q
+pytest reference/python/evgraph-core reference/python/evgraph-rules \
+       reference/python/evgraph reference/python/evgraph-cli -q
 ```
 
 ## Project layout and dependency rule
@@ -61,10 +61,10 @@ CLI · Python API · Rule packs · Reporters
         ↓
    Adapter Protocol / Rule Evaluation
         ↓
-   Evidence Graph (evident-core)
+   Evidence Graph (evgraph-core)
 ```
 
-`evident-core` must not import higher-layer packages. Prefer new adapters,
+`evgraph-core` must not import higher-layer packages. Prefer new adapters,
 rule packs, and reporters as separate packages or plugins rather than
 expanding the core.
 
@@ -73,7 +73,7 @@ expanding the core.
 Useful contributions include:
 
 - Adapters for additional artifact formats
-- Rules and rule packs (via the `evident.rules` entry-point group)
+- Rules and rule packs (via the `evgraph.rules` entry-point group)
 - Reporters for additional output formats
 - Bug fixes and test coverage
 - Clarifications to specifications grounded in implementation experience

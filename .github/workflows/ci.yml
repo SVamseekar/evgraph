@@ -27,14 +27,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest
-          pip install -e reference/python/evident-core
-          pip install -e reference/python/evident-rules
-          pip install -e reference/python/evident
-          pip install -e reference/python/evident-cli
+          pip install -e reference/python/evgraph-core
+          pip install -e reference/python/evgraph-rules
+          pip install -e reference/python/evgraph
+          pip install -e reference/python/evgraph-cli
 
       - name: Run tests
         run: |
-          pytest reference/python/evident-core -q
-          pytest reference/python/evident-rules -q
-          pytest reference/python/evident -q
-          pytest reference/python/evident-cli -q
+          pytest reference/python/evgraph-core -q
+          pytest reference/python/evgraph-rules -q
+          pytest reference/python/evgraph -q
+          pytest reference/python/evgraph-cli -q

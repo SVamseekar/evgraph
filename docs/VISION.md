@@ -1,11 +1,11 @@
-Evident — Vision
+Evgraph — Vision
 Status: Living strategic document.
 Unlike ARCHITECTURE.md, this document is not constitutional. Unlike ROADMAP.md, it is not an execution plan. Unlike the specifications (EGS, RES, …), it is not normative.
 This document exists to answer one question:
-If Evident succeeds, what does it become, why does it matter, and what research and ecosystem directions become possible?
+If Evgraph succeeds, what does it become, why does it matter, and what research and ecosystem directions become possible?
 Ideas described here are hypotheses, not commitments.
 Nothing moves from this document into the roadmap or a specification without first being justified through implementation experience and architectural review.
-1. Why Evident Exists
+1. Why Evgraph Exists
 Modern software engineering has transformed many disciplines from manual processes into executable systems.
 Infrastructure became Infrastructure as Code.
 Testing became Continuous Integration.
@@ -20,13 +20,13 @@ Audit documents
 Compliance reports
 Internal procedures
 These artifacts describe governance but are rarely executable.
-Evident explores a different idea.
-Rather than asking software engineers to read governance documents, Evident asks:
+Evgraph explores a different idea.
+Rather than asking software engineers to read governance documents, Evgraph asks:
 Can governance evidence itself become computationally represented, evaluated, traced, and reported through software?
 The project does not seek to replace human judgment.
 It seeks to make governance evidence computationally understandable.
 2. The Core Hypothesis
-Evident is built around two hypotheses.
+Evgraph is built around two hypotheses.
 Hypothesis 1
 Governance evidence originating from heterogeneous AI systems can be represented through a common intermediate representation.
 This is the role of the Evidence Graph.
@@ -60,7 +60,7 @@ Documents
 ↓
 
 Audit
-Evident explores a different execution model.
+Evgraph explores a different execution model.
 Artifacts
 
 ↓
@@ -109,11 +109,11 @@ Compilers	LLVM IR
 Columnar Analytics	Apache Arrow
 Distributed Tracing	OpenTelemetry Spans
 APIs	OpenAPI
-Evident explores whether governance evidence can similarly be represented by a common intermediate representation.
+Evgraph explores whether governance evidence can similarly be represented by a common intermediate representation.
 The Evidence Graph is an experiment in that direction.
 If the hypothesis proves false, the architecture should evolve accordingly.
 6. Relationship to Existing Standards
-Evident is not intended to replace existing standards.
+Evgraph is not intended to replace existing standards.
 Instead, it aims to provide an executable runtime that can consume, organize, and evaluate evidence originating from those standards.
 Potential relationships include:
 W3C PROV (provenance representation)
@@ -123,7 +123,7 @@ CEN/CENELEC technical standards supporting the EU AI Act
 ISO management system standards
 NIST AI Risk Management Framework
 These standards define concepts, terminology, or governance practices.
-Evident explores how software can execute against evidence derived from them.
+Evgraph explores how software can execute against evidence derived from them.
 7. The Layered Ecosystem
 The project intentionally separates stable foundations from rapidly evolving extensions.
 Reality
@@ -159,30 +159,30 @@ It is not the product.
 The long-term ecosystem consists of independent packages.
 Examples include:
 Core
-evident-core
+evgraph-core
 Public API
-evident
+evgraph
 Adapters
-evident-adapter-pandas
-evident-adapter-polars
-evident-adapter-spark
-evident-adapter-duckdb
-evident-adapter-mlflow
+evgraph-adapter-pandas
+evgraph-adapter-polars
+evgraph-adapter-spark
+evgraph-adapter-duckdb
+evgraph-adapter-mlflow
 Rule Packs
-evident-rule-eu-ai-act
-evident-rule-iso42001
-evident-rule-gdpr
+evgraph-rule-eu-ai-act
+evgraph-rule-iso42001
+evgraph-rule-gdpr
 Reporters
-evident-report-json
-evident-report-markdown
-evident-report-html
-evident-report-sarif
+evgraph-report-json
+evgraph-report-markdown
+evgraph-report-html
+evgraph-report-sarif
 Research
-evident-context
-evident-provenance
+evgraph-context
+evgraph-provenance
 Each package should evolve independently wherever practical.
 9. Independent Implementations
-If the specifications prove sufficiently stable, nothing requires Evident to remain Python-only.
+If the specifications prove sufficiently stable, nothing requires Evgraph to remain Python-only.
 Possible future implementations include:
 Rust
 Go
@@ -250,15 +250,15 @@ How should provenance interact with evidence graphs?
 Can regulations be partially translated into executable rule systems?
 How should AI-generated rules be validated and governed?
 How should cryptographic lineage be preserved for AI-assisted rule authoring?
-Can context virtualization become reusable infrastructure beyond Evident?
+Can context virtualization become reusable infrastructure beyond Evgraph?
 None of these questions should influence the core architecture until supported by implementation evidence.
 13. Conformance
 Specifications are intended to become implementation-independent.
 Long-term success requires conformance testing rather than implementation reuse.
 Eventually, independent implementations should be able to validate themselves through shared conformance suites rather than by comparing source code.
 The specification—not the Python implementation—should become the authoritative reference.
-14. Products Built on Evident
-Evident itself remains infrastructure.
+14. Products Built on Evgraph
+Evgraph itself remains infrastructure.
 Possible products built upon it include:
 enterprise governance platforms,
 CI/CD governance tooling,
@@ -268,7 +268,7 @@ consulting tools,
 regulatory reporting systems.
 These are intentionally outside the scope of the core project.
 15. Anti-Goals
-Evident should never become:
+Evgraph should never become:
 a legal decision engine,
 a compliance certification authority,
 a dashboard-first platform,
@@ -276,8 +276,8 @@ a workflow engine,
 a generic AI orchestration framework,
 an LLM wrapper,
 a document management system.
-These may integrate with Evident.
-They should not become Evident.
+These may integrate with Evgraph.
+They should not become Evgraph.
 16. Long-Term Success
 Technical success:
 stable specifications,
@@ -294,11 +294,11 @@ conference talks,
 adoption in teaching and research.
 Ecosystem success:
 A third-party project states:
-"Compatible with the Evident Specifications."
+"Compatible with the Evgraph Specifications."
 without using the reference Python implementation.
 At that point, the specifications have become more valuable than the original implementation.
 17. The Governing Principle
-Every idea in this document must pass through the same progression before becoming part of Evident:
+Every idea in this document must pass through the same progression before becoming part of Evgraph:
 Vision
     ↓
 Research

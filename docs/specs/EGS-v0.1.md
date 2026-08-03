@@ -1,7 +1,7 @@
 # Evidence Graph Specification (EGS)
 
 **Version:** 0.1 (Proposed)
-**Status:** Draft — not an industry standard. This is a proposed specification for the `evident` open-source Python ecosystem. It is expected to change based on findings from the reference implementation.
+**Status:** Draft — not an industry standard. This is a proposed specification for the `evgraph` open-source Python ecosystem. It is expected to change based on findings from the reference implementation.
 
 ---
 
@@ -9,7 +9,7 @@
 
 ### 1.1 Scope
 
-EGS defines the **Evidence Graph**: the canonical intermediate representation that all `evident` adapters produce and all `evident` rules consume. It specifies:
+EGS defines the **Evidence Graph**: the canonical intermediate representation that all `evgraph` adapters produce and all `evgraph` rules consume. It specifies:
 
 - The structural model (nodes, edges, graph)
 - Identity and typing rules
@@ -17,7 +17,7 @@ EGS defines the **Evidence Graph**: the canonical intermediate representation th
 - A minimal serialization format
 - The minimal query operations rules are guaranteed to be able to perform
 
-EGS exists to test one hypothesis: **that a single graph representation can serve as a faithful, sufficient intermediate form between heterogeneous AI-system artifacts and rule-based evaluation.** Every concept in this document is included because a concrete case in the `evident` reference implementation required it. Nothing is included on the basis of anticipated future need.
+EGS exists to test one hypothesis: **that a single graph representation can serve as a faithful, sufficient intermediate form between heterogeneous AI-system artifacts and rule-based evaluation.** Every concept in this document is included because a concrete case in the `evgraph` reference implementation required it. Nothing is included on the basis of anticipated future need.
 
 ### 1.2 Non-Goals (v0.1)
 
@@ -225,8 +225,8 @@ Source artifacts: a Model Card (JSON file) and a human approval record (CSV row)
     {"source_id": "n3", "target_id": "n2", "type": "REQUIRES_APPROVAL", "observed_at": "2026-07-28T00:00:00Z"}
   ],
   "adapter_manifest": [
-    {"adapter": "evident-adapter-modelcard", "version": "0.1.0"},
-    {"adapter": "evident-adapter-csv", "version": "0.1.0"}
+    {"adapter": "evgraph-adapter-modelcard", "version": "0.1.0"},
+    {"adapter": "evgraph-adapter-csv", "version": "0.1.0"}
   ]
 }
 ```

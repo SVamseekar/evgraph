@@ -8,7 +8,7 @@
 
 ## Reporting a vulnerability
 
-If you discover a security issue in Evident, please report it privately.
+If you discover a security issue in Evgraph, please report it privately.
 
 **Preferred contact:** open a private security advisory on the GitHub
 repository, or email the maintainer listed in package metadata
@@ -25,7 +25,7 @@ a fix and coordinated disclosure timeline.
 
 ## Scope notes
 
-Evident processes governance artifacts (documents, manifests, registry
+Evgraph processes governance artifacts (documents, manifests, registry
 metadata) into an evidence graph and evaluates deterministic rules against
 that graph. It is not a network service by default. Nonetheless, please
 report issues involving:

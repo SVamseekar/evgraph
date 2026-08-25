@@ -97,7 +97,8 @@ Out of scope (see architecture non-goals):
 
 Packages share a monorepo version tag (`vX.Y.Z`) and follow
 [Semantic Versioning](https://semver.org/). User-facing changes go in
-`CHANGELOG.md`.
+`CHANGELOG.md`. Maintainers publish via Trusted Publishing — see
+[`docs/publishing.md`](docs/publishing.md).
 
 ## Reporting security issues
 

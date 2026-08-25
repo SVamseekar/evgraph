@@ -3,7 +3,7 @@
 [![CI](https://github.com/SVamseekar/evgraph/actions/workflows/ci.yml/badge.svg)](https://github.com/SVamseekar/evgraph/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-0.1.0-green.svg)](CHANGELOG.md)
+[![PyPI](https://img.shields.io/pypi/v/evgraph.svg)](https://pypi.org/project/evgraph/)
 
 **Python libraries for executable governance evidence.**
 
@@ -43,20 +43,35 @@ and the trail of what was checked.
 
 ## Packages
 
-| Package | What it is |
-| --- | --- |
-| [`evgraph-core`](reference/python/evgraph-core/) | Core types: graph, nodes, edges, evidence levels, rules, findings |
-| [`evgraph-rules`](reference/python/evgraph-rules/) | Built-in rule pack (discoverable via entry points) |
-| [`evgraph`](reference/python/evgraph/) | Adapters, reporters, and the `scan()` / `scan_dataset_manifest()` API |
-| [`evgraph-cli`](reference/python/evgraph-cli/) | `evgraph` command-line tool |
+| Package | What it is | PyPI |
+| --- | --- | --- |
+| [`evgraph-core`](reference/python/evgraph-core/) | Core types: graph, nodes, edges, evidence levels, rules, findings | [![PyPI](https://img.shields.io/pypi/v/evgraph-core.svg)](https://pypi.org/project/evgraph-core/) |
+| [`evgraph-rules`](reference/python/evgraph-rules/) | Built-in rule pack (discoverable via entry points) | [![PyPI](https://img.shields.io/pypi/v/evgraph-rules.svg)](https://pypi.org/project/evgraph-rules/) |
+| [`evgraph`](reference/python/evgraph/) | Adapters, reporters, and the `scan()` / `scan_dataset_manifest()` API | [![PyPI](https://img.shields.io/pypi/v/evgraph.svg)](https://pypi.org/project/evgraph/) |
+| [`evgraph-cli`](reference/python/evgraph-cli/) | `evgraph` command-line tool | [![PyPI](https://img.shields.io/pypi/v/evgraph-cli.svg)](https://pypi.org/project/evgraph-cli/) |
 
-All packages are versioned together at **0.1.0** (see [CHANGELOG](CHANGELOG.md)).
+All packages are versioned together at **0.1.1** (see [CHANGELOG](CHANGELOG.md)).
 
 ---
 
 ## Install
 
-Python **3.10+**. From a clone of this repository:
+Python **3.10+**, from PyPI:
+
+```bash
+pip install evgraph evgraph-cli
+```
+
+`evgraph` pulls in `evgraph-core` and `evgraph-rules` automatically.
+`evgraph-cli` adds the `evgraph` command-line tool.
+
+Optional MLflow adapter dependency:
+
+```bash
+pip install "evgraph[mlflow]"
+```
+
+To work from source instead (for contributing or pinning to a git ref):
 
 ```bash
 git clone https://github.com/SVamseekar/evgraph.git
@@ -70,14 +85,22 @@ pip install -e reference/python/evgraph
 pip install -e reference/python/evgraph-cli
 ```
 
-Optional MLflow adapter dependency:
+---
 
-```bash
-pip install -e "reference/python/evgraph[mlflow]"
-```
+## Dependencies
 
-> Packages are published from this monorepo. PyPI distribution is planned;
-> until then, install from source as above.
+- [`evgraph-core`](https://pypi.org/project/evgraph-core/) — no runtime
+  dependencies of its own
+- [`evgraph-rules`](https://pypi.org/project/evgraph-rules/) — depends on
+  `evgraph-core`
+- [`evgraph`](https://pypi.org/project/evgraph/) — depends on `evgraph-core`
+  and `evgraph-rules`; `mlflow>=2.0` is an optional extra for the MLflow
+  adapter (`evgraph[mlflow]`)
+- [`evgraph-cli`](https://pypi.org/project/evgraph-cli/) — depends on
+  `evgraph`
+
+`pytest>=7` is required to run the test suite for any package
+(`pip install "<package>[test]"`).
 
 ---
 
@@ -101,6 +124,25 @@ evgraph scan-dataset-manifest \
 
 Output formats: `json`, `markdown`, `sarif`, `oscal`.
 
+### CI Promotion Gate
+
+Promotion scans are report-only by default, so CI can collect Markdown, SARIF,
+or OSCAL evidence without blocking a build:
+
+```bash
+evgraph scan-promotion \
+  --model-card examples/model_card_deployment/model_card.json \
+  --approval examples/model_card_deployment/approval.json \
+  --deployment examples/model_card_deployment/deployment.json \
+  --format sarif > evgraph-promotion.sarif
+```
+
+Add `--gate` to return exit code `1` for unmet evidence expectations, and
+`--gate --strict` to also trip on inconclusive findings. Gate results are CI
+signals over Evgraph findings, not compliance verdicts. See
+[`examples/promotion_gate/`](examples/promotion_gate/) for a reviewer-pack and
+GitHub Actions example.
+
 ### Python
 
 ```python
@@ -123,6 +165,8 @@ for finding in report.findings:
 python examples/model_card_deployment/run.py
 python examples/dataset_manifest/run.py
 python examples/full_demo/run.py
+# Promotion gate CI/reviewer-pack docs:
+# examples/promotion_gate/
 ```
 
 ---
@@ -197,6 +241,7 @@ For the full boundary list, see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 | Standards notes (OSCAL, MLflow, prior art) | [`docs/research/`](docs/research/) |
 | Contributing | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
 | Releases | [`CHANGELOG.md`](CHANGELOG.md) |
+| Publishing to PyPI (maintainers) | [`docs/publishing.md`](docs/publishing.md) |
 
 ---
 
@@ -230,7 +275,17 @@ CI runs the same suite on Python 3.10–3.12.
 ## Versioning
 
 Semantic Versioning. Monorepo releases use annotated tags (`v0.1.0`, …).
-All four packages share a version for each release train.
+All four packages share a version for each release train. Maintainers: see
+[`docs/publishing.md`](docs/publishing.md) (tag → Trusted Publishing → PyPI).
+
+---
+
+## Getting help
+
+Ask questions and report bugs via
+[GitHub Issues](https://github.com/SVamseekar/evgraph/issues). There is no
+separate mailing list or chat yet — Issues is the single place discussion
+happens.
 
 ---
 

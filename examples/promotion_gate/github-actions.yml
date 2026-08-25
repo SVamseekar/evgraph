@@ -1,0 +1,54 @@
+name: Evgraph Promotion Evidence
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  promotion-evidence:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Evgraph packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e reference/python/evgraph-core
+          pip install -e reference/python/evgraph-rules
+          pip install -e reference/python/evgraph
+          pip install -e reference/python/evgraph-cli
+
+      - name: Write SARIF promotion report
+        run: |
+          mkdir -p promotion-review
+          evgraph scan-promotion \
+            --model-card examples/model_card_deployment/model_card.json \
+            --approval examples/model_card_deployment/approval.json \
+            --deployment examples/model_card_deployment/deployment.json \
+            --format sarif > promotion-review/evgraph-promotion.sarif
+
+      - name: Upload promotion evidence artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: evgraph-promotion-evidence
+          path: promotion-review/evgraph-promotion.sarif
+
+      # Optional hard gate.
+      # Uncomment this step when the checked evidence set is expected to satisfy
+      # the gate and CI should fail on unmet evidence expectations.
+      #
+      # - name: Run promotion gate
+      #   run: |
+      #     evgraph scan-promotion \
+      #       --model-card examples/model_card_deployment/model_card.json \
+      #       --approval examples/model_card_deployment/approval.json \
+      #       --deployment examples/model_card_deployment/deployment.json \
+      #       --format sarif \
+      #       --gate > /tmp/evgraph-promotion-gate.sarif

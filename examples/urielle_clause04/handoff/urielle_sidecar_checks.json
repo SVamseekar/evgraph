@@ -1,0 +1,62 @@
+[
+  {
+    "check_id": "CHK-C4-Q01-EVGRAPH-EVIDENCE",
+    "check_type": "EVIDENCE_TYPE_VALID",
+    "status": "PASSED",
+    "observation": "C4-Q01 has 1 structured evidence reference(s).",
+    "evgraph": {
+      "finding_id": "finding_73d61c9d",
+      "rule_id": "clause04-question-has-structured-evidence",
+      "level": "STRUCTURAL",
+      "outcome": "EXPECTATION_MET",
+      "cited_node_ids": [
+        "q-C4-Q01"
+      ]
+    }
+  },
+  {
+    "check_id": "CHK-C4-Q02-EVGRAPH-EVIDENCE",
+    "check_type": "EVIDENCE_TYPE_VALID",
+    "status": "PASSED",
+    "observation": "C4-Q02 has 1 structured evidence reference(s).",
+    "evgraph": {
+      "finding_id": "finding_39bc1106",
+      "rule_id": "clause04-question-has-structured-evidence",
+      "level": "STRUCTURAL",
+      "outcome": "EXPECTATION_MET",
+      "cited_node_ids": [
+        "q-C4-Q02"
+      ]
+    }
+  },
+  {
+    "check_id": "CHK-C4-Q03-EVGRAPH-EVIDENCE",
+    "check_type": "EVIDENCE_TYPE_VALID",
+    "status": "PASSED",
+    "observation": "C4-Q03 has 1 structured evidence reference(s).",
+    "evgraph": {
+      "finding_id": "finding_d9d9725d",
+      "rule_id": "clause04-question-has-structured-evidence",
+      "level": "STRUCTURAL",
+      "outcome": "EXPECTATION_MET",
+      "cited_node_ids": [
+        "q-C4-Q03"
+      ]
+    }
+  },
+  {
+    "check_id": "CHK-C4-Q04-EVGRAPH-EVIDENCE",
+    "check_type": "EVIDENCE_TYPE_VALID",
+    "status": "FAILED",
+    "observation": "C4-Q04 has no structured evidence references.",
+    "evgraph": {
+      "finding_id": "finding_3e74b42e",
+      "rule_id": "clause04-question-has-structured-evidence",
+      "level": "STRUCTURAL",
+      "outcome": "EXPECTATION_NOT_MET",
+      "cited_node_ids": [
+        "q-C4-Q04"
+      ]
+    }
+  }
+]

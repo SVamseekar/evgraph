@@ -1,0 +1,22 @@
+[
+  {
+    "question_id": "C4-Q01",
+    "response": "Harborline Consumer Finance maintains a Context Register. Evidence is stored in Clause4_Context_Register.xlsx. Internal issues listed: model ownership split between Credit Risk and Data Science; underwriter override rate not reported to AIMS owners. External issues listed: FCA consumer-duty thematic review; GDPR. The register does not mention EU AI Act high-risk classification for credit scoring, which Legal flagged in January 2026 after the last review. Owner: Responsible AI Lead. Date: 2024-06-12.",
+    "auditor_note": "File is cited. Register predates a material regulatory change; completeness of issues is a human judgement."
+  },
+  {
+    "question_id": "C4-Q02",
+    "response": "Stakeholder Register attached. Evidence is stored in Clause4_Stakeholder_Register.xlsx. Listed: CEO, Credit Risk Head, DPO, internal audit, FCA as regulator (generic). Affected applicants are recorded as TBD. The national competent authority for the AI Act is not named. The ML platform team that operates Harborline Score Assist in production is not listed as an interested party. Owner: Responsible AI Lead. Date: 2026-03-01.",
+    "auditor_note": "Register is cited but incomplete: missing affected applicants, unnamed competent authority, operating team absent."
+  },
+  {
+    "question_id": "C4-Q03",
+    "response": "AIMS Scope Statement includes customer-facing ML models owned by Data Science. Evidence is stored in Clause4_AIMS_Scope_Statement.xlsx. Harborline Score Assist is owned by Credit Risk, sits on the ML platform, and is used by underwriters to rank consumer loan applications. It is not named in the included-systems list. No separate AI system boundary artifact was attached. Exclusions in the statement: marketing models, vendor chatbots. Owner: Head of Data Science. Date: 2025-11-20.",
+    "auditor_note": "Scope file is cited. Whether the in-production credit model is in scope is not settled by the file alone."
+  },
+  {
+    "question_id": "C4-Q04",
+    "response": "The Responsible AI team described the AIMS process on a Confluence page titled RAI operating model draft: intake, model inventory spreadsheet, quarterly review, incident Slack channel. Continual improvement is described as lessons learned in the quarterly meeting. There is no process map file and no documented link between model promotion on the ML platform and AIMS review. No file was uploaded.",
+    "auditor_note": "Narrative only. No structured evidence reference expected from this response."
+  }
+]

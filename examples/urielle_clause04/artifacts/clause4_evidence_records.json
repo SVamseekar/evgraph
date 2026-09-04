@@ -1,0 +1,103 @@
+[
+  {
+    "session_id": "HARBORLINE-C4-2026-09",
+    "question_id": "C4-Q01",
+    "clause": "4.1",
+    "title": "Context of the organization",
+    "question": "Has the organization identified internal and external issues relevant to its AI Management System?",
+    "expected_evidence": [
+      "context register",
+      "internal and external issue list",
+      "business, legal, technical, and stakeholder context"
+    ],
+    "response": "Harborline Consumer Finance maintains a Context Register (Clause4_Context_Register.xlsx), last reviewed 2024-06-12 by the Responsible AI lead. Internal issues listed: model ownership split between Credit Risk and Data Science; underwriter override rate not reported to AIMS owners. External issues listed: FCA consumer-duty thematic review; GDPR. The register does not mention EU AI Act high-risk classification for credit scoring, which Legal flagged in January 2026 after the last review. Owner: Responsible AI Lead. Date: 2024-06-12.",
+    "response_source_type": "human_file",
+    "actual_evidence_references": [
+      {
+        "reference_type": "file_reference",
+        "reference_name": "Clause4_Context_Register.xlsx",
+        "extracted_from": "human_response"
+      }
+    ],
+    "confidence_score": 0.7,
+    "confidence_type": "rule_based_response_quality",
+    "auditor_note": "File exists and is mapped, but the register predates a material regulatory change. Completeness of issues is a human judgement, not a file-presence check.",
+    "auditor_flag": false,
+    "timestamp": "2026-09-03T10:15:00+00:00"
+  },
+  {
+    "session_id": "HARBORLINE-C4-2026-09",
+    "question_id": "C4-Q02",
+    "clause": "4.2",
+    "title": "Interested parties",
+    "question": "Has the organization identified interested parties and their relevant AI-related requirements?",
+    "expected_evidence": [
+      "stakeholder register",
+      "regulatory expectations",
+      "customer, user, management, and authority requirements"
+    ],
+    "response": "Stakeholder Register attached (Clause4_Stakeholder_Register.xlsx). Listed: CEO, Credit Risk Head, DPO, internal audit, FCA as 'regulator (generic)'. Affected applicants are recorded as TBD. The national competent authority for the AI Act is not named. The ML platform team that operates Harborline Score Assist in production is not listed as an interested party. Owner: Responsible AI Lead. Date: 2026-03-01.",
+    "response_source_type": "human_file",
+    "actual_evidence_references": [
+      {
+        "reference_type": "file_reference",
+        "reference_name": "Clause4_Stakeholder_Register.xlsx",
+        "extracted_from": "human_response"
+      }
+    ],
+    "confidence_score": 0.6,
+    "confidence_type": "rule_based_response_quality",
+    "auditor_note": "Register is present but incomplete in ways that need a human reviewer: missing affected applicants, unnamed competent authority, operating team absent.",
+    "auditor_flag": true,
+    "timestamp": "2026-09-03T10:15:00+00:00"
+  },
+  {
+    "session_id": "HARBORLINE-C4-2026-09",
+    "question_id": "C4-Q03",
+    "clause": "4.3",
+    "title": "AIMS scope",
+    "question": "Has the organization defined the scope and boundaries of the AI Management System?",
+    "expected_evidence": [
+      "AIMS scope statement",
+      "AI system boundary",
+      "included and excluded AI systems",
+      "organizational boundary"
+    ],
+    "response": "AIMS Scope Statement (Clause4_AIMS_Scope_Statement.xlsx) includes 'customer-facing ML models owned by Data Science'. Harborline Score Assist is owned by Credit Risk, sits on the ML platform, and is used by underwriters to rank consumer loan applications. It is not named in the included-systems list. No separate AI system boundary or organizational-boundary artifact was attached. Exclusions in the statement: marketing models, vendor chatbots. Owner: Head of Data Science. Date: 2025-11-20.",
+    "response_source_type": "human_file",
+    "actual_evidence_references": [
+      {
+        "reference_type": "file_reference",
+        "reference_name": "Clause4_AIMS_Scope_Statement.xlsx",
+        "extracted_from": "human_response"
+      }
+    ],
+    "confidence_score": 0.5,
+    "confidence_type": "rule_based_response_quality",
+    "auditor_note": "Scope file exists. Whether the in-production credit model is in scope is not settled by the file alone.",
+    "auditor_flag": false,
+    "timestamp": "2026-09-03T10:15:00+00:00"
+  },
+  {
+    "session_id": "HARBORLINE-C4-2026-09",
+    "question_id": "C4-Q04",
+    "clause": "4.4",
+    "title": "AI Management System",
+    "question": "Has the organization established, implemented, maintained, and continually improved an AI Management System, including the processes needed and their interactions?",
+    "expected_evidence": [
+      "AIMS process map",
+      "AI management system process description",
+      "process interaction diagram",
+      "governance workflow",
+      "continual improvement mechanism"
+    ],
+    "response": "The Responsible AI team described the AIMS process on a Confluence page titled 'RAI operating model (draft)': intake, model inventory (spreadsheet), quarterly review, incident Slack channel. There is no attached process map, no process-interaction diagram, and no documented link between model promotion on the ML platform and AIMS review. Continual improvement is described as 'lessons learned in the quarterly meeting'. No file was uploaded.",
+    "response_source_type": "human_response",
+    "actual_evidence_references": [],
+    "confidence_score": 0.4,
+    "confidence_type": "rule_based_response_quality",
+    "auditor_note": "Narrative only. No structured evidence reference. This is the common 'we wrote it in the questionnaire but did not attach the artifact' case.",
+    "auditor_flag": false,
+    "timestamp": "2026-09-03T10:15:00+00:00"
+  }
+]

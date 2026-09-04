@@ -1,0 +1,251 @@
+{
+  "assessment_id": "HARBORLINE-C4-2026-09",
+  "session_id": "HARBORLINE-C4-2026-09",
+  "status": "COMPLETED",
+  "readiness_score": 76.25,
+  "gaps": [
+    {
+      "question_id": "C4-Q02",
+      "clause": "4.2",
+      "gap_type": "weak_evidence",
+      "description": "Evidence for Interested parties is incomplete or requires auditor review."
+    },
+    {
+      "question_id": "C4-Q04",
+      "clause": "4.4",
+      "gap_type": "weak_evidence",
+      "description": "Evidence for AI Management System is incomplete or requires auditor review."
+    },
+    {
+      "question_id": "C4-Q04",
+      "clause": "4.4",
+      "gap_type": "missing_structured_evidence_reference",
+      "description": "AI Management System has expected evidence, but no structured evidence reference was extracted from the response."
+    }
+  ],
+  "evidence_decisions": [
+    {
+      "schema_version": "1.0.0",
+      "decision_id": "ED-HARBORLINE-C4-2026-09-001",
+      "assessment_id": "HARBORLINE-C4-2026-09",
+      "question_id": "C4-Q01",
+      "evidence_ids": [
+        "Clause4_Context_Register.xlsx"
+      ],
+      "deterministic_checks": [
+        {
+          "check_id": "CHK-C4-Q01-MAP",
+          "check_type": "QUESTION_MAPPING_VALID",
+          "status": "PASSED",
+          "observation": "Evidence record is mapped to C4-Q01."
+        },
+        {
+          "check_id": "CHK-C4-Q01-EVIDENCE",
+          "check_type": "EVIDENCE_TYPE_VALID",
+          "status": "PASSED",
+          "observation": "Structured evidence references were supplied."
+        }
+      ],
+      "semantic_observations": [],
+      "decision": "EVIDENCED",
+      "confidence": 1.0,
+      "human_review_required": false,
+      "provenance": {
+        "created_at": "2026-09-04T16:28:16.386385+00:00",
+        "created_by": "agentic.evidence_assessor",
+        "generator": "DETERMINISTIC_RULES",
+        "generator_version": "0.1.0",
+        "source_refs": [
+          "assessment:HARBORLINE-C4-2026-09",
+          "question:C4-Q01"
+        ]
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "decision_id": "ED-HARBORLINE-C4-2026-09-002",
+      "assessment_id": "HARBORLINE-C4-2026-09",
+      "question_id": "C4-Q02",
+      "evidence_ids": [
+        "Clause4_Stakeholder_Register.xlsx"
+      ],
+      "deterministic_checks": [
+        {
+          "check_id": "CHK-C4-Q02-MAP",
+          "check_type": "QUESTION_MAPPING_VALID",
+          "status": "PASSED",
+          "observation": "Evidence record is mapped to C4-Q02."
+        },
+        {
+          "check_id": "CHK-C4-Q02-EVIDENCE",
+          "check_type": "EVIDENCE_TYPE_VALID",
+          "status": "PASSED",
+          "observation": "Structured evidence references were supplied."
+        }
+      ],
+      "semantic_observations": [
+        {
+          "observer_type": "DETERMINISTIC_RULES",
+          "observation": "Register is cited but incomplete: missing affected applicants, unnamed competent authority, operating team absent."
+        }
+      ],
+      "decision": "REQUIRES_HUMAN_JUDGEMENT",
+      "confidence": 0.4,
+      "human_review_required": true,
+      "provenance": {
+        "created_at": "2026-09-04T16:28:16.386819+00:00",
+        "created_by": "agentic.evidence_assessor",
+        "generator": "DETERMINISTIC_RULES",
+        "generator_version": "0.1.0",
+        "source_refs": [
+          "assessment:HARBORLINE-C4-2026-09",
+          "question:C4-Q02"
+        ]
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "decision_id": "ED-HARBORLINE-C4-2026-09-003",
+      "assessment_id": "HARBORLINE-C4-2026-09",
+      "question_id": "C4-Q03",
+      "evidence_ids": [
+        "Clause4_AIMS_Scope_Statement.xlsx"
+      ],
+      "deterministic_checks": [
+        {
+          "check_id": "CHK-C4-Q03-MAP",
+          "check_type": "QUESTION_MAPPING_VALID",
+          "status": "PASSED",
+          "observation": "Evidence record is mapped to C4-Q03."
+        },
+        {
+          "check_id": "CHK-C4-Q03-EVIDENCE",
+          "check_type": "EVIDENCE_TYPE_VALID",
+          "status": "PASSED",
+          "observation": "Structured evidence references were supplied."
+        }
+      ],
+      "semantic_observations": [],
+      "decision": "EVIDENCED",
+      "confidence": 1.0,
+      "human_review_required": false,
+      "provenance": {
+        "created_at": "2026-09-04T16:28:16.387084+00:00",
+        "created_by": "agentic.evidence_assessor",
+        "generator": "DETERMINISTIC_RULES",
+        "generator_version": "0.1.0",
+        "source_refs": [
+          "assessment:HARBORLINE-C4-2026-09",
+          "question:C4-Q03"
+        ]
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "decision_id": "ED-HARBORLINE-C4-2026-09-004",
+      "assessment_id": "HARBORLINE-C4-2026-09",
+      "question_id": "C4-Q04",
+      "evidence_ids": [],
+      "deterministic_checks": [
+        {
+          "check_id": "CHK-C4-Q04-MAP",
+          "check_type": "QUESTION_MAPPING_VALID",
+          "status": "PASSED",
+          "observation": "Evidence record is mapped to C4-Q04."
+        },
+        {
+          "check_id": "CHK-C4-Q04-EVIDENCE",
+          "check_type": "EVIDENCE_TYPE_VALID",
+          "status": "FAILED",
+          "observation": "No structured evidence references were supplied."
+        }
+      ],
+      "semantic_observations": [
+        {
+          "observer_type": "DETERMINISTIC_RULES",
+          "observation": "Narrative only. No structured evidence reference expected from this response."
+        }
+      ],
+      "decision": "REQUIRES_HUMAN_JUDGEMENT",
+      "confidence": 0.65,
+      "human_review_required": true,
+      "provenance": {
+        "created_at": "2026-09-04T16:28:16.387502+00:00",
+        "created_by": "agentic.evidence_assessor",
+        "generator": "DETERMINISTIC_RULES",
+        "generator_version": "0.1.0",
+        "source_refs": [
+          "assessment:HARBORLINE-C4-2026-09",
+          "question:C4-Q04"
+        ]
+      }
+    }
+  ],
+  "findings": [
+    {
+      "schema_version": "1.0.0",
+      "finding_id": "FND-HARBORLINE-C4-2026-09-001",
+      "assessment_id": "HARBORLINE-C4-2026-09",
+      "requirement_ref": "4.2",
+      "question_id": "C4-Q02",
+      "condition": "Evidence for C4-Q02 requires human judgement before assessment disposition.",
+      "criteria": "ISO/IEC 42001 Clause 4.2 assessment criteria for C4-Q02 require sufficient and traceable supporting evidence.",
+      "evidence_refs": [
+        {
+          "reference_type": "EVIDENCE_DECISION",
+          "reference_id": "ED-HARBORLINE-C4-2026-09-002"
+        },
+        {
+          "reference_type": "EVIDENCE",
+          "reference_id": "Clause4_Stakeholder_Register.xlsx"
+        }
+      ],
+      "risk_statement": "Automated disposition would exceed the deterministic assessment boundary for requirement 4.2.",
+      "severity_preliminary": "REVIEW_REQUIRED",
+      "recommendation": "Route the evidence decision to an authorized human reviewer before final disposition.",
+      "human_disposition": "PENDING",
+      "review_record": null,
+      "provenance": {
+        "created_at": "2026-09-04T16:28:16.434067+00:00",
+        "created_by": "agentic.finding_generator",
+        "generator": "DETERMINISTIC_RULES",
+        "generator_version": "0.1.0",
+        "source_refs": [
+          "evidence_decision:ED-HARBORLINE-C4-2026-09-002",
+          "question:C4-Q02",
+          "evidence:Clause4_Stakeholder_Register.xlsx"
+        ]
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "finding_id": "FND-HARBORLINE-C4-2026-09-002",
+      "assessment_id": "HARBORLINE-C4-2026-09",
+      "requirement_ref": "4.4",
+      "question_id": "C4-Q04",
+      "condition": "Evidence for C4-Q04 requires human judgement before assessment disposition.",
+      "criteria": "ISO/IEC 42001 Clause 4.4 assessment criteria for C4-Q04 require sufficient and traceable supporting evidence.",
+      "evidence_refs": [
+        {
+          "reference_type": "EVIDENCE_DECISION",
+          "reference_id": "ED-HARBORLINE-C4-2026-09-004"
+        }
+      ],
+      "risk_statement": "Automated disposition would exceed the deterministic assessment boundary for requirement 4.4.",
+      "severity_preliminary": "REVIEW_REQUIRED",
+      "recommendation": "Route the evidence decision to an authorized human reviewer before final disposition.",
+      "human_disposition": "PENDING",
+      "review_record": null,
+      "provenance": {
+        "created_at": "2026-09-04T16:28:16.457309+00:00",
+        "created_by": "agentic.finding_generator",
+        "generator": "DETERMINISTIC_RULES",
+        "generator_version": "0.1.0",
+        "source_refs": [
+          "evidence_decision:ED-HARBORLINE-C4-2026-09-004",
+          "question:C4-Q04"
+        ]
+      }
+    }
+  ]
+}

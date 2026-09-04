@@ -1,0 +1,22 @@
+[
+  {
+    "question_id": "C4-Q01",
+    "response": "Public AWS guidance describes Clause 4 context as internal and external factors, stakeholders, and AIMS boundaries when operating AI on AWS, including shared-responsibility split between AWS and the customer. Evidence is stored in iso_42001_responsible_management_of_ai_systems.pdf. The document is a customer implementation guide dated May 2026, not an AWS internal context register. Owner: AWS Security / Compliance publications. Date: 2026-05-01.",
+    "auditor_note": "A public whitepaper is cited. It is not a filled organisational context register for a named AIMS owner."
+  },
+  {
+    "question_id": "C4-Q02",
+    "response": "Microsoft states ISO 42001 certification supports understanding the needs and expectations of its customers and lists in-scope AI services on learn.microsoft.com. Interested parties named in public text include customers, regulators, researchers, and the responsible-AI practitioner community. No public stakeholder register with requirements, owners, and review dates was found. Audit reports and scope statements are behind the Service Trust Portal login. Owner: Microsoft Compliance. Date: 2026-09-01.",
+    "auditor_note": "Customers are mentioned. Affected individuals, model vendors, and a requirements column are not published."
+  },
+  {
+    "question_id": "C4-Q03",
+    "response": "AWS says covered products and services in scope are listed in the AWS ISO/IEC 42001:2023 Certificate in AWS Artifact, and names Amazon Bedrock, Amazon Q Business, Amazon Textract, and Amazon Transcribe in public material. Microsoft publishes in-scope services: GitHub Copilot, Microsoft 365 Copilot, Microsoft 365 Copilot Chat, Microsoft Copilot Health, Microsoft Copilot Studio, Microsoft Dragon Copilot, Microsoft Dragon Copilot (Radiologist), Microsoft Foundry, Microsoft Security Copilot. Evidence is stored in offering-iso-42001.md. Exclusions and organisational boundary are not in the public HTML. Owner: Microsoft Compliance / AWS Artifact. Date: 2026-09-01.",
+    "auditor_note": "Product lists are public. Full certificate scope, exclusions, and justification sit behind login."
+  },
+  {
+    "question_id": "C4-Q04",
+    "response": "The AWS whitepaper maps Clause 4-10 to AWS services and describes context, scoping, and shared responsibility. Continual improvement is stated as a Microsoft AIMS objective on the Learn page. No public AIMS process map, process-interaction diagram, or governance workflow artifact was published as a downloadable file. Owner: not identified on the public pages.",
+    "auditor_note": "Narrative only. No process-map file name to extract."
+  }
+]

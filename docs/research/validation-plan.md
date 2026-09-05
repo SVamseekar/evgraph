@@ -42,4 +42,9 @@ This is not a marketing plan, a fundraising pitch, or a user-research methodolog
 - `docs/ROADMAP.md` Stage 4.5 — the scoped work items this plan grounds.
 - `docs/ARCHITECTURE.md` ADR-0007 — the decision this validation stage exists to test.
 - `docs/research/standards-comparison.md` — source of H1/H2.
-- `docs/research/practitioner-and-market-check.md` — source of H3.
+- `docs/research/practitioner-and-market-check.md` — source of H3 (desk research).
+- `docs/research/practitioner-outreach-kit.md` — Goal 3 runnable outreach + demo + questions.
+- `docs/research/practitioner-interview-log.md` — per-conversation log + pattern board.
+- `docs/research/practitioner-decision-memo.md` — Path A/B/C exit checklist after N interviews.
+- `docs/research/oscal-roundtrip.md` — H1 result (met).
+- `docs/research/mlflow-adapter-validation.md` — H2 result (met).

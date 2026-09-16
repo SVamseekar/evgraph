@@ -59,3 +59,10 @@ mlartifacts/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Local-only legal/confidential documents (never committed)
+examples/urielle_clause04/*.docx
+
+# Claude Code local context (not for git)
+CLAUDE.md
+AGENTS.md

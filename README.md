@@ -63,7 +63,9 @@ pip install evgraph evgraph-cli
 ```
 
 `evgraph` pulls in `evgraph-core` and `evgraph-rules` automatically.
-`evgraph-cli` adds the `evgraph` command-line tool.
+`evgraph-cli` adds the `evgraph` command. The `evgraph` package alone does not install that command.
+
+EU AI Assurance OS pins `evgraph-cli==0.1.2` for its evidence pack. The pack and a live `evgraph scan` must report the same current gap. A missing approval timestamp stays inconclusive. The scan does not invent one.
 
 Optional MLflow adapter dependency:
 

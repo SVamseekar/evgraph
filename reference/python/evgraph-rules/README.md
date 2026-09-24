@@ -32,7 +32,7 @@ by convention.
   `REQUIRES_APPROVAL` edge points to a `HumanApproval` whose `approved_at`
   precedes the deployment's `deployed_at`. Reasoning class `CONSISTENCY`: it
   cross-references two structural timestamps rather than reading either in
-  isolation.
+  isolation. A missing `approved_at` stays inconclusive. The rule does not invent the timestamp. EU AI Assurance OS pins `evgraph-cli==0.1.2` so a pack and a live scan share that gap.
 - **`dataset-manifest-complete`** — checks that every `Dataset` node in the
   graph declares a non-empty `license` attribute. Reasoning class
   `STRUCTURAL`: a direct presence check on a single node, with no

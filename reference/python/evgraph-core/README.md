@@ -14,9 +14,11 @@ evidence is allowed to claim to be, and the contracts an adapter or a rule
 must honor to participate in that graph. It has no opinion about *how*
 evidence gets collected or *what* should be checked — those are the concerns
 of `evgraph-rules` (built-in checks) and `evgraph` (adapters, reporters, the
-public `scan()` API). `evgraph-core` only defines the shared data model those
-higher layers agree on, which is what lets adapters, rule packs, and
-reporters be written independently and still interoperate.
+public `scan()` API). A missing approval timestamp stays inconclusive in a
+finding. The graph does not invent the field. EU AI Assurance OS pins
+`evgraph-cli==0.1.2` against this vocabulary. `evgraph-core` only defines the
+shared data model those higher layers agree on, which is what lets adapters,
+rule packs, and reporters be written independently and still interoperate.
 
 The types here implement the **Evidence Graph Specification (EGS)** and the
 **Rule Evaluation Specification (RES)** — normative documents in the main

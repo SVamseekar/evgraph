@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "evgraph"
 version = "0.1.2"
-description = "Evgraph Python library: adapters, reporters, rule discovery, and scan() API for governance evidence."
+description = "Evgraph Python library: adapters, reporters, and scan() API. Does not install the evgraph command. A missing approval timestamp stays inconclusive."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "BSD-3-Clause" }

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "evgraph-core"
 version = "0.1.2"
-description = "Core types for Evgraph: Evidence Graph, nodes, edges, evidence levels, rules, and findings."
+description = "Core types for Evgraph. A missing approval timestamp stays inconclusive. The graph does not invent the field."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "BSD-3-Clause" }

@@ -14,7 +14,7 @@ Python. It is intentionally a *thin* wrapper: this package contains no
 logic of its own beyond argument parsing and output-format selection —
 scanning and reporting are entirely delegated to
 `evgraph.scan()` / `evgraph.scan_dataset_manifest()` / `Report`, so the CLI
-and the library can never drift in behavior.
+and the library can never drift in behavior. EU AI Assurance OS pins this package at `evgraph-cli==0.1.2`. A missing approval timestamp stays inconclusive. The scan does not invent the field.
 
 ## Main features
 

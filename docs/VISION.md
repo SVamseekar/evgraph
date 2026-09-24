@@ -24,6 +24,8 @@ Evgraph explores a different idea.
 Rather than asking software engineers to read governance documents, Evgraph asks:
 Can governance evidence itself become computationally represented, evaluated, traced, and reported through software?
 The project does not seek to replace human judgment.
+A missing approval timestamp stays inconclusive. The scan does not invent the field.
+EU AI Assurance OS pins evgraph-cli==0.1.2 so a pack and a live scan share that gap.
 It seeks to make governance evidence computationally understandable.
 2. The Core Hypothesis
 Evgraph is built around two hypotheses.

@@ -10,6 +10,8 @@ Package versions in this monorepo (`evgraph-core`, `evgraph-rules`, `evgraph`,
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-08-25
+
 ### Added
 
 - GitHub Actions publish workflow using PyPI Trusted Publishing (OIDC).
@@ -21,10 +23,10 @@ Package versions in this monorepo (`evgraph-core`, `evgraph-rules`, `evgraph`,
   runs `twine check --strict`.
 - Maintainer scripts: `scripts/build_dists.py`, `scripts/check_release_version.py`.
 - Dependabot for GitHub Actions.
-- Promotion scan API and CLI workflow documentation for `scan_promotion`,
-  `evaluate_gate`, `evgraph scan-promotion`, `--gate`, and `--strict`.
-- Promotion gate example with report-only scans, reviewer-pack outputs
-  (Markdown, SARIF, OSCAL), and a sample GitHub Actions workflow.
+- Opt-in promotion gate: `evaluate_gate` / `GateResult`, `scan_promotion`
+  (JSON-only or MLflow+JSON), graph compose with PROM-001 identity links.
+- CLI `--gate` / `--strict`, `evgraph scan-promotion`, and reviewer-pack
+  example under `examples/promotion_gate/`.
 
 ## [0.1.1] - 2026-08-17
 
@@ -82,6 +84,7 @@ Published to PyPI on 2026-08-17: [`evgraph-core`](https://pypi.org/project/evgra
   round-trip, and MLflow adapter validation (`docs/research/`)
 - Runnable examples under `examples/`
 
-[Unreleased]: https://github.com/SVamseekar/evgraph/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/SVamseekar/evgraph/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.2
 [0.1.1]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.1
 [0.1.0]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.0

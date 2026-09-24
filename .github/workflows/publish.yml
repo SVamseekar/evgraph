@@ -33,12 +33,12 @@ jobs:
         python-version: ["3.10", "3.11", "3.12"]
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -70,12 +70,12 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -94,12 +94,12 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -119,7 +119,7 @@ jobs:
         run: python -m twine check --strict dist/*/*
 
       - name: Store distributions
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-package-distributions
           path: dist/
@@ -150,7 +150,7 @@ jobs:
 
     steps:
       - name: Download distributions
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: python-package-distributions
           path: dist/
@@ -183,7 +183,7 @@ jobs:
 
     steps:
       - name: Download distributions
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: python-package-distributions
           path: dist/
@@ -206,7 +206,7 @@ jobs:
 
     steps:
       - name: Download distributions
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: python-package-distributions
           path: dist/

@@ -50,7 +50,7 @@ and the trail of what was checked.
 | [`evgraph`](reference/python/evgraph/) | Adapters, reporters, and the `scan()` / `scan_dataset_manifest()` API | [![PyPI](https://img.shields.io/pypi/v/evgraph.svg)](https://pypi.org/project/evgraph/) |
 | [`evgraph-cli`](reference/python/evgraph-cli/) | `evgraph` command-line tool | [![PyPI](https://img.shields.io/pypi/v/evgraph-cli.svg)](https://pypi.org/project/evgraph-cli/) |
 
-All packages are versioned together at **0.1.1** (see [CHANGELOG](CHANGELOG.md)).
+All packages are versioned together at **0.1.2** (see [CHANGELOG](CHANGELOG.md)).
 
 ---
 

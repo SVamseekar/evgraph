@@ -28,3 +28,9 @@ This check pushes the verdict further negative than the OSCAL comparison alone w
 - Where the discipline is diffuse (general "AI governance"), the observed practitioner failure mode is *non-production* of documentation and *substantive* enforcement failures (deception, discrimination, fraud) — not the absence of a canonical evidence format to store documentation that was already being written.
 
 Combined with the earlier finding that no confirmed N×M interoperability pressure exists, this suggests the gap Evgraph is filling is not currently unowned — it's owned, and already served, in the one place a single owner exists, and in the diffuse case the actual complaint is upstream of anything a data model can fix.
+
+---
+
+## Follow-up: direct practitioner contact (Stage 4.5 Goal 3)
+
+This note is **desk research**, not interviews. H3 in `docs/research/validation-plan.md` remains open until independent practitioners are asked the primary question in person. Runnable kit: `docs/research/practitioner-outreach-kit.md`; log: `docs/research/practitioner-interview-log.md`; exit paths: `docs/research/practitioner-decision-memo.md`. Interviews may confirm, refine, or overturn the bottom line above — do not treat this file alone as Stage 4.5 Goal 3 complete.

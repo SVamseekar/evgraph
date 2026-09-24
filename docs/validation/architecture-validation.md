@@ -20,7 +20,7 @@
 
 | # | Hypothesis | Status | What would resolve it |
 |---|---|---|---|
-| 8 | Practitioners who actually own AI governance evidence day to day (ML platform engineers, MLOps engineers, model risk managers, AI governance leads) recognize a real, recurring problem that Evgraph's architecture addresses. | ⏳ Open | Stage 4.5 Goal 3 — direct practitioner conversations, one question ("what problem, if any, would this solve for you?"), looking for a recurring pattern across independent conversations, not positive feedback (`docs/ROADMAP.md` Stage 4.5, `docs/research/validation-plan.md` H3). This is explicitly not a coding task and requires the project owner to run it directly. |
+| 8 | Practitioners who actually own AI governance evidence day to day (ML platform engineers, MLOps engineers, model risk managers, AI governance leads) recognize a real, recurring problem that Evgraph's architecture addresses. | ⏳ Open (kit ready; interviews not yet run) | Stage 4.5 Goal 3 — run conversations with `docs/research/practitioner-outreach-kit.md`, log in `docs/research/practitioner-interview-log.md`, decide via `docs/research/practitioner-decision-memo.md`. One question ("what problem, if any, would this solve for you?"); success = recurring pattern across independent conversations, not praise (`docs/research/validation-plan.md` H3). Project owner must run interviews; preparation alone does not resolve this row. |
 | 9 | A genuine N×M interoperability pressure (analogous to what justified Arrow/OpenTelemetry) exists for AI governance evidence specifically. | ⏳ Open, and explicitly not yet demonstrated | An independent third party — not this project's own reference implementation — is shown to be building redundant point-to-point integrations between a governance evidence source and a governance evidence consumer, and adopts Evgraph's IR to avoid it (`docs/research/standards-comparison.md` §5). |
 
 ---
@@ -39,4 +39,4 @@
 
 - `docs/ARCHITECTURE.md` — the constitution and full decision log (ADRs) each validated hypothesis traces back to.
 - `docs/ROADMAP.md` — the stage-by-stage record each row cites.
-- `docs/research/` — `standards-comparison.md`, `practitioner-and-market-check.md`, `validation-plan.md`, `oscal-roundtrip.md`, `mlflow-adapter-validation.md` — the underlying research and validation notes.
+- `docs/research/` — `standards-comparison.md`, `practitioner-and-market-check.md`, `validation-plan.md`, `oscal-roundtrip.md`, `mlflow-adapter-validation.md`, `practitioner-outreach-kit.md`, `practitioner-interview-log.md`, `practitioner-decision-memo.md` — research and Goal 3 validation program.

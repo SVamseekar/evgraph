@@ -2,8 +2,10 @@
 
 This example shows how to use Evgraph promotion scans in review and CI. The gate
 is an automation signal over evidence findings: it reports evidence that exists,
-is missing, or is inconsistent. It is not a legal or regulatory compliance
-verdict.
+is missing, or is inconsistent. A missing approval timestamp stays inconclusive.
+The scan does not invent the field. EU AI Assurance OS pins `evgraph-cli==0.1.2`
+so its evidence pack and this scan report the same current gap. It is not a
+legal or regulatory compliance verdict.
 
 The commands below reuse the sample JSON artifacts from
 `examples/model_card_deployment/`.

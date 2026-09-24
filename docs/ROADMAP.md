@@ -4,7 +4,7 @@
 
 Each stage lists an **exit condition** — what must be true before moving to the next stage. A stage is not "done when the code is written," it's done when its exit condition holds.
 
-For the principles governing *why* this order was chosen, see `docs/ARCHITECTURE.md` (constitution). For what's true *right now*, see `README.md`. This document is the path connecting the two, from basic to advanced.
+For the principles governing *why* this order was chosen, see `docs/ARCHITECTURE.md` (constitution). For what's true *right now*, see `README.md`: EU AI Assurance OS pins `evgraph-cli==0.1.2`, and a missing approval timestamp stays inconclusive. This document is the path connecting the two, from basic to advanced.
 
 ---
 

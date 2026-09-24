@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "evgraph-rules"
 version = "0.1.2"
-description = "Built-in Evgraph rule pack: approval, dataset-manifest, and model-version provenance checks."
+description = "Built-in Evgraph rule pack. A missing approval timestamp stays inconclusive. The rule does not invent the field."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "BSD-3-Clause" }

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "evgraph-cli"
 version = "0.1.2"
-description = "Command-line interface for Evgraph (evgraph scan / evgraph scan-dataset-manifest)."
+description = "evgraph command. EU AI Assurance OS pins evgraph-cli==0.1.2. A missing approval timestamp stays inconclusive."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "BSD-3-Clause" }

@@ -12,7 +12,7 @@ Evgraph is an open-source Python **library ecosystem** for executable governance
 
 The product is libraries (`evgraph-core`, `evgraph-rules`, `evgraph`, `evgraph-cli`)—not a hosted service, dashboard, or certification authority.
 
-Evgraph evaluates evidence. It does not issue legal or regulatory judgment. Every other statement in this document is a consequence of that sentence.
+Evgraph evaluates evidence. It does not issue legal or regulatory judgment. A missing approval timestamp stays inconclusive. The scan does not invent the field. EU AI Assurance OS pins `evgraph-cli==0.1.2` so the evidence pack and a live scan report the same current gap. Every other statement in this document is a consequence of that boundary.
 
 ---
 

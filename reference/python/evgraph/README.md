@@ -15,7 +15,7 @@ deployment record, a dataset manifest, an MLflow registry) get turned into an
 formatted for a human, a CI pipeline, or a standards tool to consume. It sits
 on top of `evgraph-core` (the graph and evidence-level vocabulary) and
 `evgraph-rules` (the built-in checks), and is what most of the rest of the
-Evgraph documentation means when it talks about "running a scan."
+Evgraph documentation means when it talks about "running a scan." This package does not install the `evgraph` command. EU AI Assurance OS pins `evgraph-cli==0.1.2`. A missing approval timestamp stays inconclusive. The scan does not invent the field.
 
 A scan is always three steps, regardless of which adapter or reporter is
 used: an **adapter** builds a graph, every discovered **rule** evaluates that

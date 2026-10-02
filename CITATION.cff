@@ -13,8 +13,7 @@ abstract: >-
   Evgraph is an open-source Python library stack for executable governance
   evidence. It converts governance artifacts into an Evidence Graph and
   evaluates deterministic rules to produce explainable, leveled findings
-  without issuing legal or regulatory compliance verdicts. A missing approval
-  timestamp stays inconclusive. EU AI Assurance OS pins evgraph-cli==0.1.2.
+  without issuing legal or regulatory compliance verdicts.
 keywords:
   - governance evidence
   - evidence graph

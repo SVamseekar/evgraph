@@ -10,6 +10,19 @@ Package versions in this monorepo (`evgraph-core`, `evgraph-rules`, `evgraph`,
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-10-02
+
+### Fixed
+
+- `approval-precedes-deployment` reports INCONCLUSIVE when `approved_at` or
+  `deployed_at` is not a valid ISO-8601 timestamp, instead of aborting the
+  whole scan with `Invalid isoformat string`.
+
+### Changed
+
+- Package descriptions describe evgraph itself; downstream product names were
+  removed from PyPI metadata.
+
 ## [0.1.2] - 2026-08-25
 
 ### Added
@@ -84,7 +97,8 @@ Published to PyPI on 2026-08-17: [`evgraph-core`](https://pypi.org/project/evgra
   round-trip, and MLflow adapter validation (`docs/research/`)
 - Runnable examples under `examples/`
 
-[Unreleased]: https://github.com/SVamseekar/evgraph/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/SVamseekar/evgraph/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.3
 [0.1.2]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.2
 [0.1.1]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.1
 [0.1.0]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.0

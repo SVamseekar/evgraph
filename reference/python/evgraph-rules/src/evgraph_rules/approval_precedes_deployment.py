@@ -24,8 +24,14 @@ RULE_NAME = "Approval precedes deployment"
 REASONING_CLASS = EvidenceLevel.CONSISTENCY
 
 
-def _parse_datetime(value: str) -> datetime:
-    dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
+def _parse_datetime(value: object) -> datetime | None:
+    """Parse an ISO-8601 timestamp. Returns None when the value is not a valid timestamp string."""
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        dt = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+    except ValueError:
+        return None
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=timezone.utc)
     return dt
@@ -71,6 +77,28 @@ class ApprovalPrecedesDeploymentRule:
 
             deployed_at = _parse_datetime(deployment.attributes["deployed_at"])
             approved_at = _parse_datetime(approval.attributes["approved_at"])
+            if deployed_at is None or approved_at is None:
+                bad_fields = []
+                if deployed_at is None:
+                    bad_fields.append(f"deployed_at of DeploymentRecord {deployment.id}")
+                if approved_at is None:
+                    bad_fields.append(f"approved_at of HumanApproval {approval.id}")
+                findings.append(
+                    Finding(
+                        id=f"finding_{uuid.uuid4().hex[:8]}",
+                        rule_id=self.id,
+                        level=level,
+                        outcome=Outcome.INCONCLUSIVE,
+                        statement=(
+                            "Cannot compare deployment and approval order: "
+                            + " and ".join(bad_fields)
+                            + " is not a valid ISO-8601 timestamp."
+                        ),
+                        cited_node_ids=(deployment.id, approval.id),
+                        trace=(edge,),
+                    )
+                )
+                continue
 
             outcome = (
                 Outcome.EXPECTATION_MET

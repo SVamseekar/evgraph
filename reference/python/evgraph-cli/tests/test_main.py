@@ -240,3 +240,20 @@ def test_strict_without_gate_exits_2_for_scan_promotion(capsys):
     assert exit_code == 2
     assert "requires --gate" in captured.err
     assert captured.out == ""
+
+
+def _write(tmp_path, name, data):
+    path = tmp_path / name
+    path.write_text(json.dumps(data), encoding="utf-8")
+    return str(path)
+
+
+def test_malformed_timestamp_fails_strict_gate_but_not_plain_gate(tmp_path, capsys):
+    card = _write(tmp_path, "card.json", {"model_name": "m", "intended_use": "x"})
+    approval = _write(tmp_path, "approval.json", {"approver": "a", "approved_at": "yesterday"})
+    deployment = _write(tmp_path, "deploy.json", {"deployed_at": "2026-06-10T00:00:00Z"})
+
+    assert main(["scan", card, approval, deployment, "--gate"]) == 0
+    assert main(["scan", card, approval, deployment, "--gate", "--strict"]) == 1
+    out = capsys.readouterr().out
+    assert "INCONCLUSIVE" in out

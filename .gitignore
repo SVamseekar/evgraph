@@ -59,3 +59,6 @@ mlartifacts/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Local git worktrees
+.worktrees/

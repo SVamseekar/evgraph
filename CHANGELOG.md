@@ -10,7 +10,7 @@ Package versions in this monorepo (`evgraph-core`, `evgraph-rules`, `evgraph`,
 
 ## [Unreleased]
 
-## [0.1.3] - 2026-10-02
+## [0.1.3] - 2026-10-04
 
 ### Fixed
 

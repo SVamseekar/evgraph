@@ -1,0 +1,30 @@
+classDiagram
+  class evgraph_core {
+  }
+  class adapter {
+  }
+  class evidence_level {
+  }
+  class finding {
+  }
+  class graph {
+  }
+  class rule {
+  }
+  class serialization {
+  }
+  evgraph_core --> adapter
+  evgraph_core --> evidence_level
+  evgraph_core --> finding
+  evgraph_core --> graph
+  evgraph_core --> rule
+  evgraph_core --> serialization
+  adapter --> evidence_level
+  finding --> evidence_level
+  finding --> graph
+  graph --> evidence_level
+  rule --> evidence_level
+  rule --> finding
+  rule --> graph
+  serialization --> finding
+  serialization --> graph

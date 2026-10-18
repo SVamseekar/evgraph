@@ -1,0 +1,45 @@
+classDiagram
+  class evgraph {
+  }
+  class adapters {
+  }
+  class dataset_manifest {
+  }
+  class mlflow_adapter {
+  }
+  class model_card {
+  }
+  class compose {
+  }
+  class discovery {
+  }
+  class gate {
+  }
+  class report {
+  }
+  class reporters {
+  }
+  class json_reporter {
+  }
+  class markdown_reporter {
+  }
+  class oscal_reporter {
+  }
+  class sarif_reporter {
+  }
+  class scan {
+  }
+  evgraph --> gate
+  evgraph --> report
+  evgraph --> scan
+  gate --> report
+  report --> json_reporter
+  report --> markdown_reporter
+  report --> oscal_reporter
+  report --> sarif_reporter
+  scan --> dataset_manifest
+  scan --> mlflow_adapter
+  scan --> model_card
+  scan --> compose
+  scan --> discovery
+  scan --> report

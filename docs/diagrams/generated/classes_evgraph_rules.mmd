@@ -1,0 +1,19 @@
+classDiagram
+  class ApprovalPrecedesDeploymentRule {
+    id : str
+    name : str
+    reasoning_class : CONSISTENCY
+    evaluate(graph: EvidenceGraph) list[Finding]
+  }
+  class DatasetManifestCompleteRule {
+    id : str
+    name : str
+    reasoning_class : STRUCTURAL
+    evaluate(graph: EvidenceGraph) list[Finding]
+  }
+  class ModelVersionHasTrainingProvenanceRule {
+    id : str
+    name : str
+    reasoning_class : STRUCTURAL
+    evaluate(graph: EvidenceGraph) list[Finding]
+  }

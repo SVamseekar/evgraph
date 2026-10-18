@@ -1,0 +1,74 @@
+classDiagram
+  class Adapter {
+    assumptions : list[Assumption]
+    evidence_level
+    extraction_method : str
+    name : str
+    supported_source_kinds : list[str]
+    version : str
+  }
+  class AdapterError {
+    adapter_name : str
+    adapter_version : str
+    message : str
+  }
+  class AdapterInvocation {
+    adapter : str
+    version : str
+  }
+  class Assumption {
+    id : str
+    statement : str
+  }
+  class EvidenceEdge {
+    observed_at : datetime
+    source_id : str
+    target_id : str
+    type : str
+  }
+  class EvidenceGraph {
+    adapter_manifest : tuple[AdapterInvocation, ...]
+    created_at : datetime
+    edges : tuple[EvidenceEdge, ...]
+    graph_id : str
+    nodes : tuple[EvidenceNode, ...]
+    ancestors(node_id: str) list[EvidenceNode]
+    descendants(node_id: str) list[EvidenceNode]
+    neighbors(node_id: str) list[EvidenceNode]
+    node(node_id: str) EvidenceNode
+    trace(node_id: str) list[EvidenceEdge]
+  }
+  class EvidenceLevel {
+    name
+  }
+  class EvidenceNode {
+    attributes : dict[str, JSONValue]
+    evidence_level
+    id : str
+    observed_at : datetime
+    source : dict
+    type : str
+  }
+  class Finding {
+    cited_node_ids : tuple[str, ...]
+    id : str
+    level
+    outcome
+    rule_id : str
+    statement : str
+    trace : tuple[EvidenceEdge, ...]
+  }
+  class Outcome {
+    name
+  }
+  class Rule {
+    id : str
+    name : str
+    reasoning_class
+    evaluate(graph: EvidenceGraph) list[Finding]
+  }
+  Adapter --> EvidenceLevel : evidence_level
+  Finding --> EvidenceLevel : level
+  EvidenceNode --> EvidenceLevel : evidence_level
+  Rule --> EvidenceLevel : reasoning_class
+  Finding --> Outcome : outcome

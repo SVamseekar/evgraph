@@ -39,8 +39,9 @@ uvx --quiet code2flow --quiet --hide-legend -o "$OUT/call-graph.svg" \
   "$SRC/evgraph-cli/src/evgraph_cli"
 
 echo "==> CI/CD pipeline diagrams (workflow YAML)"
-uvx --quiet --with pyyaml python "$ROOT/scripts/workflow_to_mermaid.py" \
-  "$ROOT"/.github/workflows/*.yml > "$OUT/pipelines.md"
+# Relative paths, so the committed index never records where the repo was checked out.
+(cd "$ROOT" && uvx --quiet --with pyyaml python scripts/workflow_to_mermaid.py \
+  .github/workflows/*.yml) > "$OUT/pipelines.md"
 
 echo "==> Index ($INDEX)"
 {

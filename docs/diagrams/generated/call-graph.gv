@@ -2,355 +2,391 @@ digraph G {
 concentrate=true;
 splines="ortho";
 rankdir="LR";
-node_a48f1d0d [label="42: __init__()" name="adapter::AdapterError.__init__" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_223f4746 [label="47: evaluate()" name="approval_precedes_deployment::ApprovalPrecedesDeploymentRule.evaluate" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_500c8a4e [label="27: _parse_datetime()" name="approval_precedes_deployment::_parse_datetime" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_2cae9631 [label="101: _registered_model_name()" name="compose::_registered_model_name" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_477c7857 [label="21: compose_graphs()" name="compose::compose_graphs" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_50c04282 [label="98: scan()" name="dataset_manifest::DatasetManifestAdapter.scan" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_d8688765 [label="56: _read_rows()" name="dataset_manifest::_read_rows" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_d6199f92 [label="28: evaluate()" name="dataset_manifest_complete::DatasetManifestCompleteRule.evaluate" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_3cd5bfa7 [label="22: discover_rules()" name="discovery::discover_rules" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_2d1c0e71 [label="13: least_certain()" name="evidence_level::least_certain" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_a7e8b8ad [label="19: evaluate_gate()" name="gate::evaluate_gate" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_76ad8e77 [label="85: ancestors()" name="graph::EvidenceGraph.ancestors" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_932aa15c [label="98: descendants()" name="graph::EvidenceGraph.descendants" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_6228d728 [label="74: neighbors()" name="graph::EvidenceGraph.neighbors" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_07333820 [label="66: node()" name="graph::EvidenceGraph.node" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_8bd5cc5c [label="111: trace()" name="graph::EvidenceGraph.trace" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_a7e7e8a8 [label="11: to_dict()" name="json_reporter::to_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_1e30d2c2 [label="18: to_json()" name="json_reporter::to_json" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_140a6620 [label="0: (global)()" name="main::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_ec4c96aa [label="32: _add_format_argument()" name="main::_add_format_argument" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_63826ec6 [label="41: _add_gate_arguments()" name="main::_add_gate_arguments" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_b2840965 [label="26: _print_report()" name="main::_print_report" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_72d3e0da [label="54: build_parser()" name="main::build_parser" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_bb8348d3 [label="90: main()" name="main::main" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_6ac37e7d [label="21: _render_finding()" name="markdown_reporter::_render_finding" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_fbe88285 [label="36: to_markdown()" name="markdown_reporter::to_markdown" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_222fac71 [label="94: scan()" name="mlflow_adapter::MLflowAdapter.scan" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_82cc5686 [label="80: _epoch_millis_to_datetime()" name="mlflow_adapter::_epoch_millis_to_datetime" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_ed535516 [label="103: scan()" name="model_card::ModelCardAdapter.scan" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_2a68b1f2 [label="63: _read_json()" name="model_card::_read_json" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_89e26353 [label="81: _require_keys()" name="model_card::_require_keys" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_fa237335 [label="36: evaluate()" name="model_version_has_training_provenance::ModelVersionHasTrainingProvenanceRule.evaluate" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_75106936 [label="95: _finding_to_oscal()" name="oscal_reporter::_finding_to_oscal" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_e703fdc1 [label="71: _node_to_observation()" name="oscal_reporter::_node_to_observation" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_85f3815d [label="67: _now_iso()" name="oscal_reporter::_now_iso" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_a33c5baf [label="63: _uuid()" name="oscal_reporter::_uuid" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_f9237d14 [label="172: to_oscal_assessment_results()" name="oscal_reporter::to_oscal_assessment_results" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_bc24bda6 [label="135: to_oscal_assessment_results_dict()" name="oscal_reporter::to_oscal_assessment_results_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_c0c9314a [label="27: to_dict()" name="report::Report.to_dict" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_e2ce498d [label="30: to_json()" name="report::Report.to_json" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_2baf0b92 [label="33: to_markdown()" name="report::Report.to_markdown" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_3c799ce7 [label="45: to_oscal_assessment_results()" name="report::Report.to_oscal_assessment_results" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_eadf55a6 [label="42: to_oscal_assessment_results_dict()" name="report::Report.to_oscal_assessment_results_dict" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_3df1790b [label="39: to_sarif()" name="report::Report.to_sarif" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_b931e6e9 [label="36: to_sarif_dict()" name="report::Report.to_sarif_dict" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_f6538806 [label="23: trace()" name="report::Report.trace" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_509c9a02 [label="26: compute_finding_level()" name="rule::compute_finding_level" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_bfe0faa0 [label="40: _result_to_dict()" name="sarif_reporter::_result_to_dict" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_e74d7e57 [label="32: _rule_ids()" name="sarif_reporter::_rule_ids" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_444bbd70 [label="77: to_sarif()" name="sarif_reporter::to_sarif" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_58818634 [label="54: to_sarif_dict()" name="sarif_reporter::to_sarif_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_9e28054c [label="15: _evaluate_graph()" name="scan::_evaluate_graph" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_a4a154d6 [label="22: _mlflow_client()" name="scan::_mlflow_client" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_b167b430 [label="32: scan()" name="scan::scan" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_abfea3cb [label="101: scan_dataset_manifest()" name="scan::scan_dataset_manifest" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_18b2c4ab [label="54: scan_promotion()" name="scan::scan_promotion" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_43c2958f [label="13: _iso()" name="serialization::_iso" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_0a27b57c [label="40: adapter_invocation_to_dict()" name="serialization::adapter_invocation_to_dict" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_82444f11 [label="31: edge_to_dict()" name="serialization::edge_to_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_86502db2 [label="56: finding_to_dict()" name="serialization::finding_to_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_fb4c132f [label="44: graph_to_dict()" name="serialization::graph_to_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_4d7e4c42 [label="20: node_to_dict()" name="serialization::node_to_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_a48f1d0d -> node_a48f1d0d [color="#0072B2" penwidth="2"];
-node_223f4746 -> node_500c8a4e [color="#D55E00" penwidth="2"];
-node_223f4746 -> node_500c8a4e [color="#D55E00" penwidth="2"];
-node_223f4746 -> node_07333820 [color="#D55E00" penwidth="2"];
-node_223f4746 -> node_07333820 [color="#D55E00" penwidth="2"];
-node_223f4746 -> node_509c9a02 [color="#D55E00" penwidth="2"];
-node_477c7857 -> node_2cae9631 [color="#CC79A7" penwidth="2"];
-node_50c04282 -> node_a48f1d0d [color="#56B4E9" penwidth="2"];
-node_50c04282 -> node_d8688765 [color="#56B4E9" penwidth="2"];
-node_d8688765 -> node_a48f1d0d [color="#0072B2" penwidth="2"];
-node_d8688765 -> node_a48f1d0d [color="#0072B2" penwidth="2"];
-node_d8688765 -> node_a48f1d0d [color="#0072B2" penwidth="2"];
-node_d8688765 -> node_a48f1d0d [color="#0072B2" penwidth="2"];
-node_d6199f92 -> node_509c9a02 [color="#56B4E9" penwidth="2"];
-node_76ad8e77 -> node_07333820 [color="#CC79A7" penwidth="2"];
-node_76ad8e77 -> node_07333820 [color="#CC79A7" penwidth="2"];
-node_932aa15c -> node_07333820 [color="#F0E442" penwidth="2"];
-node_932aa15c -> node_07333820 [color="#F0E442" penwidth="2"];
-node_6228d728 -> node_07333820 [color="#000000" penwidth="2"];
-node_6228d728 -> node_07333820 [color="#000000" penwidth="2"];
-node_8bd5cc5c -> node_07333820 [color="#F0E442" penwidth="2"];
-node_a7e7e8a8 -> node_86502db2 [color="#000000" penwidth="2"];
-node_a7e7e8a8 -> node_fb4c132f [color="#000000" penwidth="2"];
-node_1e30d2c2 -> node_a7e7e8a8 [color="#56B4E9" penwidth="2"];
-node_140a6620 -> node_bb8348d3 [color="#000000" penwidth="2"];
-node_72d3e0da -> node_ec4c96aa [color="#56B4E9" penwidth="2"];
-node_72d3e0da -> node_ec4c96aa [color="#56B4E9" penwidth="2"];
-node_72d3e0da -> node_ec4c96aa [color="#56B4E9" penwidth="2"];
-node_72d3e0da -> node_63826ec6 [color="#56B4E9" penwidth="2"];
-node_72d3e0da -> node_63826ec6 [color="#56B4E9" penwidth="2"];
-node_72d3e0da -> node_63826ec6 [color="#56B4E9" penwidth="2"];
-node_bb8348d3 -> node_a7e8b8ad [color="#009E73" penwidth="2"];
-node_bb8348d3 -> node_b2840965 [color="#009E73" penwidth="2"];
-node_bb8348d3 -> node_72d3e0da [color="#009E73" penwidth="2"];
-node_bb8348d3 -> node_b167b430 [color="#009E73" penwidth="2"];
-node_bb8348d3 -> node_abfea3cb [color="#009E73" penwidth="2"];
-node_bb8348d3 -> node_18b2c4ab [color="#009E73" penwidth="2"];
-node_fbe88285 -> node_6ac37e7d [color="#0072B2" penwidth="2"];
-node_222fac71 -> node_a48f1d0d [color="#E69F00" penwidth="2"];
-node_222fac71 -> node_a48f1d0d [color="#E69F00" penwidth="2"];
-node_222fac71 -> node_a48f1d0d [color="#E69F00" penwidth="2"];
-node_222fac71 -> node_82cc5686 [color="#E69F00" penwidth="2"];
-node_222fac71 -> node_82cc5686 [color="#E69F00" penwidth="2"];
-node_ed535516 -> node_2a68b1f2 [color="#D55E00" penwidth="2"];
-node_ed535516 -> node_2a68b1f2 [color="#D55E00" penwidth="2"];
-node_ed535516 -> node_2a68b1f2 [color="#D55E00" penwidth="2"];
-node_ed535516 -> node_89e26353 [color="#D55E00" penwidth="2"];
-node_ed535516 -> node_89e26353 [color="#D55E00" penwidth="2"];
-node_2a68b1f2 -> node_a48f1d0d [color="#56B4E9" penwidth="2"];
-node_2a68b1f2 -> node_a48f1d0d [color="#56B4E9" penwidth="2"];
-node_89e26353 -> node_a48f1d0d [color="#009E73" penwidth="2"];
-node_fa237335 -> node_509c9a02 [color="#0072B2" penwidth="2"];
-node_75106936 -> node_a33c5baf [color="#D55E00" penwidth="2"];
-node_f9237d14 -> node_bc24bda6 [color="#F0E442" penwidth="2"];
-node_bc24bda6 -> node_75106936 [color="#D55E00" penwidth="2"];
-node_bc24bda6 -> node_e703fdc1 [color="#D55E00" penwidth="2"];
-node_bc24bda6 -> node_85f3815d [color="#D55E00" penwidth="2"];
-node_bc24bda6 -> node_a33c5baf [color="#D55E00" penwidth="2"];
-node_bc24bda6 -> node_a33c5baf [color="#D55E00" penwidth="2"];
-node_bc24bda6 -> node_a33c5baf [color="#D55E00" penwidth="2"];
-node_c0c9314a -> node_a7e7e8a8 [color="#56B4E9" penwidth="2"];
-node_e2ce498d -> node_1e30d2c2 [color="#0072B2" penwidth="2"];
-node_2baf0b92 -> node_fbe88285 [color="#56B4E9" penwidth="2"];
-node_3c799ce7 -> node_f9237d14 [color="#CC79A7" penwidth="2"];
-node_eadf55a6 -> node_bc24bda6 [color="#D55E00" penwidth="2"];
-node_3df1790b -> node_444bbd70 [color="#009E73" penwidth="2"];
-node_b931e6e9 -> node_58818634 [color="#E69F00" penwidth="2"];
-node_f6538806 -> node_f6538806 [color="#D55E00" penwidth="2"];
-node_509c9a02 -> node_2d1c0e71 [color="#56B4E9" penwidth="2"];
-node_509c9a02 -> node_2d1c0e71 [color="#56B4E9" penwidth="2"];
-node_444bbd70 -> node_58818634 [color="#000000" penwidth="2"];
-node_58818634 -> node_bfe0faa0 [color="#F0E442" penwidth="2"];
-node_58818634 -> node_e74d7e57 [color="#F0E442" penwidth="2"];
-node_9e28054c -> node_3cd5bfa7 [color="#F0E442" penwidth="2"];
-node_b167b430 -> node_9e28054c [color="#000000" penwidth="2"];
-node_abfea3cb -> node_9e28054c [color="#009E73" penwidth="2"];
-node_18b2c4ab -> node_477c7857 [color="#009E73" penwidth="2"];
-node_18b2c4ab -> node_9e28054c [color="#009E73" penwidth="2"];
-node_18b2c4ab -> node_a4a154d6 [color="#009E73" penwidth="2"];
-node_18b2c4ab -> node_b167b430 [color="#009E73" penwidth="2"];
-node_82444f11 -> node_43c2958f [color="#E69F00" penwidth="2"];
-node_86502db2 -> node_82444f11 [color="#56B4E9" penwidth="2"];
-node_fb4c132f -> node_43c2958f [color="#CC79A7" penwidth="2"];
-node_fb4c132f -> node_0a27b57c [color="#CC79A7" penwidth="2"];
-node_fb4c132f -> node_82444f11 [color="#CC79A7" penwidth="2"];
-node_fb4c132f -> node_4d7e4c42 [color="#CC79A7" penwidth="2"];
-node_4d7e4c42 -> node_43c2958f [color="#56B4E9" penwidth="2"];
-subgraph cluster_cdef6dbc {
+node_57a59eb2 [label="42: __init__()" name="adapter::AdapterError.__init__" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_5d9bf89f [label="99: _judge()" name="approval_precedes_deployment::ApprovalPrecedesDeploymentRule._judge" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_ca8d9ae1 [label="71: evaluate()" name="approval_precedes_deployment::ApprovalPrecedesDeploymentRule.evaluate" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_9f64c2e7 [label="169: _deployed_model_card()" name="approval_precedes_deployment::_deployed_model_card" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_73ff19f6 [label="178: _model_mismatch()" name="approval_precedes_deployment::_model_mismatch" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_71ffe0b8 [label="51: _parse_datetime()" name="approval_precedes_deployment::_parse_datetime" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_7c404208 [label="101: _registered_model_name()" name="compose::_registered_model_name" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_4b780ca1 [label="21: compose_graphs()" name="compose::compose_graphs" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_66886d8e [label="104: scan()" name="dataset_manifest::DatasetManifestAdapter.scan" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_efb27aad [label="56: _read_rows()" name="dataset_manifest::_read_rows" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_11812a9e [label="34: evaluate()" name="dataset_manifest_complete::DatasetManifestCompleteRule.evaluate" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_f19702f7 [label="22: discover_rules()" name="discovery::discover_rules" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_21a898a7 [label="13: least_certain()" name="evidence_level::least_certain" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_1bccac28 [label="19: evaluate_gate()" name="gate::evaluate_gate" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_6b0e729c [label="85: ancestors()" name="graph::EvidenceGraph.ancestors" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_d9acf2ea [label="98: descendants()" name="graph::EvidenceGraph.descendants" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_edd55d7d [label="74: neighbors()" name="graph::EvidenceGraph.neighbors" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_fe0c9eba [label="66: node()" name="graph::EvidenceGraph.node" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_3bc44114 [label="111: trace()" name="graph::EvidenceGraph.trace" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_abf07c6b [label="11: to_dict()" name="json_reporter::to_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_3e6affb2 [label="18: to_json()" name="json_reporter::to_json" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_921083c2 [label="0: (global)()" name="main::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_85bb72a2 [label="33: _add_format_argument()" name="main::_add_format_argument" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_a0fcae19 [label="42: _add_gate_arguments()" name="main::_add_gate_arguments" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_bbb58978 [label="55: _cli_version()" name="main::_cli_version" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_51c4afd6 [label="27: _print_report()" name="main::_print_report" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_3d3d135a [label="62: build_parser()" name="main::build_parser" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_1b270880 [label="99: main()" name="main::main" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_16ace54f [label="21: _render_finding()" name="markdown_reporter::_render_finding" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_de45cdb7 [label="36: to_markdown()" name="markdown_reporter::to_markdown" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_1700feb0 [label="97: scan()" name="mlflow_adapter::MLflowAdapter.scan" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_ff184817 [label="83: _epoch_millis_to_datetime()" name="mlflow_adapter::_epoch_millis_to_datetime" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_010cf629 [label="130: scan()" name="model_card::ModelCardAdapter.scan" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_6870a1dd [label="77: _read_json()" name="model_card::_read_json" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_b49ca4ea [label="108: _require_keys()" name="model_card::_require_keys" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_1f22e0bb [label="42: evaluate()" name="model_version_has_training_provenance::ModelVersionHasTrainingProvenanceRule.evaluate" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_d6469a43 [label="116: _finding_to_oscal()" name="oscal_reporter::_finding_to_oscal" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_41d2442d [label="85: _iso()" name="oscal_reporter::_iso" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_ef868c21 [label="103: _node_to_observation()" name="oscal_reporter::_node_to_observation" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_7242122a [label="95: _node_to_resource()" name="oscal_reporter::_node_to_resource" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_f3712858 [label="91: _prop()" name="oscal_reporter::_prop" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_4b9a071d [label="81: _uuid()" name="oscal_reporter::_uuid" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_b82816dd [label="213: to_oscal_assessment_results()" name="oscal_reporter::to_oscal_assessment_results" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_e3f25390 [label="150: to_oscal_assessment_results_dict()" name="oscal_reporter::to_oscal_assessment_results_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_10693772 [label="27: to_dict()" name="report::Report.to_dict" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_ba259f48 [label="30: to_json()" name="report::Report.to_json" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_cb4b1263 [label="33: to_markdown()" name="report::Report.to_markdown" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_5c63d721 [label="45: to_oscal_assessment_results()" name="report::Report.to_oscal_assessment_results" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_4db2dc4a [label="42: to_oscal_assessment_results_dict()" name="report::Report.to_oscal_assessment_results_dict" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_b68cba84 [label="39: to_sarif()" name="report::Report.to_sarif" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_d9ce43c4 [label="36: to_sarif_dict()" name="report::Report.to_sarif_dict" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_ecf3fa39 [label="23: trace()" name="report::Report.trace" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_15ce8efb [label="27: compute_finding_level()" name="rule::compute_finding_level" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_2fb22831 [label="41: stable_finding_id()" name="rule::stable_finding_id" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_d3705009 [label="49: _artifact_uri()" name="sarif_reporter::_artifact_uri" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_ef98609f [label="54: _locations()" name="sarif_reporter::_locations" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_7f08ed60 [label="81: _result_to_dict()" name="sarif_reporter::_result_to_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_2de8137e [label="34: _rule_ids()" name="sarif_reporter::_rule_ids" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_e1b64660 [label="42: _tool_version()" name="sarif_reporter::_tool_version" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_92515abc [label="121: to_sarif()" name="sarif_reporter::to_sarif" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_5f7ac491 [label="96: to_sarif_dict()" name="sarif_reporter::to_sarif_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_7f1714eb [label="19: _evaluate_graph()" name="scan::_evaluate_graph" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_5fa7cc39 [label="31: _mlflow_client()" name="scan::_mlflow_client" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_6bb8c5af [label="41: scan()" name="scan::scan" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_d71cc236 [label="110: scan_dataset_manifest()" name="scan::scan_dataset_manifest" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_9239a50c [label="63: scan_promotion()" name="scan::scan_promotion" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_16804300 [label="13: _iso()" name="serialization::_iso" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_f0d8adb8 [label="40: adapter_invocation_to_dict()" name="serialization::adapter_invocation_to_dict" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_f766cd73 [label="31: edge_to_dict()" name="serialization::edge_to_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_6e11e0a5 [label="56: finding_to_dict()" name="serialization::finding_to_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_378cc54f [label="44: graph_to_dict()" name="serialization::graph_to_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_3f043229 [label="20: node_to_dict()" name="serialization::node_to_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_57a59eb2 -> node_57a59eb2 [color="#56B4E9" penwidth="2"];
+node_5d9bf89f -> node_73ff19f6 [color="#CC79A7" penwidth="2"];
+node_5d9bf89f -> node_71ffe0b8 [color="#CC79A7" penwidth="2"];
+node_5d9bf89f -> node_71ffe0b8 [color="#CC79A7" penwidth="2"];
+node_ca8d9ae1 -> node_5d9bf89f [color="#E69F00" penwidth="2"];
+node_ca8d9ae1 -> node_9f64c2e7 [color="#E69F00" penwidth="2"];
+node_ca8d9ae1 -> node_fe0c9eba [color="#E69F00" penwidth="2"];
+node_ca8d9ae1 -> node_fe0c9eba [color="#E69F00" penwidth="2"];
+node_ca8d9ae1 -> node_15ce8efb [color="#E69F00" penwidth="2"];
+node_ca8d9ae1 -> node_2fb22831 [color="#E69F00" penwidth="2"];
+node_9f64c2e7 -> node_fe0c9eba [color="#CC79A7" penwidth="2"];
+node_4b780ca1 -> node_7c404208 [color="#E69F00" penwidth="2"];
+node_66886d8e -> node_57a59eb2 [color="#D55E00" penwidth="2"];
+node_66886d8e -> node_57a59eb2 [color="#D55E00" penwidth="2"];
+node_66886d8e -> node_efb27aad [color="#D55E00" penwidth="2"];
+node_efb27aad -> node_57a59eb2 [color="#0072B2" penwidth="2"];
+node_efb27aad -> node_57a59eb2 [color="#0072B2" penwidth="2"];
+node_efb27aad -> node_57a59eb2 [color="#0072B2" penwidth="2"];
+node_efb27aad -> node_57a59eb2 [color="#0072B2" penwidth="2"];
+node_efb27aad -> node_57a59eb2 [color="#0072B2" penwidth="2"];
+node_11812a9e -> node_15ce8efb [color="#D55E00" penwidth="2"];
+node_11812a9e -> node_2fb22831 [color="#D55E00" penwidth="2"];
+node_6b0e729c -> node_fe0c9eba [color="#F0E442" penwidth="2"];
+node_6b0e729c -> node_fe0c9eba [color="#F0E442" penwidth="2"];
+node_d9acf2ea -> node_fe0c9eba [color="#56B4E9" penwidth="2"];
+node_d9acf2ea -> node_fe0c9eba [color="#56B4E9" penwidth="2"];
+node_edd55d7d -> node_fe0c9eba [color="#0072B2" penwidth="2"];
+node_edd55d7d -> node_fe0c9eba [color="#0072B2" penwidth="2"];
+node_3bc44114 -> node_fe0c9eba [color="#F0E442" penwidth="2"];
+node_abf07c6b -> node_6e11e0a5 [color="#009E73" penwidth="2"];
+node_abf07c6b -> node_378cc54f [color="#009E73" penwidth="2"];
+node_3e6affb2 -> node_abf07c6b [color="#56B4E9" penwidth="2"];
+node_921083c2 -> node_1b270880 [color="#56B4E9" penwidth="2"];
+node_3d3d135a -> node_85bb72a2 [color="#56B4E9" penwidth="2"];
+node_3d3d135a -> node_85bb72a2 [color="#56B4E9" penwidth="2"];
+node_3d3d135a -> node_85bb72a2 [color="#56B4E9" penwidth="2"];
+node_3d3d135a -> node_a0fcae19 [color="#56B4E9" penwidth="2"];
+node_3d3d135a -> node_a0fcae19 [color="#56B4E9" penwidth="2"];
+node_3d3d135a -> node_a0fcae19 [color="#56B4E9" penwidth="2"];
+node_3d3d135a -> node_bbb58978 [color="#56B4E9" penwidth="2"];
+node_1b270880 -> node_1bccac28 [color="#000000" penwidth="2"];
+node_1b270880 -> node_51c4afd6 [color="#000000" penwidth="2"];
+node_1b270880 -> node_3d3d135a [color="#000000" penwidth="2"];
+node_1b270880 -> node_6bb8c5af [color="#000000" penwidth="2"];
+node_1b270880 -> node_d71cc236 [color="#000000" penwidth="2"];
+node_1b270880 -> node_9239a50c [color="#000000" penwidth="2"];
+node_de45cdb7 -> node_16ace54f [color="#CC79A7" penwidth="2"];
+node_1700feb0 -> node_57a59eb2 [color="#000000" penwidth="2"];
+node_1700feb0 -> node_57a59eb2 [color="#000000" penwidth="2"];
+node_1700feb0 -> node_57a59eb2 [color="#000000" penwidth="2"];
+node_1700feb0 -> node_57a59eb2 [color="#000000" penwidth="2"];
+node_1700feb0 -> node_ff184817 [color="#000000" penwidth="2"];
+node_1700feb0 -> node_ff184817 [color="#000000" penwidth="2"];
+node_010cf629 -> node_6870a1dd [color="#E69F00" penwidth="2"];
+node_010cf629 -> node_6870a1dd [color="#E69F00" penwidth="2"];
+node_010cf629 -> node_6870a1dd [color="#E69F00" penwidth="2"];
+node_010cf629 -> node_b49ca4ea [color="#E69F00" penwidth="2"];
+node_010cf629 -> node_b49ca4ea [color="#E69F00" penwidth="2"];
+node_6870a1dd -> node_57a59eb2 [color="#0072B2" penwidth="2"];
+node_6870a1dd -> node_57a59eb2 [color="#0072B2" penwidth="2"];
+node_6870a1dd -> node_57a59eb2 [color="#0072B2" penwidth="2"];
+node_6870a1dd -> node_57a59eb2 [color="#0072B2" penwidth="2"];
+node_b49ca4ea -> node_57a59eb2 [color="#56B4E9" penwidth="2"];
+node_1f22e0bb -> node_15ce8efb [color="#009E73" penwidth="2"];
+node_1f22e0bb -> node_2fb22831 [color="#009E73" penwidth="2"];
+node_d6469a43 -> node_f3712858 [color="#009E73" penwidth="2"];
+node_d6469a43 -> node_f3712858 [color="#009E73" penwidth="2"];
+node_d6469a43 -> node_f3712858 [color="#009E73" penwidth="2"];
+node_d6469a43 -> node_4b9a071d [color="#009E73" penwidth="2"];
+node_ef868c21 -> node_41d2442d [color="#E69F00" penwidth="2"];
+node_ef868c21 -> node_f3712858 [color="#E69F00" penwidth="2"];
+node_ef868c21 -> node_f3712858 [color="#E69F00" penwidth="2"];
+node_b82816dd -> node_e3f25390 [color="#0072B2" penwidth="2"];
+node_e3f25390 -> node_d6469a43 [color="#000000" penwidth="2"];
+node_e3f25390 -> node_41d2442d [color="#000000" penwidth="2"];
+node_e3f25390 -> node_41d2442d [color="#000000" penwidth="2"];
+node_e3f25390 -> node_ef868c21 [color="#000000" penwidth="2"];
+node_e3f25390 -> node_7242122a [color="#000000" penwidth="2"];
+node_e3f25390 -> node_4b9a071d [color="#000000" penwidth="2"];
+node_e3f25390 -> node_4b9a071d [color="#000000" penwidth="2"];
+node_e3f25390 -> node_4b9a071d [color="#000000" penwidth="2"];
+node_e3f25390 -> node_4b9a071d [color="#000000" penwidth="2"];
+node_e3f25390 -> node_4b9a071d [color="#000000" penwidth="2"];
+node_10693772 -> node_abf07c6b [color="#56B4E9" penwidth="2"];
+node_ba259f48 -> node_3e6affb2 [color="#000000" penwidth="2"];
+node_cb4b1263 -> node_de45cdb7 [color="#009E73" penwidth="2"];
+node_5c63d721 -> node_b82816dd [color="#E69F00" penwidth="2"];
+node_4db2dc4a -> node_e3f25390 [color="#56B4E9" penwidth="2"];
+node_b68cba84 -> node_92515abc [color="#F0E442" penwidth="2"];
+node_d9ce43c4 -> node_5f7ac491 [color="#F0E442" penwidth="2"];
+node_ecf3fa39 -> node_ecf3fa39 [color="#E69F00" penwidth="2"];
+node_15ce8efb -> node_21a898a7 [color="#009E73" penwidth="2"];
+node_15ce8efb -> node_21a898a7 [color="#009E73" penwidth="2"];
+node_ef98609f -> node_d3705009 [color="#CC79A7" penwidth="2"];
+node_7f08ed60 -> node_ef98609f [color="#000000" penwidth="2"];
+node_92515abc -> node_5f7ac491 [color="#F0E442" penwidth="2"];
+node_5f7ac491 -> node_7f08ed60 [color="#E69F00" penwidth="2"];
+node_5f7ac491 -> node_2de8137e [color="#E69F00" penwidth="2"];
+node_5f7ac491 -> node_e1b64660 [color="#E69F00" penwidth="2"];
+node_7f1714eb -> node_f19702f7 [color="#009E73" penwidth="2"];
+node_6bb8c5af -> node_7f1714eb [color="#CC79A7" penwidth="2"];
+node_d71cc236 -> node_7f1714eb [color="#D55E00" penwidth="2"];
+node_9239a50c -> node_4b780ca1 [color="#F0E442" penwidth="2"];
+node_9239a50c -> node_7f1714eb [color="#F0E442" penwidth="2"];
+node_9239a50c -> node_5fa7cc39 [color="#F0E442" penwidth="2"];
+node_9239a50c -> node_6bb8c5af [color="#F0E442" penwidth="2"];
+node_f766cd73 -> node_16804300 [color="#009E73" penwidth="2"];
+node_6e11e0a5 -> node_f766cd73 [color="#0072B2" penwidth="2"];
+node_378cc54f -> node_16804300 [color="#CC79A7" penwidth="2"];
+node_378cc54f -> node_f0d8adb8 [color="#CC79A7" penwidth="2"];
+node_378cc54f -> node_f766cd73 [color="#CC79A7" penwidth="2"];
+node_378cc54f -> node_3f043229 [color="#CC79A7" penwidth="2"];
+node_3f043229 -> node_16804300 [color="#E69F00" penwidth="2"];
+subgraph cluster_db6b7847 {
     label="File: adapter";
     name="adapter";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_95191a83 {
-        node_a48f1d0d;
+    subgraph cluster_cbf0e72f {
+        node_57a59eb2;
         label="Class: AdapterError";
         name="AdapterError";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_f4740967 {
-    node_500c8a4e;
+subgraph cluster_cb69ff26 {
+    node_71ffe0b8 node_9f64c2e7 node_73ff19f6;
     label="File: approval_precedes_deployment";
     name="approval_precedes_deployment";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_0b9a7c5d {
-        node_223f4746;
+    subgraph cluster_bab76788 {
+        node_ca8d9ae1 node_5d9bf89f;
         label="Class: ApprovalPrecedesDeploymentRule";
         name="ApprovalPrecedesDeploymentRule";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_af4ee217 {
-    node_477c7857 node_2cae9631;
+subgraph cluster_8665a1f3 {
+    node_4b780ca1 node_7c404208;
     label="File: compose";
     name="compose";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_532f8e67 {
-    node_d8688765;
+subgraph cluster_f3566ae1 {
+    node_efb27aad;
     label="File: dataset_manifest";
     name="dataset_manifest";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_c3171136 {
-        node_50c04282;
+    subgraph cluster_e22ae55a {
+        node_66886d8e;
         label="Class: DatasetManifestAdapter";
         name="DatasetManifestAdapter";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_cfc4c22a {
+subgraph cluster_2309757d {
     label="File: dataset_manifest_complete";
     name="dataset_manifest_complete";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_d2b3b471 {
-        node_d6199f92;
+    subgraph cluster_b29bda60 {
+        node_11812a9e;
         label="Class: DatasetManifestCompleteRule";
         name="DatasetManifestCompleteRule";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_9c89f332 {
-    node_3cd5bfa7;
+subgraph cluster_e91fb379 {
+    node_f19702f7;
     label="File: discovery";
     name="discovery";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_b4efcdef {
-    node_2d1c0e71;
+subgraph cluster_766c63a3 {
+    node_21a898a7;
     label="File: evidence_level";
     name="evidence_level";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_f6870893 {
-    node_a7e8b8ad;
+subgraph cluster_c4915406 {
+    node_1bccac28;
     label="File: gate";
     name="gate";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_0549a563 {
+subgraph cluster_61d25079 {
     label="File: graph";
     name="graph";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_d50723c0 {
-        node_07333820 node_6228d728 node_76ad8e77 node_932aa15c node_8bd5cc5c;
+    subgraph cluster_ab34a7a3 {
+        node_fe0c9eba node_edd55d7d node_6b0e729c node_d9acf2ea node_3bc44114;
         label="Class: EvidenceGraph";
         name="EvidenceGraph";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_e7409389 {
-    node_a7e7e8a8 node_1e30d2c2;
+subgraph cluster_ea58e631 {
+    node_abf07c6b node_3e6affb2;
     label="File: json_reporter";
     name="json_reporter";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_a7bdb95b {
-    node_b2840965 node_ec4c96aa node_63826ec6 node_72d3e0da node_bb8348d3 node_140a6620;
+subgraph cluster_b2501d43 {
+    node_51c4afd6 node_85bb72a2 node_a0fcae19 node_bbb58978 node_3d3d135a node_1b270880 node_921083c2;
     label="File: main";
     name="main";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_4644175d {
-    node_6ac37e7d node_fbe88285;
+subgraph cluster_69a1ac4c {
+    node_16ace54f node_de45cdb7;
     label="File: markdown_reporter";
     name="markdown_reporter";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_0616837e {
-    node_82cc5686;
+subgraph cluster_8b424b14 {
+    node_ff184817;
     label="File: mlflow_adapter";
     name="mlflow_adapter";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_87e5d8a4 {
-        node_222fac71;
+    subgraph cluster_0766afc0 {
+        node_1700feb0;
         label="Class: MLflowAdapter";
         name="MLflowAdapter";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_3c4dd3fb {
-    node_2a68b1f2 node_89e26353;
+subgraph cluster_4a461007 {
+    node_6870a1dd node_b49ca4ea;
     label="File: model_card";
     name="model_card";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_580998fe {
-        node_ed535516;
+    subgraph cluster_3b3e976b {
+        node_010cf629;
         label="Class: ModelCardAdapter";
         name="ModelCardAdapter";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_588b489b {
+subgraph cluster_be9bb576 {
     label="File: model_version_has_training_provenance";
     name="model_version_has_training_provenance";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_3bed6402 {
-        node_fa237335;
+    subgraph cluster_5f9ac493 {
+        node_1f22e0bb;
         label="Class: ModelVersionHasTrainingProvenanceRule";
         name="ModelVersionHasTrainingProvenanceRule";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_54e1f1e6 {
-    node_a33c5baf node_85f3815d node_e703fdc1 node_75106936 node_bc24bda6 node_f9237d14;
+subgraph cluster_2e7a4ae9 {
+    node_4b9a071d node_41d2442d node_f3712858 node_7242122a node_ef868c21 node_d6469a43 node_e3f25390 node_b82816dd;
     label="File: oscal_reporter";
     name="oscal_reporter";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_31555c50 {
+subgraph cluster_a1e06075 {
     label="File: report";
     name="report";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_52dd0343 {
-        node_f6538806 node_c0c9314a node_e2ce498d node_2baf0b92 node_b931e6e9 node_3df1790b node_eadf55a6 node_3c799ce7;
+    subgraph cluster_96e26e77 {
+        node_ecf3fa39 node_10693772 node_ba259f48 node_cb4b1263 node_d9ce43c4 node_b68cba84 node_4db2dc4a node_5c63d721;
         label="Class: Report";
         name="Report";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_f451d48d {
-    node_509c9a02;
+subgraph cluster_f990a7a8 {
+    node_15ce8efb node_2fb22831;
     label="File: rule";
     name="rule";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_ef20a97c {
-    node_e74d7e57 node_bfe0faa0 node_58818634 node_444bbd70;
+subgraph cluster_5398a0dc {
+    node_2de8137e node_e1b64660 node_d3705009 node_ef98609f node_7f08ed60 node_5f7ac491 node_92515abc;
     label="File: sarif_reporter";
     name="sarif_reporter";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_0ac83ff2 {
-    node_9e28054c node_a4a154d6 node_b167b430 node_18b2c4ab node_abfea3cb;
+subgraph cluster_6e6f4c4c {
+    node_7f1714eb node_5fa7cc39 node_6bb8c5af node_9239a50c node_d71cc236;
     label="File: scan";
     name="scan";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_f9ae3653 {
-    node_43c2958f node_4d7e4c42 node_82444f11 node_0a27b57c node_fb4c132f node_86502db2;
+subgraph cluster_e77b6c84 {
+    node_16804300 node_3f043229 node_f766cd73 node_f0d8adb8 node_378cc54f node_6e11e0a5;
     label="File: serialization";
     name="serialization";
     style="filled";

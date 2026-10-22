@@ -44,6 +44,20 @@ ASSUMPTIONS = [
             "not as an extraction failure"
         ),
     ),
+    Assumption(
+        id="MC-003",
+        statement=(
+            "the approval record's decision is read from its decision field, else its status field; "
+            "a record with neither is preserved without a decision, not given one"
+        ),
+    ),
+    Assumption(
+        id="MC-004",
+        statement=(
+            "the deployment record is linked to the supplied Model Card by a DEPLOYS edge; a model_name "
+            "stated in the approval or deployment record is preserved so rules can compare it"
+        ),
+    ),
 ]
 
 
@@ -149,6 +163,11 @@ class ModelCardAdapter:
         approval_attributes: dict[str, Any] = {"approver": approval["approver"]}
         if "approved_at" in approval:
             approval_attributes["approved_at"] = approval["approved_at"]
+        decision = approval.get("decision", approval.get("status"))
+        if decision is not None:
+            approval_attributes["decision"] = decision
+        if "model_name" in approval:
+            approval_attributes["model_name"] = approval["model_name"]
         approval_node = EvidenceNode(
             id="n2",
             type="HumanApproval",
@@ -160,6 +179,8 @@ class ModelCardAdapter:
         deployment_attributes: dict[str, Any] = {}
         if "deployed_at" in deployment:
             deployment_attributes["deployed_at"] = deployment["deployed_at"]
+        if "model_name" in deployment:
+            deployment_attributes["model_name"] = deployment["model_name"]
         deployment_node = EvidenceNode(
             id="n3",
             type="DeploymentRecord",

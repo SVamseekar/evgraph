@@ -61,3 +61,24 @@ def test_adapter_declares_aps_core_fields():
     assert adapter.evidence_level == EvidenceLevel.STRUCTURAL
     assert adapter.supported_source_kinds == ["csv"]
     assert len(adapter.assumptions) >= 1
+
+
+def test_duplicate_dataset_id_raises_adapter_error(tmp_path):
+    path = write_csv(tmp_path, "dataset_id,source,license,contains_pii\nd1,s,MIT,false\nd1,s,MIT,false\n")
+    with pytest.raises(AdapterError, match="duplicate dataset_id 'd1'"):
+        DatasetManifestAdapter().scan(DatasetManifestArtifact(manifest_path=path))
+
+
+def test_a_byte_order_mark_does_not_hide_the_header(tmp_path):
+    path = tmp_path / "manifest.csv"
+    path.write_bytes("﻿dataset_id,source,license,contains_pii\nd1,s,MIT,false\n".encode("utf-8"))
+    graph = DatasetManifestAdapter().scan(DatasetManifestArtifact(manifest_path=path))
+    assert [n.attributes["dataset_id"] for n in graph.nodes] == ["d1"]
+
+
+def test_a_short_row_keeps_missing_cells_empty(tmp_path):
+    path = write_csv(tmp_path, "dataset_id,source,license,contains_pii\nd1,warehouse\n")
+    graph = DatasetManifestAdapter().scan(DatasetManifestArtifact(manifest_path=path))
+    attributes = graph.nodes[0].attributes
+    assert attributes["license"] == ""
+    assert attributes["contains_pii"] is False

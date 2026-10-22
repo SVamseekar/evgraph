@@ -33,8 +33,10 @@ class DatasetManifestCompleteRule:
 
             level = compute_finding_level(self.reasoning_class, [node])
             license_value = node.attributes.get("license", "")
+            if isinstance(license_value, str):
+                license_value = license_value.strip()
 
-            if license_value:
+            if isinstance(license_value, str) and license_value:
                 outcome = Outcome.EXPECTATION_MET
                 statement = (
                     f"Dataset {node.attributes.get('dataset_id', node.id)} "

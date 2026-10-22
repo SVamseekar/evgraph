@@ -11,7 +11,9 @@ _MISSING = object()
 
 def make_graph(deployed_at: object = _MISSING, approved_at: object = _MISSING) -> EvidenceGraph:
     deployment_attrs = {} if deployed_at is _MISSING else {"deployed_at": deployed_at}
-    approval_attrs = {} if approved_at is _MISSING else {"approved_at": approved_at}
+    approval_attrs = {"approver": "J. Smith"}
+    if approved_at is not _MISSING:
+        approval_attrs["approved_at"] = approved_at
 
     deployment = EvidenceNode(
         id="n3",
@@ -102,3 +104,93 @@ def test_timezone_less_timestamps_are_treated_as_utc():
     findings = ApprovalPrecedesDeploymentRule().evaluate(graph)
 
     assert findings[0].outcome == Outcome.EXPECTATION_MET
+
+
+def make_linked_graph(
+    *,
+    approval_attrs: dict,
+    deployment_attrs: dict | None = None,
+    card_model_name: str = "risk-scorer-v3",
+) -> EvidenceGraph:
+    card = EvidenceNode(
+        id="n1",
+        type="ModelCard",
+        observed_at=NOW,
+        source={"path": "card.json"},
+        evidence_level=EvidenceLevel.STRUCTURAL,
+        attributes={"model_name": card_model_name, "has_intended_use": True},
+    )
+    approval = EvidenceNode(
+        id="n2",
+        type="HumanApproval",
+        observed_at=NOW,
+        source={"path": "approval.json"},
+        evidence_level=EvidenceLevel.STRUCTURAL,
+        attributes={"approver": "J. Smith", "approved_at": "2026-06-01T00:00:00Z", **approval_attrs},
+    )
+    deployment = EvidenceNode(
+        id="n3",
+        type="DeploymentRecord",
+        observed_at=NOW,
+        source={"path": "deploy.json"},
+        evidence_level=EvidenceLevel.STRUCTURAL,
+        attributes={"deployed_at": "2026-06-10T00:00:00Z", **(deployment_attrs or {})},
+    )
+    edges = (
+        EvidenceEdge(source_id="n3", target_id="n1", type="DEPLOYS", observed_at=NOW),
+        EvidenceEdge(source_id="n3", target_id="n2", type="REQUIRES_APPROVAL", observed_at=NOW),
+    )
+    return EvidenceGraph(graph_id="g1", created_at=NOW, nodes=(card, approval, deployment), edges=edges)
+
+
+@pytest.mark.parametrize("decision", ["rejected", "Denied", "pending", "REVOKED"])
+def test_a_negative_decision_is_not_an_approval(decision):
+    findings = ApprovalPrecedesDeploymentRule().evaluate(make_linked_graph(approval_attrs={"decision": decision}))
+    assert [f.outcome for f in findings] == [Outcome.EXPECTATION_NOT_MET]
+    assert decision in findings[0].statement
+
+
+@pytest.mark.parametrize("decision", ["approved", "APPROVED", "granted"])
+def test_an_explicit_approval_decision_still_compares_timestamps(decision):
+    findings = ApprovalPrecedesDeploymentRule().evaluate(make_linked_graph(approval_attrs={"decision": decision}))
+    assert [f.outcome for f in findings] == [Outcome.EXPECTATION_MET]
+
+
+def test_an_unrecognised_decision_is_inconclusive():
+    findings = ApprovalPrecedesDeploymentRule().evaluate(
+        make_linked_graph(approval_attrs={"decision": "approved with conditions"})
+    )
+    assert [f.outcome for f in findings] == [Outcome.INCONCLUSIVE]
+
+
+@pytest.mark.parametrize("approver", ["", "   ", None])
+def test_an_approval_without_an_approver_is_inconclusive(approver):
+    findings = ApprovalPrecedesDeploymentRule().evaluate(make_linked_graph(approval_attrs={"approver": approver}))
+    assert [f.outcome for f in findings] == [Outcome.INCONCLUSIVE]
+    assert "approver" in findings[0].statement
+
+
+def test_an_approval_for_another_model_is_not_met():
+    findings = ApprovalPrecedesDeploymentRule().evaluate(
+        make_linked_graph(approval_attrs={"model_name": "some-other-model"})
+    )
+    assert [f.outcome for f in findings] == [Outcome.EXPECTATION_NOT_MET]
+    assert "some-other-model" in findings[0].statement
+    assert set(findings[0].cited_node_ids) == {"n1", "n2", "n3"}
+
+
+def test_a_deployment_of_another_model_is_not_met():
+    findings = ApprovalPrecedesDeploymentRule().evaluate(
+        make_linked_graph(approval_attrs={}, deployment_attrs={"model_name": "shadow-model"})
+    )
+    assert [f.outcome for f in findings] == [Outcome.EXPECTATION_NOT_MET]
+
+
+def test_matching_model_names_compare_timestamps():
+    findings = ApprovalPrecedesDeploymentRule().evaluate(
+        make_linked_graph(
+            approval_attrs={"model_name": "risk-scorer-v3"},
+            deployment_attrs={"model_name": "risk-scorer-v3"},
+        )
+    )
+    assert [f.outcome for f in findings] == [Outcome.EXPECTATION_MET]

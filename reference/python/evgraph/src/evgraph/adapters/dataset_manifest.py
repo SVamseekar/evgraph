@@ -113,14 +113,22 @@ class DatasetManifestAdapter:
         rows = _read_rows(artifact.manifest_path)
 
         nodes = []
+        seen: set[str] = set()
         for i, row in enumerate(rows):
-            dataset_id = row.get("dataset_id", "").strip()
+            dataset_id = (row.get("dataset_id") or "").strip()
             if not dataset_id:
                 raise AdapterError(
                     adapter_name=self.name,
                     adapter_version=self.version,
                     message=f"row {i} in {artifact.manifest_path} has an empty dataset_id",
                 )
+            if dataset_id in seen:
+                raise AdapterError(
+                    adapter_name=self.name,
+                    adapter_version=self.version,
+                    message=f"row {i} in {artifact.manifest_path} repeats duplicate dataset_id '{dataset_id}'",
+                )
+            seen.add(dataset_id)
             nodes.append(
                 EvidenceNode(
                     id=f"dataset_{dataset_id}",
@@ -130,9 +138,9 @@ class DatasetManifestAdapter:
                     evidence_level=self.evidence_level,
                     attributes={
                         "dataset_id": dataset_id,
-                        "source": row.get("source", ""),
-                        "license": row.get("license", ""),
-                        "contains_pii": row.get("contains_pii", "").strip().lower() == "true",
+                        "source": row.get("source") or "",
+                        "license": row.get("license") or "",
+                        "contains_pii": (row.get("contains_pii") or "").strip().lower() == "true",
                     },
                 )
             )

@@ -28,7 +28,7 @@ from evgraph_core import (
 )
 
 ADAPTER_NAME = "evgraph-adapter-modelcard"
-ADAPTER_VERSION = "0.1.0"
+ADAPTER_VERSION = "0.2.0"
 EVIDENCE_LEVEL = EvidenceLevel.STRUCTURAL
 EXTRACTION_METHOD = "direct field mapping"
 SUPPORTED_SOURCE_KINDS = ["json"]

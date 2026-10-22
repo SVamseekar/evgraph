@@ -29,7 +29,7 @@ from evgraph_core import (
 )
 
 ADAPTER_NAME = "evgraph-adapter-dataset-manifest"
-ADAPTER_VERSION = "0.1.0"
+ADAPTER_VERSION = "0.2.0"
 EVIDENCE_LEVEL = EvidenceLevel.STRUCTURAL
 EXTRACTION_METHOD = "csv column mapping"
 SUPPORTED_SOURCE_KINDS = ["csv"]

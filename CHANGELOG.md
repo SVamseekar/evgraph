@@ -34,6 +34,9 @@ Set the date when tagging `v0.2.0`.
   `version`.
 - **Reproducible output.** Finding ids derive from the rule and cited nodes
   (`evgraph_core.stable_finding_id`), and OSCAL UUIDs from the graph id.
+- **Adapter versions.** The Model Card, dataset manifest and MLflow adapters
+  report version `0.2.0` in the graph's adapter manifest, since their output
+  changed.
 - **Exact internal pins.** Each package depends on the other evgraph packages
   at exactly its own version, and `scripts/check_release_version.py` enforces
   it.

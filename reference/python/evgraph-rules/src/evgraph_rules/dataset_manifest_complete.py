@@ -9,9 +9,15 @@ generalizes across rules with different epistemic weight.
 
 from __future__ import annotations
 
-import uuid
 
-from evgraph_core import EvidenceGraph, EvidenceLevel, Finding, Outcome, compute_finding_level
+from evgraph_core import (
+    EvidenceGraph,
+    EvidenceLevel,
+    Finding,
+    Outcome,
+    compute_finding_level,
+    stable_finding_id,
+)
 
 RULE_ID = "dataset-manifest-complete"
 RULE_NAME = "Dataset manifest declares a license"
@@ -51,7 +57,7 @@ class DatasetManifestCompleteRule:
 
             findings.append(
                 Finding(
-                    id=f"finding_{uuid.uuid4().hex[:8]}",
+                    id=stable_finding_id(self.id, [node.id]),
                     rule_id=self.id,
                     level=level,
                     outcome=outcome,

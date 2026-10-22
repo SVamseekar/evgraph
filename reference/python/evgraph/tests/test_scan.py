@@ -94,3 +94,17 @@ def test_scan_reports_an_approval_for_a_different_model(tmp_path):
 def test_scan_reports_a_deployment_of_a_different_model(tmp_path):
     report = _scan_with(tmp_path, {"model_name": "m"}, _ON_TIME, {**_DEPLOYED, "model_name": "other"})
     assert [f.outcome for f in report.findings] == [Outcome.EXPECTATION_NOT_MET]
+
+
+def test_scan_falls_back_to_status_when_decision_is_null(tmp_path):
+    report = _scan_with(
+        tmp_path, {"model_name": "m"}, {**_ON_TIME, "decision": None, "status": "rejected"}, _DEPLOYED
+    )
+    assert [f.outcome for f in report.findings] == [Outcome.EXPECTATION_NOT_MET]
+
+
+def test_scan_reports_conflicting_decision_and_status_as_not_approved(tmp_path):
+    report = _scan_with(
+        tmp_path, {"model_name": "m"}, {**_ON_TIME, "decision": "approved", "status": "rejected"}, _DEPLOYED
+    )
+    assert [f.outcome for f in report.findings] == [Outcome.EXPECTATION_NOT_MET]

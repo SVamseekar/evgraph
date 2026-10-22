@@ -6,15 +6,15 @@ reasoning_class is CONSISTENCY: this cross-references two structural
 timestamps rather than observing either fact in isolation (RES §3.1).
 
 A record only counts as the approval the deployment requires when it is one:
-a stated decision that is not an approval (rejected, pending, ...) or a
-stated model name that differs from the deployed model is EXPECTATION_NOT_MET,
-and a record with no approver or an unrecognised decision is INCONCLUSIVE.
+a stated decision or status that is not an approval (rejected, pending, ...)
+or a stated model name that differs from the deployed model is
+EXPECTATION_NOT_MET, and a record with no approver or an unrecognised
+decision or status is INCONCLUSIVE.
 Records that state no decision are treated as approvals (adapter assumption).
 """
 
 from __future__ import annotations
 
-import uuid
 from datetime import datetime, timezone
 
 from evgraph_core import (
@@ -24,6 +24,7 @@ from evgraph_core import (
     Finding,
     Outcome,
     compute_finding_level,
+    stable_finding_id,
 )
 
 RULE_ID = "approval-precedes-deployment"
@@ -81,14 +82,15 @@ class ApprovalPrecedesDeploymentRule:
             model_card = _deployed_model_card(graph, deployment)
             cited_nodes = [deployment, approval] + ([model_card] if model_card is not None else [])
             outcome, statement = self._judge(deployment, approval, model_card)
+            cited_ids = [n.id for n in cited_nodes]
             findings.append(
                 Finding(
-                    id=f"finding_{uuid.uuid4().hex[:8]}",
+                    id=stable_finding_id(self.id, cited_ids, f"{edge.source_id}->{edge.target_id}"),
                     rule_id=self.id,
                     level=compute_finding_level(self.reasoning_class, cited_nodes),
                     outcome=outcome,
                     statement=statement,
-                    cited_node_ids=tuple(n.id for n in cited_nodes),
+                    cited_node_ids=tuple(cited_ids),
                     trace=(edge,),
                 )
             )
@@ -101,19 +103,25 @@ class ApprovalPrecedesDeploymentRule:
         if mismatch is not None:
             return Outcome.EXPECTATION_NOT_MET, mismatch
 
-        decision = approval.attributes.get("decision")
-        if decision is not None:
-            normalized = str(decision).strip().lower()
-            if normalized in NOT_APPROVED_DECISIONS:
+        # Both fields are read: any one that says "not approved" wins, and any unreadable one is
+        # inconclusive, so a stale "approved" next to a "rejected" can never pass.
+        stated = [
+            (name, approval.attributes[name])
+            for name in ("decision", "status")
+            if approval.attributes.get(name) is not None
+        ]
+        for name, value in stated:
+            if str(value).strip().lower() in NOT_APPROVED_DECISIONS:
                 return (
                     Outcome.EXPECTATION_NOT_MET,
-                    f"HumanApproval {approval.id} records the decision '{decision}', which is not an "
+                    f"HumanApproval {approval.id} records the {name} '{value}', which is not an "
                     f"approval, so DeploymentRecord {deployment.id} has no approval.",
                 )
-            if normalized not in APPROVED_DECISIONS:
+        for name, value in stated:
+            if str(value).strip().lower() not in APPROVED_DECISIONS:
                 return (
                     Outcome.INCONCLUSIVE,
-                    f"HumanApproval {approval.id} records the decision '{decision}', which this rule "
+                    f"HumanApproval {approval.id} records the {name} '{value}', which this rule "
                     "cannot read as approved or not approved.",
                 )
 

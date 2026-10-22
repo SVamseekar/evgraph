@@ -194,3 +194,17 @@ def test_matching_model_names_compare_timestamps():
         )
     )
     assert [f.outcome for f in findings] == [Outcome.EXPECTATION_MET]
+
+
+def test_any_negative_value_among_decision_and_status_is_not_met():
+    findings = ApprovalPrecedesDeploymentRule().evaluate(
+        make_linked_graph(approval_attrs={"decision": "approved", "status": "rejected"})
+    )
+    assert [f.outcome for f in findings] == [Outcome.EXPECTATION_NOT_MET]
+
+
+def test_an_unreadable_status_beside_an_approval_is_inconclusive():
+    findings = ApprovalPrecedesDeploymentRule().evaluate(
+        make_linked_graph(approval_attrs={"decision": "approved", "status": "on hold?"})
+    )
+    assert [f.outcome for f in findings] == [Outcome.INCONCLUSIVE]

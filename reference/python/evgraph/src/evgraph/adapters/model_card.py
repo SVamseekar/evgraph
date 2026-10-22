@@ -47,7 +47,7 @@ ASSUMPTIONS = [
     Assumption(
         id="MC-003",
         statement=(
-            "the approval record's decision is read from its decision field, else its status field; "
+            "the approval record's decision and status fields are both preserved when present; "
             "a record with neither is preserved without a decision, not given one"
         ),
     ),
@@ -163,9 +163,9 @@ class ModelCardAdapter:
         approval_attributes: dict[str, Any] = {"approver": approval["approver"]}
         if "approved_at" in approval:
             approval_attributes["approved_at"] = approval["approved_at"]
-        decision = approval.get("decision", approval.get("status"))
-        if decision is not None:
-            approval_attributes["decision"] = decision
+        for field_name in ("decision", "status"):
+            if approval.get(field_name) is not None:
+                approval_attributes[field_name] = approval[field_name]
         if "model_name" in approval:
             approval_attributes["model_name"] = approval["model_name"]
         approval_node = EvidenceNode(

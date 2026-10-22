@@ -60,3 +60,19 @@ def test_finding_requires_unique_cited_node_ids():
             statement="x",
             cited_node_ids=("n1", "n1"),
         )
+
+
+def test_stable_finding_id_is_reproducible():
+    from evgraph_core import stable_finding_id
+
+    a = stable_finding_id("rule-a", ("n1", "n2"))
+    assert a == stable_finding_id("rule-a", ("n1", "n2"))
+    assert a.startswith("finding_") and len(a) == len("finding_") + 16
+
+
+def test_stable_finding_id_differs_by_rule_and_citation():
+    from evgraph_core import stable_finding_id
+
+    base = stable_finding_id("rule-a", ("n1",))
+    assert base != stable_finding_id("rule-b", ("n1",))
+    assert base != stable_finding_id("rule-a", ("n2",))

@@ -126,7 +126,9 @@ class DatasetManifestAdapter:
                 raise AdapterError(
                     adapter_name=self.name,
                     adapter_version=self.version,
-                    message=f"row {i} in {artifact.manifest_path} repeats duplicate dataset_id '{dataset_id}'",
+                    message=(
+                        f"row {i} in {artifact.manifest_path} repeats duplicate dataset_id '{dataset_id}'"
+                    ),
                 )
             seen.add(dataset_id)
             nodes.append(

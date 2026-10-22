@@ -133,3 +133,46 @@ def test_mlflow_client_import_error_mentions_extra(monkeypatch):
 
     with pytest.raises(ImportError, match=r'pip install "evgraph\[mlflow\]"'):
         scan_module._mlflow_client("http://test")
+
+
+def _two_version_client():
+    registered_model = FakeRegisteredModel(name="risk-scorer-v3", description="", creation_timestamp=1785255931998)
+    untracked = FakeModelVersion(
+        version="1", status="READY", description="", source="s3://manual", creation_timestamp=1785255932000, run_id=""
+    )
+    tracked = FakeModelVersion(
+        version="2",
+        status="READY",
+        description="",
+        source="runs:/abc123/model",
+        creation_timestamp=1785255932011,
+        run_id="abc123",
+    )
+    run = FakeRun(info=FakeRunInfo(run_id="abc123", status="FINISHED", user_id="alice"), data=FakeRunData())
+    return FakeMlflowClient(registered_model, [untracked, tracked], {"abc123": run})
+
+
+def _promote(monkeypatch, version):
+    scan_module = import_module("evgraph.scan")
+    monkeypatch.setattr(scan_module, "_mlflow_client", lambda tracking_uri: _two_version_client())
+    return scan_promotion(
+        model_card_path=EXAMPLE_DIR / "model_card.json",
+        approval_path=EXAMPLE_DIR / "approval.json",
+        deployment_path=EXAMPLE_DIR / "deployment.json",
+        mlflow_tracking_uri="http://test",
+        mlflow_model_name="risk-scorer-v3",
+        mlflow_model_version=version,
+    )
+
+
+def test_promotion_judges_only_the_promoted_version(monkeypatch):
+    report = _promote(monkeypatch, "2")
+    provenance = [f for f in report.findings if f.rule_id == "model-version-has-training-provenance"]
+    assert [f.outcome.value for f in provenance] == ["EXPECTATION_MET"]
+
+
+def test_promoting_a_version_missing_from_the_registry_is_an_error(monkeypatch):
+    from evgraph_core import AdapterError
+
+    with pytest.raises(AdapterError, match="version '99'"):
+        _promote(monkeypatch, "99")

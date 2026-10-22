@@ -75,6 +75,9 @@ class MLflowModelSource:
     """
 
     registered_model_name: str
+    # When set, only this version (and the run it references) is mapped; an absent version is an
+    # AdapterError, since the source the caller named cannot be found.
+    version: str | int | None = None
 
 
 def _epoch_millis_to_datetime(epoch_millis: int) -> datetime:
@@ -142,6 +145,16 @@ class MLflowAdapter:
                 adapter_version=self.version,
                 message=f"could not list model versions for '{registered_model.name}'",
             ) from exc
+
+        if source.version is not None:
+            wanted = str(source.version).strip()
+            versions = [mv for mv in versions if str(mv.version) == wanted]
+            if not versions:
+                raise AdapterError(
+                    adapter_name=self.name,
+                    adapter_version=self.version,
+                    message=f"registered model '{registered_model.name}' has no version '{wanted}'",
+                )
 
         for mv in versions:
             version_node_id = f"mlflow_version_{registered_model.name}_{mv.version}"

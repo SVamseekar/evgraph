@@ -91,7 +91,7 @@ def scan_promotion(
         client = _mlflow_client(mlflow_tracking_uri)
         mlflow_graph = MLflowAdapter().scan(
             client,
-            MLflowModelSource(registered_model_name=mlflow_model_name),
+            MLflowModelSource(registered_model_name=mlflow_model_name, version=mlflow_model_version),
         )
         graph = compose_graphs(
             card_graph,

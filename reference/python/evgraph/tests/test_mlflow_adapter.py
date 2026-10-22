@@ -145,3 +145,29 @@ def test_model_version_of_edges_link_every_version_to_the_model():
     model_version_of_edges = [e for e in graph.edges if e.type == "MODEL_VERSION_OF"]
     assert len(model_version_of_edges) == 2
     assert all(e.target_id == model_node.id for e in model_version_of_edges)
+
+
+def test_a_version_filter_maps_only_that_version():
+    graph = MLflowAdapter().scan(
+        make_client_with_clean_and_messy_versions(),
+        MLflowModelSource(registered_model_name="risk-scorer", version="1"),
+    )
+    versions = [n.attributes["version"] for n in graph.nodes if n.type == "MLflowModelVersion"]
+    assert versions == ["1"]
+
+
+def test_a_version_filter_accepts_an_integer_version():
+    graph = MLflowAdapter().scan(
+        make_client_with_clean_and_messy_versions(),
+        MLflowModelSource(registered_model_name="risk-scorer", version=2),
+    )
+    versions = [n.attributes["version"] for n in graph.nodes if n.type == "MLflowModelVersion"]
+    assert versions == ["2"]
+
+
+def test_an_unknown_version_raises_adapter_error():
+    with pytest.raises(AdapterError, match="version '99'"):
+        MLflowAdapter().scan(
+            make_client_with_clean_and_messy_versions(),
+            MLflowModelSource(registered_model_name="risk-scorer", version="99"),
+        )

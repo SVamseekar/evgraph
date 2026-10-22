@@ -26,6 +26,13 @@ def evaluate_gate(
         if isinstance(report_or_findings, Report)
         else list(report_or_findings)
     )
+    if not findings:
+        # An empty report means no rule evaluated any evidence (empty input, or no rule pack
+        # installed). That is not a clean result, so the gate fails closed.
+        return GateResult(
+            should_fail=True,
+            reasons=("No findings: no rule evaluated any evidence, so there is nothing to pass.",),
+        )
     reasons: list[str] = []
     for f in findings:
         if f.outcome is Outcome.EXPECTATION_NOT_MET:

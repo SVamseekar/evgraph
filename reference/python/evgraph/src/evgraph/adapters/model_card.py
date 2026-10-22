@@ -62,20 +62,33 @@ class ModelCardArtifacts:
 
 def _read_json(path: Path) -> dict[str, Any]:
     try:
-        with open(path) as f:
-            return json.load(f)
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
     except FileNotFoundError as exc:
         raise AdapterError(
             adapter_name=ADAPTER_NAME,
             adapter_version=ADAPTER_VERSION,
             message=f"source file not found: {path}",
         ) from exc
-    except json.JSONDecodeError as exc:
+    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise AdapterError(
             adapter_name=ADAPTER_NAME,
             adapter_version=ADAPTER_VERSION,
-            message=f"{path} is not valid JSON",
+            message=f"{path} is not valid UTF-8 JSON",
         ) from exc
+    except OSError as exc:
+        raise AdapterError(
+            adapter_name=ADAPTER_NAME,
+            adapter_version=ADAPTER_VERSION,
+            message=f"could not read {path}: {exc.strerror or exc}",
+        ) from exc
+    if not isinstance(data, dict):
+        raise AdapterError(
+            adapter_name=ADAPTER_NAME,
+            adapter_version=ADAPTER_VERSION,
+            message=f"{path} must contain a JSON object, not {type(data).__name__}",
+        )
+    return data
 
 
 def _require_keys(data: dict[str, Any], keys: list[str], path: Path) -> None:

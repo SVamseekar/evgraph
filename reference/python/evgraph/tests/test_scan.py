@@ -43,3 +43,19 @@ def test_report_to_dict_matches_serialization_versions():
     d = report.to_dict()
     assert d["graph"]["egs_version"] == "0.1"
     assert d["findings"][0]["res_version"] == "0.1"
+
+
+def test_scan_refuses_to_run_without_any_rule(monkeypatch):
+    import pytest
+    from importlib import import_module
+
+    from evgraph.scan import NoRulesDiscoveredError
+
+    scan_module = import_module("evgraph.scan")
+    monkeypatch.setattr(scan_module, "discover_rules", lambda: [])
+    with pytest.raises(NoRulesDiscoveredError, match="evgraph.rules"):
+        scan(
+            model_card_path=EXAMPLE_DIR / "model_card.json",
+            approval_path=EXAMPLE_DIR / "approval.json",
+            deployment_path=EXAMPLE_DIR / "deployment.json",
+        )

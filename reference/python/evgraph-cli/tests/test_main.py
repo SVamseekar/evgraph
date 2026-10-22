@@ -257,3 +257,62 @@ def test_malformed_timestamp_fails_strict_gate_but_not_plain_gate(tmp_path, caps
     assert main(["scan", card, approval, deployment, "--gate", "--strict"]) == 1
     out = capsys.readouterr().out
     assert "INCONCLUSIVE" in out
+
+
+def test_version_flag_prints_package_version(capsys):
+    from importlib.metadata import version
+
+    with pytest.raises(SystemExit) as exc:
+        main(["--version"])
+    assert exc.value.code == 0
+    assert version("evgraph-cli") in capsys.readouterr().out
+
+
+def test_directory_argument_is_a_clean_error_not_a_traceback(tmp_path, capsys):
+    approval = _write(tmp_path, "approval.json", {"approver": "a", "approved_at": "2026-01-01T00:00:00Z"})
+    deployment = _write(tmp_path, "deploy.json", {"deployed_at": "2026-06-10T00:00:00Z"})
+    exit_code = main(["scan", str(tmp_path), approval, deployment, "--gate"])
+    captured = capsys.readouterr()
+    assert exit_code == 2
+    assert "evgraph: error:" in captured.err
+    assert captured.out == ""
+
+
+def test_non_object_json_is_a_clean_error(tmp_path, capsys):
+    card = _write(tmp_path, "card.json", [1, 2])
+    approval = _write(tmp_path, "approval.json", {"approver": "a"})
+    deployment = _write(tmp_path, "deploy.json", {})
+    exit_code = main(["scan", card, approval, deployment])
+    captured = capsys.readouterr()
+    assert exit_code == 2
+    assert "JSON object" in captured.err
+
+
+def test_empty_manifest_fails_the_gate(tmp_path, capsys):
+    manifest = tmp_path / "empty.csv"
+    manifest.write_text("dataset_id,source,license,contains_pii\n", encoding="utf-8")
+    assert main(["scan-dataset-manifest", str(manifest), "--gate"]) == 1
+    assert main(["scan-dataset-manifest", str(manifest)]) == 0
+
+
+def test_unexpected_failure_exits_2_never_1(monkeypatch, capsys):
+    from importlib import import_module
+
+    cli = import_module("evgraph_cli.main")
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("plugin exploded")
+
+    monkeypatch.setattr(cli, "scan", boom)
+    exit_code = main(
+        [
+            "scan",
+            str(MODEL_CARD_DIR / "model_card.json"),
+            str(MODEL_CARD_DIR / "approval.json"),
+            str(MODEL_CARD_DIR / "deployment.json"),
+            "--gate",
+        ]
+    )
+    captured = capsys.readouterr()
+    assert exit_code == 2
+    assert "plugin exploded" in captured.err

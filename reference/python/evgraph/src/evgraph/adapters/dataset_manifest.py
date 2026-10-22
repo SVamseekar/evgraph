@@ -55,7 +55,7 @@ class DatasetManifestArtifact:
 
 def _read_rows(path: Path) -> list[dict[str, str]]:
     try:
-        with open(path, newline="") as f:
+        with open(path, newline="", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
             if reader.fieldnames is None:
                 raise AdapterError(
@@ -77,11 +77,17 @@ def _read_rows(path: Path) -> list[dict[str, str]]:
             adapter_version=ADAPTER_VERSION,
             message=f"source file not found: {path}",
         ) from exc
-    except csv.Error as exc:
+    except (csv.Error, UnicodeDecodeError) as exc:
         raise AdapterError(
             adapter_name=ADAPTER_NAME,
             adapter_version=ADAPTER_VERSION,
-            message=f"{path} is not valid CSV",
+            message=f"{path} is not valid UTF-8 CSV",
+        ) from exc
+    except OSError as exc:
+        raise AdapterError(
+            adapter_name=ADAPTER_NAME,
+            adapter_version=ADAPTER_VERSION,
+            message=f"could not read {path}: {exc.strerror or exc}",
         ) from exc
 
 

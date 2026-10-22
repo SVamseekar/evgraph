@@ -33,6 +33,11 @@ by convention.
   precedes the deployment's `deployed_at`. Reasoning class `CONSISTENCY`: it
   cross-references two structural timestamps rather than reading either in
   isolation. A missing `approved_at` stays inconclusive. The rule does not invent the timestamp.
+  The approval must actually be one: a `decision` or `status` that is not an
+  approval (rejected, pending, ...) or a `model_name` that differs from the
+  deployed model is "expectation not met"; a record with no approver or an
+  unreadable decision is inconclusive. Finding ids are derived from the rule
+  and cited nodes, so the same graph always gives the same findings.
 - **`dataset-manifest-complete`** — checks that every `Dataset` node in the
   graph declares a non-empty `license` attribute. Reasoning class
   `STRUCTURAL`: a direct presence check on a single node, with no

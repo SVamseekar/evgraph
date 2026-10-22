@@ -26,7 +26,8 @@ and the library can never drift in behavior. A missing approval timestamp stays 
   rendered (default `json`); `sarif` for CI annotations, `markdown` for a
   human-readable review, `oscal` for compliance tooling.
 - **`--gate`** — after printing the report, return exit code `1` when gate
-  evaluation finds evidence expectations not met.
+  evaluation finds evidence expectations not met, or when the scan produced no
+  findings at all (nothing was checked, so nothing can pass).
 - **`--gate --strict`** — also return exit code `1` when gate evaluation finds
   inconclusive evidence.
 
@@ -39,7 +40,10 @@ returns `0`, even when the report contains unmet evidence expectations. Use
 
 - `0` — the command completed and no requested gate tripped.
 - `1` — `--gate` was requested and gate evaluation tripped.
-- `2` — usage, tool, adapter, or input error.
+- `2` — usage, tool, adapter, or input error, including any unexpected
+  failure. Exit `1` only ever means a tripped gate.
+
+`evgraph --version` prints the installed version.
 
 Gate exit codes are automation signals over evidence findings, not legal or
 regulatory compliance verdicts.

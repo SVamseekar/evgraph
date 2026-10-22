@@ -50,7 +50,7 @@ and the trail of what was checked.
 | [`evgraph`](reference/python/evgraph/) | Adapters, reporters, and the `scan()` / `scan_dataset_manifest()` API | [![PyPI](https://img.shields.io/pypi/v/evgraph.svg)](https://pypi.org/project/evgraph/) |
 | [`evgraph-cli`](reference/python/evgraph-cli/) | `evgraph` command-line tool | [![PyPI](https://img.shields.io/pypi/v/evgraph-cli.svg)](https://pypi.org/project/evgraph-cli/) |
 
-All packages are versioned together at **0.1.3** (see [CHANGELOG](CHANGELOG.md)).
+All packages are versioned together at **0.2.0** (see [CHANGELOG](CHANGELOG.md)).
 
 ---
 
@@ -65,7 +65,9 @@ pip install evgraph evgraph-cli
 `evgraph` pulls in `evgraph-core` and `evgraph-rules` automatically.
 `evgraph-cli` adds the `evgraph` command. The `evgraph` package alone does not install that command.
 
-EU AI Assurance OS pins `evgraph-cli==0.1.2` for its evidence pack. The pack and a live `evgraph scan` must report the same current gap. A missing approval timestamp stays inconclusive. The scan does not invent one.
+A missing approval timestamp stays inconclusive. The scan does not invent one.
+Each package pins the other evgraph packages to its own version, so
+`pip install evgraph-cli==X.Y.Z` always installs one matching set.
 
 Optional MLflow adapter dependency:
 
@@ -140,7 +142,9 @@ evgraph scan-promotion \
 ```
 
 Add `--gate` to return exit code `1` for unmet evidence expectations, and
-`--gate --strict` to also trip on inconclusive findings. Gate results are CI
+`--gate --strict` to also trip on inconclusive findings. The gate also fails
+when a scan produces no findings at all (for example an empty manifest), since
+nothing was checked. Exit code `2` means the scan itself could not run. Gate results are CI
 signals over Evgraph findings, not compliance verdicts. See
 [`examples/promotion_gate/`](examples/promotion_gate/) for a reviewer-pack and
 GitHub Actions example.

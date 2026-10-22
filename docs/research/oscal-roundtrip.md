@@ -13,7 +13,7 @@
 
 ## 2. What required extensions
 
-- **`EvidenceLevel` and `reasoning_class`.** Exactly as predicted: OSCAL's `observation`/`finding` schema has no field to hold "STRUCTURAL" or "CONSISTENCY." Both are carried as `prop` extensions under Evgraph's own namespace (`https://github.com/evgraph-org/evgraph/ns/oscal`), attached to *both* the observation (per-node evidence level) and the finding (computed `Finding.level`). This is the one place the reporter adds structure OSCAL doesn't natively have — and it's documented in the module's own docstring, not silently smuggled in.
+- **`EvidenceLevel` and `reasoning_class`.** Exactly as predicted: OSCAL's `observation`/`finding` schema has no field to hold "STRUCTURAL" or "CONSISTENCY." Both are carried as `prop` extensions under Evgraph's own namespace (`https://github.com/SVamseekar/evgraph/ns/oscal`), attached to *both* the observation (per-node evidence level) and the finding (computed `Finding.level`). This is the one place the reporter adds structure OSCAL doesn't natively have — and it's documented in the module's own docstring, not silently smuggled in.
 - **`observation.methods`.** OSCAL's `method` enum (`EXAMINE`/`INTERVIEW`/`TEST`/`UNKNOWN`) required picking one fixed value (`TEST`) for every observation, since Evgraph's adapters are always automated extraction, never a human examination or interview. This is a real but narrow translation decision — not a gap, just a forced choice within an existing enum.
 
 ## 3. What could not be represented at all
@@ -23,6 +23,28 @@ Nothing. Every field on `Finding` and `EvidenceNode` that RES/EGS consider load-
 ## 4. Does this confirm or challenge `standards-comparison.md`?
 
 **Confirms, with one refinement.** The paper analysis's core claim — "OSCAL has nowhere to compute RES's confidence-inheritance invariant, but nothing is lost that can't be carried as a documented extension" — held exactly under implementation. The refinement: the paper analysis undersold how well `prop` extensions fit this use case. It isn't a lossy compromise; it's a legitimate, schema-sanctioned mechanism OSCAL itself provides for exactly this purpose (vendor/tool-specific metadata that doesn't fit the core model). The reporter introduces zero new concepts into EGS or RES, required no change to either, and produces valid OSCAL structure — meeting all three of Stage 4.5 Goal 1's acceptance criteria (`docs/ROADMAP.md`).
+
+## 4a. Correction: schema validation (evgraph 0.2.0)
+
+The first version of this reporter (0.1.0–0.1.3) did **not** produce a valid
+OSCAL document. Validating its output against NIST's
+`oscal_assessment-results_schema.json` for OSCAL 1.1.2 showed three errors: the
+required `import-ap`, `results[].reviewed-controls` and `finding.target` were
+missing. Observations also used their own UUID as their subject, and empty
+reports emitted empty arrays where OSCAL requires at least one item. The
+earlier claim in §4 that the reporter "produces valid OSCAL structure" was
+checked by reading the model, not by running a validator, and it was wrong.
+
+0.2.0 fixes this and validates with zero errors. Two of the fixes are
+translation decisions in the same spirit as §2:
+
+- **No assessment plan, no catalog.** `import-ap` points at a back-matter
+  resource stating there is no OSCAL assessment plan, and `reviewed-controls`
+  holds one control selection naming the evaluated rules. Each finding targets
+  its rule id (`objective-id`).
+- **`INCONCLUSIVE` has no OSCAL state.** OSCAL's objective status is only
+  `satisfied` / `not-satisfied`. `INCONCLUSIVE` maps to `not-satisfied` with
+  reason `other`; the `outcome` prop keeps the exact Evgraph value.
 
 ## 5. What this does and doesn't answer
 

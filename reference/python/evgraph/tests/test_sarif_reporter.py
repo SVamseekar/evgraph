@@ -78,3 +78,45 @@ def test_rules_listed_once_per_distinct_rule_id():
     )
     rules = sarif["runs"][0]["tool"]["driver"]["rules"]
     assert rules == [{"id": "rule-a"}]
+
+
+def test_every_result_has_a_location_for_its_cited_source_file():
+    result = to_sarif_dict(make_graph(), [make_finding(Outcome.EXPECTATION_NOT_MET)])["runs"][0]["results"][0]
+    assert result["locations"][0]["physicalLocation"]["artifactLocation"]["uri"] == "x.csv"
+
+
+def test_absolute_source_paths_become_file_uris(tmp_path):
+    node = EvidenceNode(
+        id="n1",
+        type="Dataset",
+        observed_at=NOW,
+        source={"path": str(tmp_path / "x.csv")},
+        evidence_level=EvidenceLevel.STRUCTURAL,
+        attributes={},
+    )
+    graph = EvidenceGraph(graph_id="g1", created_at=NOW, nodes=(node,), edges=())
+    result = to_sarif_dict(graph, [make_finding(Outcome.EXPECTATION_NOT_MET)])["runs"][0]["results"][0]
+    uri = result["locations"][0]["physicalLocation"]["artifactLocation"]["uri"]
+    assert uri.startswith("file://") and uri.endswith("/x.csv")
+
+
+def test_a_result_without_a_source_file_gets_a_logical_location():
+    node = EvidenceNode(
+        id="n1",
+        type="MLflowModelVersion",
+        observed_at=NOW,
+        source={"mlflow_registered_model_name": "m"},
+        evidence_level=EvidenceLevel.STRUCTURAL,
+        attributes={},
+    )
+    graph = EvidenceGraph(graph_id="g1", created_at=NOW, nodes=(node,), edges=())
+    result = to_sarif_dict(graph, [make_finding(Outcome.EXPECTATION_NOT_MET)])["runs"][0]["results"][0]
+    assert result["locations"][0]["logicalLocations"][0]["name"] == "n1"
+
+
+def test_driver_names_the_real_project_and_version():
+    from importlib.metadata import version
+
+    driver = to_sarif_dict(make_graph(), [])["runs"][0]["tool"]["driver"]
+    assert driver["informationUri"] == "https://github.com/SVamseekar/evgraph"
+    assert driver["version"] == version("evgraph")

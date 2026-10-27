@@ -10,6 +10,58 @@ Package versions in this monorepo (`evgraph-core`, `evgraph-rules`, `evgraph`,
 
 ## [Unreleased]
 
+## [0.2.0] - Unreleased
+
+Set the date when tagging `v0.2.0`.
+
+### Changed
+
+- **The gate fails closed.** `evaluate_gate` (and `--gate`) now fails when a
+  scan produced no findings, for example an empty dataset manifest or a
+  missing rule pack; it used to pass. `scan()` raises `NoRulesDiscoveredError`
+  when no rule is registered under `evgraph.rules`.
+- **Approvals must be approvals.** `approval-precedes-deployment` reports
+  `EXPECTATION_NOT_MET` when the approval's `decision` or `status` is not an
+  approval (rejected, pending, revoked, ...), or when the approval or
+  deployment names a different model than the deployed Model Card. It reports
+  `INCONCLUSIVE` when the approval names no approver or states a decision it
+  cannot read. The Model Card adapter preserves `decision`, `status` and
+  `model_name` (assumptions MC-003, MC-004). Findings of this rule now also
+  cite the deployed Model Card.
+- **Promotion scans judge the promoted version only.** `scan_promotion` with
+  MLflow maps only `--model-version`; a version missing from the registry is
+  an `AdapterError` (exit `2`). `MLflowModelSource` gains an optional
+  `version`.
+- **Reproducible output.** Finding ids derive from the rule and cited nodes
+  (`evgraph_core.stable_finding_id`), and OSCAL UUIDs from the graph id.
+- **Adapter versions.** The Model Card, dataset manifest and MLflow adapters
+  report version `0.2.0` in the graph's adapter manifest, since their output
+  changed.
+- **Exact internal pins.** Each package depends on the other evgraph packages
+  at exactly its own version, and `scripts/check_release_version.py` enforces
+  it.
+
+### Fixed
+
+- OSCAL Assessment Results now validate against the NIST OSCAL 1.1.2 schema:
+  added `import-ap`, `reviewed-controls` and `finding.target`, subjects
+  reference back-matter resources, and empty arrays are omitted.
+- SARIF results carry locations (the cited source files, or logical locations
+  for nodes without a file) and the driver reports its version.
+- SARIF `informationUri` and the OSCAL prop namespace point at
+  `github.com/SVamseekar/evgraph` instead of the nonexistent `evgraph-org`.
+- `dataset-manifest-complete` no longer accepts a whitespace-only license.
+- The dataset manifest adapter rejects duplicate `dataset_id`s with an
+  `AdapterError`, reads UTF-8 with or without a byte order mark, and keeps a
+  short row's missing cells empty instead of crashing.
+- The CLI reports unreadable paths (for example a directory), non-UTF-8 files
+  and JSON that is not an object as exit `2` errors instead of tracebacks; any
+  unexpected failure also exits `2`, so exit `1` always means a failed gate.
+
+### Added
+
+- `evgraph --version`.
+
 ## [0.1.3] - 2026-10-04
 
 ### Fixed
@@ -97,7 +149,8 @@ Published to PyPI on 2026-08-17: [`evgraph-core`](https://pypi.org/project/evgra
   round-trip, and MLflow adapter validation (`docs/research/`)
 - Runnable examples under `examples/`
 
-[Unreleased]: https://github.com/SVamseekar/evgraph/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/SVamseekar/evgraph/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/SVamseekar/evgraph/releases/tag/v0.2.0
 [0.1.3]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.3
 [0.1.2]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.2
 [0.1.1]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.1

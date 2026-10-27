@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from importlib.metadata import PackageNotFoundError, version
 
 from evgraph import evaluate_gate, scan, scan_dataset_manifest, scan_promotion
 from evgraph_core import AdapterError
@@ -51,8 +52,16 @@ def _add_gate_arguments(subparser: argparse.ArgumentParser) -> None:
     )
 
 
+def _cli_version() -> str:
+    try:
+        return version("evgraph-cli")
+    except PackageNotFoundError:
+        return "unknown"
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="evgraph")
+    parser.add_argument("--version", action="version", version=f"%(prog)s {_cli_version()}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     scan_parser = subparsers.add_parser(
@@ -114,6 +123,9 @@ def main(argv: list[str] | None = None) -> int:
             return 2
     except (AdapterError, ValueError, ImportError) as exc:
         print(f"evgraph: error: {exc}", file=sys.stderr)
+        return 2
+    except Exception as exc:  # exit 1 is reserved for a failed gate
+        print(f"evgraph: error: {type(exc).__name__}: {exc}", file=sys.stderr)
         return 2
 
     _print_report(report, args.format)

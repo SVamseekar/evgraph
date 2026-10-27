@@ -16,7 +16,7 @@ Function-level calls (code2flow): [call-graph.svg](generated/call-graph.svg)
 
 ## CI/CD pipelines
 
-### CI (`/Users/souravamseekarmarti/Projects/evgraph/.github/workflows/ci.yml`)
+### CI (`.github/workflows/ci.yml`)
 
 ```mermaid
 flowchart LR
@@ -30,7 +30,7 @@ flowchart LR
   trigger_1 --> build
 ```
 
-### Publish (`/Users/souravamseekarmarti/Projects/evgraph/.github/workflows/publish.yml`)
+### Publish (`.github/workflows/publish.yml`)
 
 ```mermaid
 flowchart LR
@@ -295,6 +295,7 @@ classDiagram
   }
   class MLflowModelSource {
     registered_model_name : str
+    version : str | int | None
   }
   class ModelCardAdapter {
     assumptions : list
@@ -309,6 +310,8 @@ classDiagram
     approval_path : Path
     deployment_path : Path
     model_card_path : Path
+  }
+  class NoRulesDiscoveredError {
   }
   class Report {
     findings : tuple[Finding, ...]

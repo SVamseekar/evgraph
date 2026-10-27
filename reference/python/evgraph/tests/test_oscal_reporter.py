@@ -1,5 +1,7 @@
 from datetime import datetime, timezone
 
+import pytest
+
 from evgraph_core import EvidenceEdge, EvidenceGraph, EvidenceLevel, EvidenceNode, Finding, Outcome
 
 from evgraph.reporters.oscal_reporter import to_oscal_assessment_results_dict
@@ -65,7 +67,7 @@ def test_evidence_level_carried_as_prop_extension_on_observation():
         level_props = [p for p in obs["props"] if p["name"] == "evidence-level"]
         assert len(level_props) == 1
         assert level_props[0]["value"] == "STRUCTURAL"
-        assert level_props[0]["ns"] == "https://github.com/evgraph-org/evgraph/ns/oscal"
+        assert level_props[0]["ns"] == "https://github.com/SVamseekar/evgraph/ns/oscal"
 
 
 def test_finding_references_related_observations():
@@ -88,6 +90,67 @@ def test_finding_level_carried_as_prop_extension_not_risk_severity():
     assert "risk" not in doc["assessment-results"]["results"][0]
 
 
-def test_no_findings_produces_empty_findings_list():
+def test_no_findings_omits_the_findings_list():
+    # OSCAL arrays carry minItems 1, so an empty list would make the document invalid.
     doc = to_oscal_assessment_results_dict(make_graph(), [])
-    assert doc["assessment-results"]["results"][0]["findings"] == []
+    assert "findings" not in doc["assessment-results"]["results"][0]
+
+
+def _resources(doc):
+    return {r["uuid"]: r for r in doc["assessment-results"]["back-matter"]["resources"]}
+
+
+def test_import_ap_points_at_a_back_matter_resource():
+    doc = to_oscal_assessment_results_dict(make_graph(), [make_finding()])
+    href = doc["assessment-results"]["import-ap"]["href"]
+    assert href.startswith("#")
+    assert href[1:] in _resources(doc)
+
+
+def test_result_declares_reviewed_controls():
+    doc = to_oscal_assessment_results_dict(make_graph(), [make_finding()])
+    selections = doc["assessment-results"]["results"][0]["reviewed-controls"]["control-selections"]
+    assert len(selections) >= 1
+
+
+@pytest.mark.parametrize(
+    "outcome,state,reason",
+    [
+        (Outcome.EXPECTATION_MET, "satisfied", "pass"),
+        (Outcome.EXPECTATION_NOT_MET, "not-satisfied", "fail"),
+        (Outcome.INCONCLUSIVE, "not-satisfied", "other"),
+    ],
+)
+def test_finding_target_status_follows_the_outcome(outcome, state, reason):
+    finding = Finding(
+        id="f1",
+        rule_id="approval-precedes-deployment",
+        level=EvidenceLevel.CONSISTENCY,
+        outcome=outcome,
+        statement="s",
+        cited_node_ids=("n3", "n2"),
+    )
+    target = to_oscal_assessment_results_dict(make_graph(), [finding])["assessment-results"]["results"][0][
+        "findings"
+    ][0]["target"]
+    assert target["type"] == "objective-id"
+    assert target["target-id"] == "approval-precedes-deployment"
+    assert target["status"] == {"state": state, "reason": reason}
+
+
+def test_observation_subjects_are_back_matter_resources():
+    doc = to_oscal_assessment_results_dict(make_graph(), [])
+    resources = _resources(doc)
+    for obs in doc["assessment-results"]["results"][0]["observations"]:
+        subject = obs["subjects"][0]
+        assert subject["type"] == "resource"
+        assert subject["subject-uuid"] in resources
+        assert subject["subject-uuid"] != obs["uuid"]
+
+
+def test_same_report_renders_the_same_document():
+    first = to_oscal_assessment_results_dict(make_graph(), [make_finding()])
+    second = to_oscal_assessment_results_dict(make_graph(), [make_finding()])
+    for doc in (first, second):
+        del doc["assessment-results"]["metadata"]["last-modified"]
+    assert first == second

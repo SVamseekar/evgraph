@@ -29,7 +29,7 @@ from evgraph_core import (
 )
 
 ADAPTER_NAME = "evgraph-adapter-dataset-manifest"
-ADAPTER_VERSION = "0.1.0"
+ADAPTER_VERSION = "0.2.0"
 EVIDENCE_LEVEL = EvidenceLevel.STRUCTURAL
 EXTRACTION_METHOD = "csv column mapping"
 SUPPORTED_SOURCE_KINDS = ["csv"]
@@ -55,7 +55,7 @@ class DatasetManifestArtifact:
 
 def _read_rows(path: Path) -> list[dict[str, str]]:
     try:
-        with open(path, newline="") as f:
+        with open(path, newline="", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
             if reader.fieldnames is None:
                 raise AdapterError(
@@ -77,11 +77,17 @@ def _read_rows(path: Path) -> list[dict[str, str]]:
             adapter_version=ADAPTER_VERSION,
             message=f"source file not found: {path}",
         ) from exc
-    except csv.Error as exc:
+    except (csv.Error, UnicodeDecodeError) as exc:
         raise AdapterError(
             adapter_name=ADAPTER_NAME,
             adapter_version=ADAPTER_VERSION,
-            message=f"{path} is not valid CSV",
+            message=f"{path} is not valid UTF-8 CSV",
+        ) from exc
+    except OSError as exc:
+        raise AdapterError(
+            adapter_name=ADAPTER_NAME,
+            adapter_version=ADAPTER_VERSION,
+            message=f"could not read {path}: {exc.strerror or exc}",
         ) from exc
 
 
@@ -107,14 +113,24 @@ class DatasetManifestAdapter:
         rows = _read_rows(artifact.manifest_path)
 
         nodes = []
+        seen: set[str] = set()
         for i, row in enumerate(rows):
-            dataset_id = row.get("dataset_id", "").strip()
+            dataset_id = (row.get("dataset_id") or "").strip()
             if not dataset_id:
                 raise AdapterError(
                     adapter_name=self.name,
                     adapter_version=self.version,
                     message=f"row {i} in {artifact.manifest_path} has an empty dataset_id",
                 )
+            if dataset_id in seen:
+                raise AdapterError(
+                    adapter_name=self.name,
+                    adapter_version=self.version,
+                    message=(
+                        f"row {i} in {artifact.manifest_path} repeats duplicate dataset_id '{dataset_id}'"
+                    ),
+                )
+            seen.add(dataset_id)
             nodes.append(
                 EvidenceNode(
                     id=f"dataset_{dataset_id}",
@@ -124,9 +140,9 @@ class DatasetManifestAdapter:
                     evidence_level=self.evidence_level,
                     attributes={
                         "dataset_id": dataset_id,
-                        "source": row.get("source", ""),
-                        "license": row.get("license", ""),
-                        "contains_pii": row.get("contains_pii", "").strip().lower() == "true",
+                        "source": row.get("source") or "",
+                        "license": row.get("license") or "",
+                        "contains_pii": (row.get("contains_pii") or "").strip().lower() == "true",
                     },
                 )
             )

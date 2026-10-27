@@ -57,3 +57,15 @@ def test_multiple_datasets_produce_multiple_findings():
     )
     findings = DatasetManifestCompleteRule().evaluate(graph)
     assert len(findings) == 2
+
+
+def test_a_whitespace_only_license_is_not_a_license():
+    graph = EvidenceGraph(graph_id="g1", created_at=NOW, nodes=(make_dataset_node("d1", "   "),), edges=())
+    findings = DatasetManifestCompleteRule().evaluate(graph)
+    assert [f.outcome for f in findings] == [Outcome.EXPECTATION_NOT_MET]
+
+
+def test_a_non_string_license_is_not_a_license():
+    graph = EvidenceGraph(graph_id="g1", created_at=NOW, nodes=(make_dataset_node("d1", None),), edges=())
+    findings = DatasetManifestCompleteRule().evaluate(graph)
+    assert [f.outcome for f in findings] == [Outcome.EXPECTATION_NOT_MET]

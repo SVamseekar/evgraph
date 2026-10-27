@@ -33,3 +33,14 @@ def test_gate_ignores_inconclusive_by_default():
 def test_gate_fails_on_inconclusive_when_strict():
     result = evaluate_gate([_f("r", Outcome.INCONCLUSIVE)], fail_on_inconclusive=True)
     assert result.should_fail is True
+
+
+def test_gate_fails_when_there_are_no_findings():
+    result = evaluate_gate([])
+    assert result.should_fail is True
+    assert any("No findings" in r for r in result.reasons)
+
+
+def test_gate_fails_on_empty_report_even_when_not_strict():
+    result = evaluate_gate([], fail_on_inconclusive=False)
+    assert result.should_fail is True

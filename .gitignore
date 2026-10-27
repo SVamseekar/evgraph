@@ -41,6 +41,9 @@ coverage.xml
 
 # Local tooling and agent configuration (not part of the project distribution)
 CLAUDE.md
+AGENTS.md
+# Internal planning notes and agent specs (local only)
+docs/superpowers/
 .claude/
 .grok/
 .cursor/

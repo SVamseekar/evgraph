@@ -12,9 +12,18 @@ from evgraph.discovery import discover_rules
 from evgraph.report import Report
 
 
+class NoRulesDiscoveredError(RuntimeError):
+    """No Rule is registered under the "evgraph.rules" entry_point group, so nothing can be evaluated."""
+
+
 def _evaluate_graph(graph: EvidenceGraph) -> Report:
+    rules = discover_rules()
+    if not rules:
+        raise NoRulesDiscoveredError(
+            'no rules are registered under the "evgraph.rules" entry point group; install evgraph-rules'
+        )
     findings: list = []
-    for rule in discover_rules():
+    for rule in rules:
         findings.extend(rule.evaluate(graph))
     return Report(graph=graph, findings=tuple(findings))
 
@@ -82,7 +91,7 @@ def scan_promotion(
         client = _mlflow_client(mlflow_tracking_uri)
         mlflow_graph = MLflowAdapter().scan(
             client,
-            MLflowModelSource(registered_model_name=mlflow_model_name),
+            MLflowModelSource(registered_model_name=mlflow_model_name, version=mlflow_model_version),
         )
         graph = compose_graphs(
             card_graph,

@@ -8,7 +8,7 @@ from evgraph_core.graph import (
     EvidenceNode,
     SourceReference,
 )
-from evgraph_core.rule import Rule, compute_finding_level
+from evgraph_core.rule import Rule, compute_finding_level, stable_finding_id
 from evgraph_core.serialization import (
     EGS_VERSION,
     RES_VERSION,
@@ -33,6 +33,7 @@ __all__ = [
     "SourceReference",
     "Rule",
     "compute_finding_level",
+    "stable_finding_id",
     "EGS_VERSION",
     "RES_VERSION",
     "edge_to_dict",

@@ -15,9 +15,11 @@ finding's content changes the mapping.
 
 from __future__ import annotations
 
+from importlib.metadata import PackageNotFoundError, version
+from pathlib import Path
 from typing import Any
 
-from evgraph_core import EvidenceGraph, Finding, Outcome
+from evgraph_core import EvidenceGraph, EvidenceNode, Finding, Outcome
 
 SARIF_VERSION = "2.1.0"
 SARIF_SCHEMA = "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json"
@@ -37,11 +39,51 @@ def _rule_ids(findings: list[Finding]) -> list[str]:
     return seen
 
 
-def _result_to_dict(finding: Finding) -> dict[str, Any]:
+def _tool_version() -> str:
+    try:
+        return version("evgraph")
+    except PackageNotFoundError:
+        return "unknown"
+
+
+def _artifact_uri(path: str) -> str:
+    candidate = Path(path)
+    return candidate.as_uri() if candidate.is_absolute() else candidate.as_posix()
+
+
+def _locations(finding: Finding, nodes_by_id: dict[str, EvidenceNode]) -> list[dict[str, Any]]:
+    """One physical location per distinct source file the finding cites; a logical one when none has a file.
+
+    Locations only name the files an adapter recorded in SourceReference — the reporter invents none.
+    """
+    locations: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for node_id in finding.cited_node_ids:
+        node = nodes_by_id.get(node_id)
+        path = node.source.get("path") if node is not None else None
+        if not isinstance(path, str) or not path:
+            continue
+        uri = _artifact_uri(path)
+        if uri not in seen:
+            seen.add(uri)
+            locations.append({"physicalLocation": {"artifactLocation": {"uri": uri}}})
+    if not locations:
+        locations.append(
+            {
+                "logicalLocations": [
+                    {"name": node_id, "kind": "evidence-node"} for node_id in finding.cited_node_ids
+                ]
+            }
+        )
+    return locations
+
+
+def _result_to_dict(finding: Finding, nodes_by_id: dict[str, EvidenceNode]) -> dict[str, Any]:
     return {
         "ruleId": finding.rule_id,
         "level": _OUTCOME_TO_SARIF_LEVEL[finding.outcome],
         "message": {"text": finding.statement},
+        "locations": _locations(finding, nodes_by_id),
         "properties": {
             "evgraphFindingId": finding.id,
             "evgraphLevel": finding.level.name,
@@ -54,6 +96,7 @@ def _result_to_dict(finding: Finding) -> dict[str, Any]:
 def to_sarif_dict(graph: EvidenceGraph, findings: list[Finding]) -> dict[str, Any]:
     """Renders one EvidenceGraph's findings as a SARIF 2.1.0 log."""
     rules = [{"id": rule_id} for rule_id in _rule_ids(findings)]
+    nodes_by_id = {node.id: node for node in graph.nodes}
 
     return {
         "$schema": SARIF_SCHEMA,
@@ -63,12 +106,13 @@ def to_sarif_dict(graph: EvidenceGraph, findings: list[Finding]) -> dict[str, An
                 "tool": {
                     "driver": {
                         "name": "evgraph",
-                        "informationUri": "https://github.com/evgraph-org/evgraph",
+                        "informationUri": "https://github.com/SVamseekar/evgraph",
+                        "version": _tool_version(),
                         "rules": rules,
                     }
                 },
                 "properties": {"evgraphGraphId": graph.graph_id},
-                "results": [_result_to_dict(f) for f in findings],
+                "results": [_result_to_dict(f, nodes_by_id) for f in findings],
             }
         ],
     }

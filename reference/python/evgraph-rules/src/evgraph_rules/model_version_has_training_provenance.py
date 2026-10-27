@@ -17,9 +17,15 @@ EGS."
 
 from __future__ import annotations
 
-import uuid
 
-from evgraph_core import EvidenceGraph, EvidenceLevel, Finding, Outcome, compute_finding_level
+from evgraph_core import (
+    EvidenceGraph,
+    EvidenceLevel,
+    Finding,
+    Outcome,
+    compute_finding_level,
+    stable_finding_id,
+)
 
 RULE_ID = "model-version-has-training-provenance"
 RULE_NAME = "Model version has training provenance"
@@ -58,7 +64,7 @@ class ModelVersionHasTrainingProvenanceRule:
 
             findings.append(
                 Finding(
-                    id=f"finding_{uuid.uuid4().hex[:8]}",
+                    id=stable_finding_id(self.id, [version_node.id]),
                     rule_id=self.id,
                     level=level,
                     outcome=outcome,

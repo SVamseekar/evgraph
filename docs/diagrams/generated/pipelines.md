@@ -1,4 +1,4 @@
-### CI (`/Users/souravamseekarmarti/Projects/evgraph/.github/workflows/ci.yml`)
+### CI (`.github/workflows/ci.yml`)
 
 ```mermaid
 flowchart LR
@@ -12,7 +12,7 @@ flowchart LR
   trigger_1 --> build
 ```
 
-### Publish (`/Users/souravamseekarmarti/Projects/evgraph/.github/workflows/publish.yml`)
+### Publish (`.github/workflows/publish.yml`)
 
 ```mermaid
 flowchart LR

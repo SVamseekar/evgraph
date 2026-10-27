@@ -28,7 +28,7 @@ from evgraph_core import (
 )
 
 ADAPTER_NAME = "evgraph-adapter-modelcard"
-ADAPTER_VERSION = "0.1.0"
+ADAPTER_VERSION = "0.2.0"
 EVIDENCE_LEVEL = EvidenceLevel.STRUCTURAL
 EXTRACTION_METHOD = "direct field mapping"
 SUPPORTED_SOURCE_KINDS = ["json"]
@@ -42,6 +42,20 @@ ASSUMPTIONS = [
         statement=(
             "a missing intended_use field is treated as has_intended_use: false, "
             "not as an extraction failure"
+        ),
+    ),
+    Assumption(
+        id="MC-003",
+        statement=(
+            "the approval record's decision and status fields are both preserved when present; "
+            "a record with neither is preserved without a decision, not given one"
+        ),
+    ),
+    Assumption(
+        id="MC-004",
+        statement=(
+            "the deployment record is linked to the supplied Model Card by a DEPLOYS edge; a model_name "
+            "stated in the approval or deployment record is preserved so rules can compare it"
         ),
     ),
 ]
@@ -62,20 +76,33 @@ class ModelCardArtifacts:
 
 def _read_json(path: Path) -> dict[str, Any]:
     try:
-        with open(path) as f:
-            return json.load(f)
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
     except FileNotFoundError as exc:
         raise AdapterError(
             adapter_name=ADAPTER_NAME,
             adapter_version=ADAPTER_VERSION,
             message=f"source file not found: {path}",
         ) from exc
-    except json.JSONDecodeError as exc:
+    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise AdapterError(
             adapter_name=ADAPTER_NAME,
             adapter_version=ADAPTER_VERSION,
-            message=f"{path} is not valid JSON",
+            message=f"{path} is not valid UTF-8 JSON",
         ) from exc
+    except OSError as exc:
+        raise AdapterError(
+            adapter_name=ADAPTER_NAME,
+            adapter_version=ADAPTER_VERSION,
+            message=f"could not read {path}: {exc.strerror or exc}",
+        ) from exc
+    if not isinstance(data, dict):
+        raise AdapterError(
+            adapter_name=ADAPTER_NAME,
+            adapter_version=ADAPTER_VERSION,
+            message=f"{path} must contain a JSON object, not {type(data).__name__}",
+        )
+    return data
 
 
 def _require_keys(data: dict[str, Any], keys: list[str], path: Path) -> None:
@@ -136,6 +163,11 @@ class ModelCardAdapter:
         approval_attributes: dict[str, Any] = {"approver": approval["approver"]}
         if "approved_at" in approval:
             approval_attributes["approved_at"] = approval["approved_at"]
+        for field_name in ("decision", "status"):
+            if approval.get(field_name) is not None:
+                approval_attributes[field_name] = approval[field_name]
+        if "model_name" in approval:
+            approval_attributes["model_name"] = approval["model_name"]
         approval_node = EvidenceNode(
             id="n2",
             type="HumanApproval",
@@ -147,6 +179,8 @@ class ModelCardAdapter:
         deployment_attributes: dict[str, Any] = {}
         if "deployed_at" in deployment:
             deployment_attributes["deployed_at"] = deployment["deployed_at"]
+        if "model_name" in deployment:
+            deployment_attributes["model_name"] = deployment["model_name"]
         deployment_node = EvidenceNode(
             id="n3",
             type="DeploymentRecord",

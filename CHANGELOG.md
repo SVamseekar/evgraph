@@ -10,9 +10,7 @@ Package versions in this monorepo (`evgraph-core`, `evgraph-rules`, `evgraph`,
 
 ## [Unreleased]
 
-## [0.2.0] - Unreleased
-
-Set the date when tagging `v0.2.0`.
+## [0.2.0] - 2026-10-27
 
 ### Changed
 
@@ -153,5 +151,5 @@ Published to PyPI on 2026-08-17: [`evgraph-core`](https://pypi.org/project/evgra
 [0.2.0]: https://github.com/SVamseekar/evgraph/releases/tag/v0.2.0
 [0.1.3]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.3
 [0.1.2]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.2
-[0.1.1]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.1
+[0.1.1]: https://pypi.org/project/evgraph/0.1.1/
 [0.1.0]: https://github.com/SVamseekar/evgraph/releases/tag/v0.1.0
